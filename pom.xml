@@ -17,9 +17,9 @@
         </developer>
     </developers>
     <parent>
-        <groupId>com.wixpress</groupId>
-        <artifactId>wix-statics-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <groupId>com.wixpress.common</groupId>
+        <artifactId>wix-master-parent</artifactId>
+        <version>100.0.0-SNAPSHOT</version>
     </parent>
     <build>
         <plugins>
