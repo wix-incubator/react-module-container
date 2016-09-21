@@ -1,3 +1,9 @@
 {
-  extends: "wix/react"
+  "extends": "wix/esnext",
+  "globals": {
+    "document": false,
+    "window": false,
+    "navigator": false,
+    "angular": false
+  }
 }
