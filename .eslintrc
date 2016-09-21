@@ -1,5 +1,5 @@
 {
-  "extends": "wix/esnext",
+  "extends": "wix/react",
   "globals": {
     "document": false,
     "window": false,

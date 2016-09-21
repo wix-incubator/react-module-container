@@ -9,4 +9,4 @@ export class MyNgComp extends window.AngularLazyComponent {
   }
 }
 
-window.ModuleRegistry.registerComponent('MyNgComp', () => MyNgComp);
+window.ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);

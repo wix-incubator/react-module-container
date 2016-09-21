@@ -51,7 +51,14 @@ class ModuleRegistry {
   }
 }
 
-export default new ModuleRegistry();
+let singleton;
+if (typeof window !== 'undefined') {
+  singleton = window.ModuleRegistry || new ModuleRegistry();
+  window.ModuleRegistry = singleton;
+} else {
+  singleton = new ModuleRegistry();
+}
+export default singleton;
 
 function invokeSafely(callback, args) {
   try {
