@@ -15,13 +15,23 @@ class AngularLazyComponent extends React.Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.promise.then(() => {
-      const component = `<${this.manifest.component}></${this.manifest.component}>`;
-      this.$injector = angular.bootstrap(component, [this.manifest.module, $provide => {
-        $provide.factory('props', () => () => this.props);
-      }]);
-      document.getElementById(this.elementId).appendChild(this.$injector.get('$rootElement')[0]);
+      if (this.mounted) {
+        const component = `<${this.manifest.component}></${this.manifest.component}>`;
+        this.$injector = angular.bootstrap(component, [this.manifest.module, $provide => {
+          $provide.factory('props', () => () => this.props);
+        }]);
+        document.getElementById(this.elementId).appendChild(this.$injector.get('$rootElement')[0]);
+      }
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+    if (this.$injector) {
+      this.$injector.get('$rootScope').$destroy();
+    }
   }
 
   componentDidUpdate() {
