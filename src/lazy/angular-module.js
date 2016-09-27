@@ -22,6 +22,7 @@ myApp.component('myComp', {
     <span>hi {{$ctrl.aaa}} {{$ctrl.props().value}}!!!</span>
     <a href="/my-app/a">a</a>
     <a href="/my-app/b">b</a>
+    <a href="/my-app3/">my-app3</a>
     <ng-view></ng-view>
   </div>`,
   controller: MyCompController

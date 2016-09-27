@@ -9,8 +9,10 @@ export function tagAppender(url, filetype) {
   return requireCache[url] = new Promise((resolve, reject) => {
     if (window.requirejs && filetype === 'js') {
       window.requirejs([url], resolve, reject);
+      return;
     } else if (url in requireCache) {
       requireCache[url].then(resolve, reject);
+      return;
     }
 
     let fileref;

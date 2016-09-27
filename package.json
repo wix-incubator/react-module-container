@@ -19,7 +19,13 @@
     "entry": {
       "react-module-container": "./react-module-container.js",
       "demo": "./demo/demo.js",
-      "module": "./demo/module.js"
+      "module": "./demo/module.js",
+      "lazy/angular-module": "./lazy/angular-module.js",
+      "lazy/react-module": "./lazy/react-module.js"
+    },
+    "externals": {
+      "react": "React",
+      "react-dom": "ReactDOM"
     }
   },
   "devDependencies": {
