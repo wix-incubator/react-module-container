@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "homepage": "",
-  "private": true,
+  "private": false,
   "author": {
     "name": "Shahar Talmi",
     "email": "shahart@wix.com",
@@ -14,6 +14,9 @@
     "build": "wix-node-build lint && wix-node-build build",
     "test": "wix-node-build test",
     "release": ":"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "wix": {
     "entry": {
