@@ -1,3 +1,4 @@
+import React from 'react';
 
 export class MyNgComp extends window.AngularLazyComponent {
   constructor(props) {
@@ -28,6 +29,25 @@ export class MyReactComp extends window.ReactLazyComponent {
   }
 }
 
+class Hello extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {counter: 0};
+  }
+
+  handleClick() {
+    this.setState({counter: this.state.counter + 1});
+  }
+
+  render() {
+    return <div onClick={() => this.handleClick()}>Hello World {this.props.value} {this.state.counter}!!!</div>;
+  }
+}
+Hello.propTypes = {
+  value: React.PropTypes.string
+};
+
 window.ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 window.ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
 window.ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
+window.ModuleRegistry.registerComponent('Hello', () => Hello);

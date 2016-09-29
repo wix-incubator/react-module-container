@@ -22,7 +22,7 @@ class ReactLazyComponent extends React.Component {
   }
 
   render() {
-    return this.state.component ? <this.state.component {...this.props}/> : <div/>;
+    return this.state.component ? <this.state.component {...this.props}/> : null;
   }
 }
 

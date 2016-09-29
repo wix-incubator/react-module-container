@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 const RealReactComp = props => (
   <div>
     <span>woot {props.value}</span>
-    <div><Link to="/my-app/">my app</Link></div>
+    <div><Link to="/my-app/" activeStyle={{color: 'red'}}>my app</Link></div>
   </div>
 );
 RealReactComp.propTypes = {
