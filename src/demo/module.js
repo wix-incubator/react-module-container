@@ -47,7 +47,7 @@ class Hello extends React.Component {
         <div id="value-in-react">{this.props.value}</div>
       </div>
       <div>
-        <Link className={'react-link'} to="/ng-router-app/">ng-route-app</Link>&nbsp;
+        <Link className={'react-link'} to="/ng-router-app/a">ng-route-app</Link>&nbsp;
         <Link className={'react-link'} to="/ui-router-app/">ui-route-app</Link>&nbsp;
       </div>
     </div>);

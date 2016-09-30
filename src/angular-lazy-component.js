@@ -76,13 +76,13 @@ class AngularLazyComponent extends React.Component {
   componentWillUnmount() {
     this.mounted = false;
     if (this.$injector) {
-      this.$injector.get('$rootScope').$destroy();
+      // this.$injector.get('$rootScope').$destroy();
       this.$injector = null;
     }
   }
 
   componentDidUpdate() {
-    if (this.$injector) {
+    if (this.$injector && !this.$injector.get('$rootScope').$$phase) {
       this.$injector.get('$rootScope').$digest();
     }
   }

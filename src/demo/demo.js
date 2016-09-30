@@ -22,7 +22,7 @@ const MyApp3 = {MyReactComp: ModuleRegistry.component('MyApp3.MyReactComp')};
 
 const SplatLink = withRouter(props => {
   const newProps = {to: props.to, className: props.className, style: props.style};
-  if (props.router.isActive({pathname: props.to + (props.params.splat || '')})) {
+  if (props.location.pathname.indexOf(props.to) === 0) {
     newProps.style = {...props.style, ...props.activeStyle};
     newProps.className = `${props.className || ''} ${props.activeClassName || ''}`;
   }
@@ -32,9 +32,10 @@ const Navigation = withStore(props => (
   <div>
     <input id="react-input" value={props.value} onChange={e => props.assign(e.target.value)}/>
     <br/>
-    <SplatLink {...props} to="/ng-router-app/" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
+    <SplatLink {...props} to="/ng-router-app/a" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
     <SplatLink {...props} to="/ui-router-app/" activeClassName={activeLink} className="nav">ui-router-app</SplatLink>&nbsp;
     <SplatLink {...props} to="/rt-router-app/" activeClassName={activeLink} className="nav">rt-router-app</SplatLink>&nbsp;
+    <SplatLink {...props} to="/ng-router-app/b" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
     <div>{props.children}</div>
   </div>
 ));

@@ -5,8 +5,8 @@ const RealReactComp = props => (
   <div>
     <span>{props.value}</span>
     <div>
-      <Link className={'react-link'} to="/ng-router-app/">ng-route-app</Link>
-      <Link className={'react-link'} to="/ui-router-app/">ui-route-app</Link>
+      <Link className={'react-link'} to="/ng-router-app/a">ng-route-app</Link>&nbsp;
+      <Link className={'react-link'} to="/ui-router-app/">ui-route-app</Link>&nbsp;
     </div>
   </div>
 );

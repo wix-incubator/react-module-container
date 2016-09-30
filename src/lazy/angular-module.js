@@ -21,9 +21,9 @@ myApp.component('myComp', {
     <div id="value-in-angular">{{$ctrl.props().value}}</div>
     <input id="angular-input" ng-model="$ctrl.value" />
     <div>
-      <a id="bazinga" href="/ng-router-app/a">a</a>
-      <a id="stagadish" href="/ng-router-app/b">b</a>
-      <router-link to="/rt-router-app/">rt-router-app</router-link>
+      <router-link id="bazinga" to="/ng-router-app/a">a</router-link>
+      <router-link id="stagadish" to="/ng-router-app/b">b</router-link>
+      <router-link id="react-app-link" to="/rt-router-app/">rt-router-app</router-link>
       <ng-view></ng-view>
       <module-registry component="Hello" props="{value: $ctrl.value}"></module-registry>
     </div>
@@ -55,7 +55,7 @@ myApp2.component('myComp', {
     <div>
       <a id="bazinga" ui-sref="a">a</a>
       <a id="stagadish" ui-sref="b">b</a>
-      <router-link to="/rt-router-app/">rt-router-app</router-link>
+      <router-link id="react-app-link" to="/rt-router-app/">rt-router-app</router-link>
       <div><ui-view></ui-view></div>
       <module-registry component="Hello" props="{value: $ctrl.value}"></module-registry>
     </div>

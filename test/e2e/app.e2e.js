@@ -7,7 +7,7 @@ describe('React application', () => {
       expect($('#hello').getText()).toBe('hello');
     });
 
-    ['ng', 'ui'].forEach((router, index) => {
+    ['ng', 'ui'].forEach((router, index) => describe(`/${router}-router-app/`, () => {
       it(`should display ${router} router app`, () => {
         browser.get(`/${router}-router-app/`);
         expect($('#value-in-angular').getText()).toBe('react-input-value');
@@ -32,6 +32,7 @@ describe('React application', () => {
         $('#angular-input').sendKeys('123');
         $('#react-input').sendKeys('123');
         $('#stagadish').click();
+        expect($$('.nav').get(router === 'ng' ? 3 : 1).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
         expect($('#value-in-angular').getText()).toBe('react-input-value123');
         expect($('#value-in-react').getText()).toBe('angular-input-value123');
         expect($('#counter').getText()).toBe('1');
@@ -39,9 +40,9 @@ describe('React application', () => {
       });
 
       it('should be able to navigate from within nested app', () => {
-        browser.get(`/${router}-router-app/`);
+        browser.get(`/${router}-router-app/a`);
         expect($$('.nav').get(index).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
-        $('router-link').click();
+        $('#react-app-link').click();
         expect($$('.nav').get(2).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
         $$('.react-link').get(index).click();
         expect($$('.nav').get(index).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
@@ -54,6 +55,6 @@ describe('React application', () => {
         expect($$('.nav').get(index ? 0 : 1).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
         expect($('#value-in-angular').getText()).toBe('react-input-value123');
       });
-    });
+    }));
   });
 });
