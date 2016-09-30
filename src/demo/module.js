@@ -1,4 +1,6 @@
 /* global React, AngularLazyComponent, ReactLazyComponent, ModuleRegistry */
+import {Link} from 'react-router';
+
 export class MyNgComp extends AngularLazyComponent {
   constructor(props) {
     super(props, {
@@ -39,9 +41,15 @@ class Hello extends React.Component {
   }
 
   render() {
-    return (<div onClick={() => this.handleClick()}>
-      <div>React Counter (click me): <span id="counter">{this.state.counter}</span>!!!</div>
-      <div id="value-in-react">{this.props.value}</div>
+    return (<div>
+      <div onClick={() => this.handleClick()}>
+        <div>React Counter (click me): <span id="counter">{this.state.counter}</span>!!!</div>
+        <div id="value-in-react">{this.props.value}</div>
+      </div>
+      <div>
+        <Link className={'react-link'} to="/ng-router-app/">ng-route-app</Link>&nbsp;
+        <Link className={'react-link'} to="/ui-router-app/">ui-route-app</Link>&nbsp;
+      </div>
     </div>);
   }
 }

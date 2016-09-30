@@ -46,6 +46,14 @@ describe('React application', () => {
         $$('.react-link').get(index).click();
         expect($$('.nav').get(index).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
       });
+
+      it('should be able to navigate from react embedded in angular', () => {
+        browser.get(`/${router}-router-app/`);
+        $('#react-input').sendKeys('123');
+        $$('.react-link').get(index ? 0 : 1).click();
+        expect($$('.nav').get(index ? 0 : 1).getCssValue('background-color')).toBe('rgba(255, 255, 0, 1)');
+        expect($('#value-in-angular').getText()).toBe('react-input-value123');
+      });
     });
   });
 });

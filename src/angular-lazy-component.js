@@ -2,6 +2,22 @@ import React from 'react';
 import {render, findDOMNode, unmountComponentAtNode} from 'react-dom';
 import {tagAppender} from './tag-appender';
 
+class AddRouterContext extends React.Component {
+  getChildContext() {
+    return {router: this.props.router};
+  }
+  render() {
+    return this.props.children;
+  }
+}
+AddRouterContext.childContextTypes = {
+  router: React.PropTypes.any
+};
+AddRouterContext.propTypes = {
+  router: React.PropTypes.any,
+  children: React.PropTypes.any
+};
+
 class AngularLazyComponent extends React.Component {
   constructor(props, manifest) {
     super(props);
@@ -26,9 +42,14 @@ class AngularLazyComponent extends React.Component {
             controller: ($scope, $element) => {
               const Component = window.ModuleRegistry.component($scope.component);
               $scope.$watch(() => $scope.props, () => {
-                render(<Component {...$scope.props}/>, $element[0]);
+                render(
+                  <AddRouterContext router={this.props.router}>
+                    <Component {...$scope.props}/>
+                  </AddRouterContext>, $element[0]);
               }, true);
               $scope.$on('$destroy', () => unmountComponentAtNode($element[0]));
+              //super hack to prevent angular from preventing external route changes
+              $element.on('click', e => e.preventDefault = () => delete e.preventDefault);
             }
           }));
           $compileProvider.directive('routerLink', () => ({
