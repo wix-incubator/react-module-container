@@ -3,8 +3,11 @@ import {Link} from 'react-router';
 
 const RealReactComp = props => (
   <div>
-    <span>woot {props.value}</span>
-    <div><Link to="/my-app/" activeStyle={{color: 'red'}}>my app</Link></div>
+    <span>{props.value}</span>
+    <div>
+      <Link className={'react-link'} to="/ng-router-app/">ng-route-app</Link>
+      <Link className={'react-link'} to="/ui-router-app/">ui-route-app</Link>
+    </div>
   </div>
 );
 RealReactComp.propTypes = {

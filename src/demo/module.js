@@ -1,6 +1,5 @@
-import React from 'react';
-
-export class MyNgComp extends window.AngularLazyComponent {
+/* global React, AngularLazyComponent, ReactLazyComponent, ModuleRegistry */
+export class MyNgComp extends AngularLazyComponent {
   constructor(props) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
@@ -10,7 +9,7 @@ export class MyNgComp extends window.AngularLazyComponent {
   }
 }
 
-export class MyNgComp2 extends window.AngularLazyComponent {
+export class MyNgComp2 extends AngularLazyComponent {
   constructor(props) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
@@ -20,7 +19,7 @@ export class MyNgComp2 extends window.AngularLazyComponent {
   }
 }
 
-export class MyReactComp extends window.ReactLazyComponent {
+export class MyReactComp extends ReactLazyComponent {
   constructor(props) {
     super(props, {
       files: [`${props.topology.staticsUrl}react-module.bundle.js`],
@@ -40,14 +39,17 @@ class Hello extends React.Component {
   }
 
   render() {
-    return <div onClick={() => this.handleClick()}>Hello World {this.props.value} {this.state.counter}!!!</div>;
+    return (<div onClick={() => this.handleClick()}>
+      <div>React Counter (click me): <span id="counter">{this.state.counter}</span>!!!</div>
+      <div id="value-in-react">{this.props.value}</div>
+    </div>);
   }
 }
 Hello.propTypes = {
   value: React.PropTypes.string
 };
 
-window.ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
-window.ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
-window.ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
-window.ModuleRegistry.registerComponent('Hello', () => Hello);
+ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
+ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
+ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
+ModuleRegistry.registerComponent('Hello', () => Hello);

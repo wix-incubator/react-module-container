@@ -2,7 +2,7 @@ const myApp = angular.module('myApp', ['ngRoute']);
 
 class MyCompController {
   constructor(props) {
-    this.aaa = 'shahata';
+    this.value = 'angular-input-value';
     this.props = props;
   }
 }
@@ -10,50 +10,55 @@ class MyCompController {
 myApp.config(($routeProvider, $locationProvider) => {
   $locationProvider.html5Mode({enabled: true, requireBase: false});
   $routeProvider
-    .when('/my-app/a', {template: '<h1>BAZINGA!</h1>'})
-    .when('/my-app/b', {template: '<h1>STAGADISH!</h1>'})
-    .otherwise('/my-app/a');
+    .when('/ng-router-app/a', {template: '<div>BAZINGA!</div>'})
+    .when('/ng-router-app/b', {template: '<div>STAGADISH!</div>'})
+    .otherwise('/ng-router-app/a');
 });
 
 myApp.component('myComp', {
   template:
   `<div>
-    <input ng-model="$ctrl.aaa" type="text" />
-    <span>hi {{$ctrl.aaa}} {{$ctrl.props().value}}!!!</span>
-    <a href="/my-app/a">a</a>
-    <a href="/my-app/b">b</a>
-    <router-link to="/my-app3/">my-app3</router-link>
-    <module-registry component="Hello" props="{value: $ctrl.aaa}"></module-registry>
-    <ng-view></ng-view>
+    <div id="value-in-angular">{{$ctrl.props().value}}</div>
+    <input id="angular-input" ng-model="$ctrl.value" />
+    <div>
+      <a id="bazinga" href="/ng-router-app/a">a</a>
+      <a id="stagadish" href="/ng-router-app/b">b</a>
+      <router-link to="/rt-router-app/">rt-router-app</router-link>
+      <ng-view></ng-view>
+      <module-registry component="Hello" props="{value: $ctrl.value}"></module-registry>
+    </div>
   </div>`,
   controller: MyCompController
 });
 
-const myApp2 = angular.module('myApp2', ['ngRoute']);
+const myApp2 = angular.module('myApp2', ['ui.router']);
 
 class MyCompController2 {
   constructor(props) {
-    this.aaa = 'shahata';
+    this.value = 'angular-input-value';
     this.props = props;
   }
 }
 
-myApp2.config(($routeProvider, $locationProvider) => {
+myApp2.config(($stateProvider, $locationProvider, $urlRouterProvider) => {
   $locationProvider.html5Mode({enabled: true, requireBase: false});
-  $routeProvider
-    .when('/my-app2/a', {template: '<h1>BAZINGA2!</h1>'})
-    .when('/my-app2/b', {template: '<h1>STAGADISH2!</h1>'})
-    .otherwise('/my-app2/a');
+  $stateProvider.state('a', {url: '/ui-router-app/a', template: 'BAZINGA!'});
+  $stateProvider.state('b', {url: '/ui-router-app/b', template: 'STAGADISH!'});
+  $urlRouterProvider.otherwise('/ui-router-app/a');
 });
 
 myApp2.component('myComp', {
   template:
   `<div>
-    <input ng-model="$ctrl.aaa" type="text" />
-    <span>hi {{$ctrl.aaa}} {{$ctrl.props().value}}!!!</span>
-    <a href="/my-app2/a">a</a>
-    <a href="/my-app2/b">b</a>
-    <ng-view></ng-view>
+    <div id="value-in-angular">{{$ctrl.props().value}}</div>
+    <input id="angular-input" ng-model="$ctrl.value" />
+    <div>
+      <a id="bazinga" ui-sref="a">a</a>
+      <a id="stagadish" ui-sref="b">b</a>
+      <router-link to="/rt-router-app/">rt-router-app</router-link>
+      <div><ui-view></ui-view></div>
+      <module-registry component="Hello" props="{value: $ctrl.value}"></module-registry>
+    </div>
   </div>`,
   controller: MyCompController2
 });
