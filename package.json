@@ -15,6 +15,10 @@
     "test": "wix-node-build test",
     "release": ":"
   },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

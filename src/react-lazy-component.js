@@ -1,5 +1,5 @@
 import React from 'react';
-import {tagAppender} from './tag-appender';
+import {filesAppender} from './tag-appender';
 
 class ReactLazyComponent extends React.Component {
   constructor(props, manifest) {
@@ -9,9 +9,7 @@ class ReactLazyComponent extends React.Component {
   }
 
   componentWillMount() {
-    this.promise = Promise.all(this.manifest.files.map(file => {
-      return tagAppender(file, file.split('.').pop());
-    }));
+    this.promise = filesAppender(this.manifest.files);
   }
 
   componentDidMount() {

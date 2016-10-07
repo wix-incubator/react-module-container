@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, findDOMNode, unmountComponentAtNode} from 'react-dom';
-import {tagAppender} from './tag-appender';
+import {filesAppender} from './tag-appender';
 
 class AddRouterContext extends React.Component {
   getChildContext() {
@@ -25,9 +25,7 @@ class AngularLazyComponent extends React.Component {
   }
 
   componentWillMount() {
-    this.promise = Promise.all(this.manifest.files.map(file => {
-      return tagAppender(file, file.split('.').pop());
-    }));
+    this.promise = filesAppender(this.manifest.files);
   }
 
   componentDidMount() {

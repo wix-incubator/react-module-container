@@ -59,3 +59,9 @@ export function tagAppender(url, filetype) {
     }
   });
 }
+
+export function filesAppender(files) {
+  return Promise.all(files.map(file => {
+    return tagAppender(file, file.split('.').pop());
+  }));
+}
