@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, findDOMNode, unmountComponentAtNode} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import {filesAppender} from './tag-appender';
 
 class AddRouterContext extends React.Component {
@@ -66,7 +66,7 @@ class AngularLazyComponent extends React.Component {
             }
           }));
         }]);
-        findDOMNode(this).appendChild(this.$injector.get('$rootElement')[0]);
+        this.node.appendChild(this.$injector.get('$rootElement')[0]);
       }
     });
   }
@@ -86,7 +86,7 @@ class AngularLazyComponent extends React.Component {
   }
 
   render() {
-    return <div/>;
+    return <div ref={node => this.node = node}/>;
   }
 }
 AngularLazyComponent.propTypes = {
