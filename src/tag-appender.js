@@ -11,8 +11,8 @@ export function tagAppender(url, filetype) {
       window.requirejs([url], resolve, reject);
       return;
     } else if (url in requireCache) {
-      requireCache[url].then(resolve, reject);
-      return;
+      // requireCache[url].then(resolve, reject);
+      // return;
     }
 
     let fileref;
