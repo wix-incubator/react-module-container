@@ -25,7 +25,8 @@ class AngularLazyComponent extends React.Component {
   }
 
   componentWillMount() {
-    this.promise = filesAppender(this.manifest.files).then(this.manifest.prepare || () => undefined);
+    const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
+    this.promise = filesAppender(this.manifest.files).then(prepare);
   }
 
   componentDidMount() {
