@@ -60,8 +60,16 @@ export function tagAppender(url, filetype) {
   });
 }
 
+function append(file) {
+  return tagAppender(file, file.split('.').pop());
+}
+
 export function filesAppender(files) {
   return Promise.all(files.map(file => {
-    return tagAppender(file, file.split('.').pop());
+    if (Array.isArray(file)) {
+      return file.reduce((promise, next) => promise.then(() => append(next)), Promise.resolve());
+    } else {
+      return append(file);
+    }
   }));
 }
