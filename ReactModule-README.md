@@ -30,6 +30,7 @@ Using a sub array allows to serialize the download of its items.
 {
 files: ['y.js', `${props.files.fakeFile}`, ['1.js', '2.js', '3.js'], 'z.js'],
 component: 'Prefix.mainComponentName'
+}
 ```
 
 ####Explanation
