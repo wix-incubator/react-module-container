@@ -8,11 +8,69 @@ class ModuleRegistry {
   }
 
   registerComponent(globalID, generator) {
-    this.registeredComponents[globalID] = generator;
+      const keys = this.splitGlobalKey(globalID);
+      const componentLeafKey = keys[keys.length - 1];
+      const registeredComponentNameSpace = this.buildNameSpace(keys, this.registeredComponents);
+      registeredComponentNameSpace[componentLeafKey] = generator;
+  }
+
+    /**
+    * Splits a string key into an array if possible,
+    * if not returns the key as an array
+    * @param globalID
+    * @returns {*}
+    */
+  splitGlobalKey(globalID) {
+        if (typeof globalID === 'string') {
+            if (globalID.indexOf('.') > -1) {
+                return globalID.split('.');
+            } else {
+                return [globalID];
+            }
+        } else {
+            throw new Error('globalId must be a string');
+        }
+    }
+
+    /**
+     * Creates a NS in an object (if missing) and navigates to it
+     * @param parts - the parts of the path Array
+     * @param pathObj - the object we are enhancing and fetching from
+     * @returns {*}
+     */
+  buildNameSpace(parts, pathObj){
+      let currentPart =  pathObj;
+      for(let i =0; i< (parts.length -1); i++) {
+        if (!currentPart[parts[i]]){
+            currentPart[parts[i]] = {};
+        }
+        currentPart = currentPart[parts[i]]
+      }
+      return currentPart;
+  }
+
+    /**
+     * Gets a leaf from a namespace path
+     * @param globalID - string path separated by '.'
+     * @param pathObj - the object that should contain the leaf
+     * @returns {*}
+     */
+  getFromNameSpace(globalID, pathObj){
+      let keys = this.splitGlobalKey(globalID);
+      let currentKey = pathObj;
+      for(let i = 0; i < keys.length; i++){
+         if(currentKey[keys[i]]){
+             currentKey = currentKey[keys[i]];
+         } else {
+             currentKey = undefined;
+             break;
+         }
+      }
+      return currentKey;
   }
 
   component(globalID) {
-    const generator = this.registeredComponents[globalID];
+    const generator = this.getFromNameSpace(globalID, this.registeredComponents);
     if (!generator) {
       console.error(`ModuleRegistry.component ${globalID} used but not yet registered`);
       return undefined;
