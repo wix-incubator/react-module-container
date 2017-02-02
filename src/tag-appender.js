@@ -1,11 +1,11 @@
 const requireCache = {};
-const styleSheets = document.styleSheets;
 
 function noprotocol(url) {
   return url.replace(/^.*:\/\//, '//');
 }
 
 export function tagAppender(url, filetype) {
+  const styleSheets = document.styleSheets;
   return requireCache[url] = new Promise((resolve, reject) => {
     if (window.requirejs && filetype === 'js') {
       window.requirejs([url], resolve, reject);
