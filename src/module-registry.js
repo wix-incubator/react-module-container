@@ -7,6 +7,12 @@ class ModuleRegistry {
     this.eventListeners = {};
   }
 
+  cleanAll() {
+    this.registeredComponents = {};
+    this.registeredMethods = {};
+    this.eventListeners = {};    
+  }
+
   registerComponent(globalID, generator) {
     this.registeredComponents[globalID] = generator;
   }
