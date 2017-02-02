@@ -10,7 +10,7 @@ class ModuleRegistry {
   cleanAll() {
     this.registeredComponents = {};
     this.registeredMethods = {};
-    this.eventListeners = {};    
+    this.eventListeners = {};
   }
 
   registerComponent(globalID, generator) {
