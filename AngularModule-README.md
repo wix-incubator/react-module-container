@@ -3,7 +3,7 @@ You should create a React component for your angular application using `AngularL
 The `AngularLazyComponent` uses the manifest to lazy load dependencies and bootstrap the angular app.  
 You should register the new react component using `ModuleRegistry.registerComponent()`.  
 
-```
+```js
 class MyNgComp extends AngularLazyComponent {
   constructor(props) {
     super(props, {/*see manifest below*/});
@@ -32,7 +32,7 @@ The `prepare` function can return a new promise if asynchronous behaviour is req
 Once `prepare` finished/resolved `angular.bootstrap()` will be called with the component and module you passed.  
 
 ####Example
-```
+```js
 {
 files: ['y.js', `${props.files.fakeFile}`, ['1.js', '2.js', '3.js'], 'z.js'],
 prepare: () => {
@@ -58,4 +58,6 @@ Use the `routerLink` directive, example:
 
 ####Hosting another component within a hosted component 
 Use the `moduleRegistry` directive, example:  
-`<module-registry component="moduleName" props="{value: 123}"></module-registry>`
+```js
+<module-registry component="moduleName" props="{value: 123}"></module-registry>
+```
