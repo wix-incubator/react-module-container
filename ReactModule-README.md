@@ -1,7 +1,7 @@
 ##React Module
 
 You should register your main react component using `ModuleRegistry.registerComponent()`.  
-```
+```js
 //src/main-component.js:
 
 const MainComponent = props => (
@@ -17,7 +17,7 @@ You should create a new React component using `ReactLazyComponent` to lazy load 
 You should add the path for the script which register your main component to the manifest's `files` array.  
 You should register the new lazy component using `ModuleRegistry.registerComponent()`.  
 
-```
+```js
  class MainComponentLazyComponent extends ReactLazyComponent {
    constructor(props) {
      //see manifest explanation below
@@ -43,7 +43,7 @@ Using a sub array allows to serialize the download of its items.
 * `component`: The name you used to register your main react component to the `ModuleRegistry`.
 
 ####Example
-```
+```js
 {
   files: ['y.js', `${props.files.fakeFile}`, ['1.js', '2.js', '3.js'], 'z.js'],
   component: 'Prefix.mainComponentName'
