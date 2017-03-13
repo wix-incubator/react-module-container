@@ -7,6 +7,21 @@ describe('React application', () => {
       expect($('#hello').getText()).toBe('hello');
     });
 
+    it('should load/unload css files specified inside angular manifest', () => {
+      browser.get('/ng-router-app4');
+      expect($$('link').getOuterHtml()).toEqual([
+        '<link href="//localhost:3200/demo.css" rel="stylesheet">',
+        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-shared.css">',
+        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-4.css">'
+      ]);
+      $$('.nav').get(5).click();
+      expect($$('link').getOuterHtml()).toEqual([
+        '<link href="//localhost:3200/demo.css" rel="stylesheet">',
+        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-shared.css">',
+        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-5.css">'
+      ]);
+    });
+
     ['ng', 'ui'].forEach((router, index) => describe(`/${router}-router-app/`, () => {
       it(`should display ${router} router app`, () => {
         browser.get(`/${router}-router-app/`);
