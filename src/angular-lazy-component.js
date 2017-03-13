@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import {filesAppender} from './tag-appender';
+import {filesAppender, unloadStyles} from './tag-appender';
 
 class AddRouterContext extends React.Component {
   getChildContext() {
@@ -77,6 +77,9 @@ class AngularLazyComponent extends React.Component {
     if (this.$injector) {
       this.$injector.get('$rootScope').$destroy();
       this.$injector = null;
+    }
+    if (this.manifest.unloadStylesOnDestroy === true) {
+      unloadStyles(document, this.manifest.files);
     }
   }
 

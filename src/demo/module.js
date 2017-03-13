@@ -21,6 +21,40 @@ export class MyNgComp2 extends AngularLazyComponent {
   }
 }
 
+export class MyNgComp4 extends AngularLazyComponent {
+  constructor(props) {
+    super(props, {
+      unloadStylesOnDestroy: true,
+      files: [
+        '//localhost:3200/demo-shared.css',
+        '//localhost:3200/demo-4.css'
+      ],
+      module: 'myApp4',
+      component: 'my-comp',
+      prepare: () => {
+        angular.module('myApp4', []).component('myComp', {template: 'myApp4: my-comp'});
+      }
+    });
+  }
+}
+
+export class MyNgComp5 extends AngularLazyComponent {
+  constructor(props) {
+    super(props, {
+      unloadStylesOnDestroy: true,
+      files: [
+        '//localhost:3200/demo-shared.css',
+        '//localhost:3200/demo-5.css'
+      ],
+      module: 'myApp5',
+      component: 'my-comp',
+      prepare: () => {
+        angular.module('myApp5', []).component('myComp', {template: 'myApp5: my-comp'});
+      }
+    });
+  }
+}
+
 export class MyReactComp extends ReactLazyComponent {
   constructor(props) {
     super(props, {
@@ -61,3 +95,5 @@ ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
 ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
 ModuleRegistry.registerComponent('Hello', () => Hello);
+ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
+ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
