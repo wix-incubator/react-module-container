@@ -1,3 +1,9 @@
-.active-link {
-  background-color: navy;
+:global {
+  .demo-4 {
+    color: rgba(0, 0, 0, 0);
+    display: none;
+  }
+  .demo-5 {
+    color: rgba(5, 5, 5, 1);
+  }
 }

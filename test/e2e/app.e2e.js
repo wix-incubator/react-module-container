@@ -8,18 +8,28 @@ describe('React application', () => {
     });
 
     it('should load/unload css files specified inside angular manifest', () => {
+
       browser.get('/ng-router-app4');
-      expect($$('link').getOuterHtml()).toEqual([
-        '<link href="//localhost:3200/demo.css" rel="stylesheet">',
-        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-shared.css">',
-        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-4.css">'
+      expect(getStyleSheetHrefs()).toEqual([
+        'http://localhost:3200/demo.css',
+        'http://localhost:3200/demo-shared.css',
+        'http://localhost:3200/demo-4.css'
       ]);
+
+      expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
+      expect($('.demo-4').getCssValue('color')).toBe('rgba(4, 4, 4, 1)');
+      expectIsHidden('.demo-5');
+
       $$('.nav').get(5).click();
-      expect($$('link').getOuterHtml()).toEqual([
-        '<link href="//localhost:3200/demo.css" rel="stylesheet">',
-        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-shared.css">',
-        '<link rel="stylesheet" type="text/css" href="//localhost:3200/demo-5.css">'
+      expect(getStyleSheetHrefs()).toEqual([
+        'http://localhost:3200/demo.css',
+        'http://localhost:3200/demo-shared.css',
+        'http://localhost:3200/demo-5.css'
       ]);
+
+      expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
+      expect($('.demo-5').getCssValue('color')).toBe('rgba(5, 5, 5, 1)');
+      expectIsHidden('.demo-4');
     });
 
     ['ng', 'ui'].forEach((router, index) => describe(`/${router}-router-app/`, () => {
@@ -72,4 +82,14 @@ describe('React application', () => {
       });
     }));
   });
+
+  function getStyleSheetHrefs() {
+    return $$('link').map(elem => elem.getAttribute('href'));
+  }
+
+  function expectIsHidden(selector) {
+    expect($(selector).getCssValue('color')).toBe('rgba(0, 0, 0, 0)');
+    expect($(selector).getCssValue('display')).toBe('none');
+  }
+
 });

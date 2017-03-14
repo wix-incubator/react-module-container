@@ -21,6 +21,13 @@ export class MyNgComp2 extends AngularLazyComponent {
   }
 }
 
+const SHARED_TEMPLATE = [
+  '<div class="demo-shared">',
+  '  <div class="demo-4">demo-4</div>',
+  '  <div class="demo-5">demo-5</div>',
+  '</div>'
+].join('');
+
 export class MyNgComp4 extends AngularLazyComponent {
   constructor(props) {
     super(props, {
@@ -32,7 +39,7 @@ export class MyNgComp4 extends AngularLazyComponent {
       module: 'myApp4',
       component: 'my-comp',
       prepare: () => {
-        angular.module('myApp4', []).component('myComp', {template: 'myApp4: my-comp'});
+        angular.module('myApp4', []).component('myComp', {template: SHARED_TEMPLATE});
       }
     });
   }
@@ -49,7 +56,7 @@ export class MyNgComp5 extends AngularLazyComponent {
       module: 'myApp5',
       component: 'my-comp',
       prepare: () => {
-        angular.module('myApp5', []).component('myComp', {template: 'myApp5: my-comp'});
+        angular.module('myApp5', []).component('myComp', {template: SHARED_TEMPLATE});
       }
     });
   }
