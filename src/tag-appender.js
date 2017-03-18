@@ -73,3 +73,21 @@ export function filesAppender(files) {
     }
   }));
 }
+
+const getStyleSheetLinks = document =>
+  [...document.querySelectorAll('link')]
+    .filter(link => link.rel === 'stylesheet' && link.href)
+    .reduce((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
+
+const getStyleSheetUrls = files =>
+  [].concat(...files).filter(file => file.endsWith('.css')).map(file => noprotocol(file));
+
+export function unloadStyles(document, files) {
+  const links = getStyleSheetLinks(document);
+  getStyleSheetUrls(files).forEach(file => {
+    const link = links[file];
+    if (link) {
+      link.parentNode.removeChild(link);
+    }
+  });
+}
