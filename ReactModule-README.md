@@ -1,4 +1,4 @@
-##React Module
+## React Module
 
 You should register your main react component using `ModuleRegistry.registerComponent()`.  
 ```js
@@ -32,24 +32,24 @@ You should register the new lazy component using `ModuleRegistry.registerCompone
  ModuleRegistry.registerComponent('appName.lazyMainComponentName', () => MainComponentLazyComponent);
  ```
 
-###props
+### props
 `props` contains the parameters from the host and will be available within the manifest.
 
-###Manifest
-####Fields
+### Manifest
+#### Fields
 * `files`: Array of either url strings or sub arrays of url strings.  
 Every item in the main array will be loaded independently.  
 Using a sub array allows to serialize the download of its items.  
 * `component`: The name you used to register your main react component to the `ModuleRegistry`.
 
-####Example
-```js
+#### Example
+```js 
 {
   files: ['y.js', `${props.files.fakeFile}`, ['1.js', '2.js', '3.js'], 'z.js'],
   component: 'Prefix.mainComponentName'
 }
 ```
 
-####Explanation
+#### Explanation
 When the host tries to render the lazy component, it starts by loading all the required `files`.  
 Once all `files` are loaded, the component is rendered and receives the props parameter as `props`.  
