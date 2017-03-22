@@ -1,4 +1,24 @@
-import _ from 'lodash';
+
+const uniqueId = (() => {
+  let counter = 0;
+  return (prefix = '') => {
+    const id = ++counter;
+    return `${prefix + id}`;
+  };
+})();
+
+const unset = (target, key) => {
+  if (target) {
+    delete target[key];
+  }
+};
+
+const set = (target, names, value) => {
+  names.slice(0, names.length - 1).reduce((acc, curr) => {
+    return (acc[curr] = acc[curr] || {});
+  }, target);
+  target[names[names.length - 1]] = value;
+};
 
 class ModuleRegistry {
   constructor() {
@@ -27,19 +47,16 @@ class ModuleRegistry {
   }
 
   addListener(globalID, callback) {
-    const callbackKey = _.uniqueId('eventListener');
-    _.set(this.eventListeners, [globalID, callbackKey], callback);
+    const callbackKey = uniqueId('eventListener');
+    set(this.eventListeners, [globalID, callbackKey], callback);
     return {
-      remove: () => _.unset(this.eventListeners[globalID], callbackKey)
+      remove: () => unset(this.eventListeners[globalID], callbackKey)
     };
   }
 
   notifyListeners(globalID, ...args) {
     const listenerCallbacks = this.eventListeners[globalID];
-    if (!listenerCallbacks) {
-      return;
-    }
-    _.forEach(listenerCallbacks, callback => invokeSafely(callback, args));
+    (listenerCallbacks || []).forEach(callback => invokeSafely(callback, args));
   }
 
   registerMethod(globalID, generator) {
