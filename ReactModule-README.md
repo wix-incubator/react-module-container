@@ -37,10 +37,10 @@ You should register the new lazy component using `ModuleRegistry.registerCompone
 
 ### Manifest
 #### Fields
-* `files`: Array of either url strings or sub arrays of url strings.  
-Every item in the main array will be loaded independently.  
-Using a sub array allows to serialize the download of its items.  
-* `component`: The name you used to register your main react component to the `ModuleRegistry`.
+* `files`: Array of url strings and sub arrays of url strings.  
+Every **url string** in the main array will be **loaded independently**.  
+Using a **sub array** allows to **serialize** the download of its items.  
+* `component`: The name you used to register your main react component to the `ModuleRegistry`.  
 
 #### Example
 ```js 
