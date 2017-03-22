@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import set from 'lodash/set';
+import unset from 'lodash/unset';
+import forEach from 'lodash/forEach';
+import uniqueId from 'lodash/uniqueId';
 
 class ModuleRegistry {
   constructor() {
@@ -27,10 +30,10 @@ class ModuleRegistry {
   }
 
   addListener(globalID, callback) {
-    const callbackKey = _.uniqueId('eventListener');
-    _.set(this.eventListeners, [globalID, callbackKey], callback);
+    const callbackKey = uniqueId('eventListener');
+    set(this.eventListeners, [globalID, callbackKey], callback);
     return {
-      remove: () => _.unset(this.eventListeners[globalID], callbackKey)
+      remove: () => unset(this.eventListeners[globalID], callbackKey)
     };
   }
 
@@ -39,7 +42,7 @@ class ModuleRegistry {
     if (!listenerCallbacks) {
       return;
     }
-    _.forEach(listenerCallbacks, callback => invokeSafely(callback, args));
+    forEach(listenerCallbacks, callback => invokeSafely(callback, args));
   }
 
   registerMethod(globalID, generator) {
