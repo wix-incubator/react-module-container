@@ -8,16 +8,16 @@ const uniqueId = (() => {
 })();
 
 const unset = (target, key) => {
-  if (target) {
+  if (target && key) {
     delete target[key];
   }
 };
 
 const set = (target, names, value) => {
-  names.slice(0, names.length - 1).reduce((acc, curr) => {
+  const result = names.slice(0, names.length - 1).reduce((acc, curr) => {
     return (acc[curr] = acc[curr] || {});
   }, target);
-  target[names[names.length - 1]] = value;
+  result[names[names.length - 1]] = value;
 };
 
 class ModuleRegistry {
@@ -55,8 +55,13 @@ class ModuleRegistry {
   }
 
   notifyListeners(globalID, ...args) {
-    const listenerCallbacks = this.eventListeners[globalID];
-    (listenerCallbacks || []).forEach(callback => invokeSafely(callback, args));
+    const listenerCallbacks = this.eventListeners[globalID] || {};
+    Object.keys(listenerCallbacks).forEach(key => invokeSafely(listenerCallbacks[key], args));
+  }
+
+  clearListeners(globalID) {
+    const eventListeners = this.eventListeners[globalID] || {};
+    Object.keys(eventListeners).forEach(key => unset(eventListeners, key));
   }
 
   registerMethod(globalID, generator) {

@@ -47,7 +47,8 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
-    "wix-node-build": "latest"
+    "wix-node-build": "latest",
+    "sinon": "^2.1.0"
   },
   "babel": {
     "presets": [
