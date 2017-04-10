@@ -10,10 +10,10 @@
     "url": ""
   },
   "scripts": {
-    "start": "wix-node-build start --entry-point=./dist/test/mock/fake-server.js",
-    "build": "wix-node-build lint && wix-node-build build",
-    "test": "wix-node-build test",
-    "release": "wix-node-build release"
+    "start": "yoshi start --entry-point=./dist/test/mock/fake-server.js",
+    "build": "yoshi lint && yoshi build",
+    "test": "yoshi test",
+    "release": "yoshi release"
   },
   "files": [
     "dist"
@@ -22,7 +22,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "wix": {
+  "yoshi": {
     "entry": {
       "react-module-container": "./react-module-container.js",
       "demo": "./demo/demo.js",
@@ -47,7 +47,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
-    "wix-node-build": "latest"
+    "yoshi": "latest"
   },
   "babel": {
     "presets": [
