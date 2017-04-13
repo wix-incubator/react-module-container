@@ -87,9 +87,31 @@ export class MyNgComp5 extends AngularLazyComponent {
   }
 }
 
+export class MyNgDialogHost extends AngularLazyComponent {
+  constructor(props) {
+    super(props, {
+      files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
+      module: 'ngDialogHost',
+      component: 'dialog-host'
+    });
+  }
+}
+
+class MyNgDialog extends AngularLazyComponent {
+  constructor(props) {
+    super(props, {
+      files: [`${props.topology.staticsUrl}angular-dialog-module.bundle.js`],
+      module: 'myNgDialog',
+      component: 'ng-dialog'
+    });
+  }
+}
+
 ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
 ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
 ModuleRegistry.registerComponent('Hello', () => Hello);
 ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
 ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
+ModuleRegistry.registerComponent('NgDialogHost', () => MyNgDialogHost);
+ModuleRegistry.registerComponent('NgDialog', () => MyNgDialog);

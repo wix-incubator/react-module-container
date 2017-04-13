@@ -28,6 +28,7 @@
       "demo": "./demo/demo.js",
       "module": "./demo/module.js",
       "lazy/angular-module": "./lazy/angular-module.js",
+      "lazy/angular-dialog-module": "./lazy/angular-dialog-module.js",
       "lazy/react-module": "./lazy/react-module.js",
       "demo-4": "./demo/demo-4.scss",
       "demo-5": "./demo/demo-5.scss",

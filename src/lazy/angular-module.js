@@ -74,3 +74,33 @@ angular.module('myApp4', [])
 
 angular.module('myApp5', [])
   .component('myComp', {template: SHARED_TEMPLATE});
+
+class DialogHostController {
+  constructor(props) {
+    this.value = 5;
+    this.props = props;
+    this.isDialogOpen = false;
+    this.onDialogClose = () => {
+      this.isDialogOpen = false;
+      console.log('Dialog is closed!');
+    };
+  }
+  openDialog() {
+    this.isDialogOpen = true;
+  }
+}
+
+angular.module('ngDialogHost', [])
+  .component('dialogHost', {
+    template: `
+      <div>
+        Passed to dialog value: <input ng-model="$ctrl.value"/>
+      </div>
+      <button ng-click="$ctrl.openDialog()">Open Dialog</button>
+      <div>
+        <module-registry component="NgDialog" props="{value: $ctrl.value, topology: $ctrl.props().topology, isOpen: $ctrl.isDialogOpen, onSuccess: $ctrl.onDialogClose, onCancel: $ctrl.onDialogClose}">
+        </module-registry>
+      </div>
+    `,
+    controller: DialogHostController
+  });
