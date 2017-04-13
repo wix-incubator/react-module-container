@@ -21,47 +21,6 @@ export class MyNgComp2 extends AngularLazyComponent {
   }
 }
 
-const SHARED_TEMPLATE = [
-  '<div class="demo-shared">',
-  '  <div class="demo-4">demo-4</div>',
-  '  <div class="demo-5">demo-5</div>',
-  '</div>'
-].join('');
-
-export class MyNgComp4 extends AngularLazyComponent {
-  constructor(props) {
-    super(props, {
-      unloadStylesOnDestroy: true,
-      files: [
-        '//localhost:3200/demo-shared.css',
-        '//localhost:3200/demo-4.css'
-      ],
-      module: 'myApp4',
-      component: 'my-comp',
-      prepare: () => {
-        angular.module('myApp4', []).component('myComp', {template: SHARED_TEMPLATE});
-      }
-    });
-  }
-}
-
-export class MyNgComp5 extends AngularLazyComponent {
-  constructor(props) {
-    super(props, {
-      unloadStylesOnDestroy: true,
-      files: [
-        '//localhost:3200/demo-shared.css',
-        '//localhost:3200/demo-5.css'
-      ],
-      module: 'myApp5',
-      component: 'my-comp',
-      prepare: () => {
-        angular.module('myApp5', []).component('myComp', {template: SHARED_TEMPLATE});
-      }
-    });
-  }
-}
-
 export class MyReactComp extends ReactLazyComponent {
   constructor(props) {
     super(props, {
@@ -97,6 +56,36 @@ class Hello extends React.Component {
 Hello.propTypes = {
   value: React.PropTypes.string
 };
+
+export class MyNgComp4 extends AngularLazyComponent {
+  constructor(props) {
+    super(props, {
+      unloadStylesOnDestroy: true,
+      files: [
+        `${props.topology.staticsUrl}angular-module.bundle.js`,
+        `${props.topology.baseUrl}demo-shared.css`,
+        `${props.topology.baseUrl}demo-4.css`
+      ],
+      module: 'myApp4',
+      component: 'my-comp'
+    });
+  }
+}
+
+export class MyNgComp5 extends AngularLazyComponent {
+  constructor(props) {
+    super(props, {
+      unloadStylesOnDestroy: true,
+      files: [
+        `${props.topology.staticsUrl}angular-module.bundle.js`,
+        `${props.topology.baseUrl}demo-shared.css`,
+        `${props.topology.baseUrl}demo-5.css`
+      ],
+      module: 'myApp5',
+      component: 'my-comp'
+    });
+  }
+}
 
 ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);

@@ -15,7 +15,10 @@ const withStore = connect(
   dispatch => ({assign: value => dispatch({type: 'assign', value})})
 );
 
-const topology = {staticsUrl: 'http://localhost:3200/lazy/'};
+const topology = {
+  staticsUrl: 'http://localhost:3200/lazy/',
+  baseUrl: 'http://localhost:3200/'
+};
 const rootElement = document.getElementById('root');
 const MyApp = {MyNgComp: ModuleRegistry.component('MyApp.MyNgComp')};
 const MyApp2 = {MyNgComp: ModuleRegistry.component('MyApp2.MyNgComp')};
@@ -41,7 +44,7 @@ const Navigation = withStore(props => (
     <SplatLink {...props} to="/ng-router-app/b" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app4" activeClassName={activeLink} className="nav">ng-router-app4</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app5" activeClassName={activeLink} className="nav">ng-router-app5</SplatLink>&nbsp;
-    <div>{props.children}</div>
+    <div style={{marginTop: '15px'}}>{props.children}</div>
   </div>
 ));
 Navigation.propTypes = {

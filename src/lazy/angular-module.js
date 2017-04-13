@@ -62,3 +62,15 @@ myApp2.component('myComp', {
   </div>`,
   controller: MyCompController2
 });
+
+const SHARED_TEMPLATE = `
+  <div class="demo-shared">
+    <div class="demo-4">demo-4</div>
+    <div class="demo-5">demo-5</div>
+  </div>`;
+
+angular.module('myApp4', [])
+  .component('myComp', {template: SHARED_TEMPLATE});
+
+angular.module('myApp5', [])
+  .component('myComp', {template: SHARED_TEMPLATE});
