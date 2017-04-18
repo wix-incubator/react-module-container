@@ -2,11 +2,11 @@
 
 You should register your main react component using `ModuleRegistry.registerComponent()`.  
 ```js
-//src/main-component.js:
+// ../src/main-component.js:
 
 const MainComponent = props => (
   <div>
-    {/*Your applcation*/}
+    {/*Your application*/}
   </div>
 );
 
