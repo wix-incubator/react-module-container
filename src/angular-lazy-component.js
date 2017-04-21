@@ -34,7 +34,7 @@ class AngularLazyComponent extends React.Component {
     this.promise.then(() => {
       if (this.mounted) {
         const component = `<${this.manifest.component}></${this.manifest.component}>`;
-        this.$injector = angular.bootstrap(component, [this.manifest.module, ($provide, $compileProvider) => {
+        this.$injector = angular.bootstrap(component, [this.manifest.module, ['$provide', '$compileProvider', ($provide, $compileProvider) => {
           $provide.factory('props', () => () => this.props);
           $compileProvider.directive('moduleRegistry', () => ({
             scope: {component: '@', props: '<'},
@@ -66,7 +66,7 @@ class AngularLazyComponent extends React.Component {
               };
             }
           }));
-        }]);
+        }]]);
         this.node.appendChild(this.$injector.get('$rootElement')[0]);
       }
     });
