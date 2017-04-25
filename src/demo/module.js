@@ -30,6 +30,24 @@ export class MyReactComp extends ReactLazyComponent {
   }
 }
 
+export class MyReactDialogHost extends ReactLazyComponent {
+  constructor(props) {
+    super(props, {
+      files: [`${props.topology.staticsUrl}react-module.bundle.js`],
+      component: 'React.DialogHost'
+    });
+  }
+}
+
+class MyReactDialog extends ReactLazyComponent {
+  constructor(props) {
+    super(props, {
+      files: [`${props.topology.staticsUrl}react-dialog-module.bundle.js`],
+      component: 'React.Dialog'
+    });
+  }
+}
+
 class Hello extends React.Component {
   constructor(props) {
     super(props);
@@ -115,3 +133,5 @@ ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
 ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
 ModuleRegistry.registerComponent('NgDialogHost', () => MyNgDialogHost);
 ModuleRegistry.registerComponent('NgDialog', () => MyNgDialog);
+ModuleRegistry.registerComponent('RtDialogHost', () => MyReactDialogHost);
+ModuleRegistry.registerComponent('RtDialog', () => MyReactDialog);
