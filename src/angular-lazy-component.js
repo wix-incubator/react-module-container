@@ -2,6 +2,7 @@ import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {filesAppender, unloadStyles} from './tag-appender';
 import ModuleRegistry from './module-registry';
+import assign from 'lodash/assign';
 
 class AddRouterContext extends React.Component {
   getChildContext() {
@@ -28,17 +29,19 @@ class AngularLazyComponent extends React.Component {
   componentWillMount() {
     ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
     const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
-    this.promise = filesAppender(this.manifest.files).then(prepare);
+    this.filesAppenderPromise = filesAppender(this.manifest.files).then(prepare);
+    this.resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
   }
 
   componentDidMount() {
     this.mounted = true;
-    this.promise.then(() => {
+    Promise.all([this.filesAppenderPromise, this.resolvePromise]).then(results => {
       if (this.mounted) {
         ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
         const component = `<${this.manifest.component}></${this.manifest.component}>`;
         this.$injector = angular.bootstrap(component, [this.manifest.module, ['$provide', '$compileProvider', ($provide, $compileProvider) => {
-          $provide.factory('props', () => () => this.props);
+          const resolvedProps = results[1];
+          $provide.factory('props', () => () => assign({}, this.props, resolvedProps));
           $compileProvider.directive('moduleRegistry', () => ({
             scope: {component: '@', props: '<'},
             controller: ($scope, $element) => {

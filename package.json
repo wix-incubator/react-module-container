@@ -11,7 +11,8 @@
   },
   "scripts": {
     "start": "yoshi start --entry-point=./dist/test/mock/fake-server.js",
-    "build": "yoshi lint && yoshi build",
+    "build": ":",
+    "pretest": "yoshi lint && yoshi build",
     "test": "yoshi test",
     "release": "yoshi release"
   },
@@ -57,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "lodash": "^4.16.0",
+    "lodash": "^4.17.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   }

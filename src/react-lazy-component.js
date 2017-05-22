@@ -11,11 +11,13 @@ class ReactLazyComponent extends React.Component {
 
   componentWillMount() {
     ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
-    this.promise = filesAppender(this.manifest.files);
+    this.filesAppenderPromise = filesAppender(this.manifest.files);
+    this.resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
   }
 
   componentDidMount() {
-    this.promise.then(() => {
+    Promise.all([this.filesAppenderPromise, this.resolvePromise]).then(results => {
+      this.resolvedProps = results[1];
       ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
       const component = ModuleRegistry.component(this.manifest.component);
       this.setState({component});
@@ -27,7 +29,7 @@ class ReactLazyComponent extends React.Component {
   }
 
   render() {
-    return this.state.component ? <this.state.component {...this.props}/> : null;
+    return this.state.component ? <this.state.component {...this.props} {...this.resolvedProps}/> : null;
   }
 }
 

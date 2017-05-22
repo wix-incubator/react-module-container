@@ -15,6 +15,16 @@ export class MyNgComp2 extends AngularLazyComponent {
   constructor(props) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
+      resolve: () => {
+        const experimentsPromise = Promise.resolve({'specs.fed.ReactModuleContainerWithResolve': true});
+        const customDataPromise = Promise.resolve({user: 'xiw@wix.com'});
+        return Promise.all([experimentsPromise, customDataPromise]).then(results => {
+          return {
+            experiments: results[0],
+            customData: results[1]
+          };
+        });
+      },
       module: 'myApp2',
       component: 'my-comp'
     });
@@ -25,6 +35,16 @@ export class MyReactComp extends ReactLazyComponent {
   constructor(props) {
     super(props, {
       files: [`${props.topology.staticsUrl}react-module.bundle.js`],
+      resolve: () => {
+        const experimentsPromise = Promise.resolve({'specs.fed.ReactModuleContainerWithResolve': true});
+        const customDataPromise = Promise.resolve({user: 'xiw@wix.com'});
+        return Promise.all([experimentsPromise, customDataPromise]).then(results => {
+          return {
+            experiments: results[0],
+            customData: results[1]
+          };
+        });
+      },
       component: 'MyApp3.RealReactComp'
     });
   }

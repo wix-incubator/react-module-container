@@ -101,6 +101,16 @@ describe('React application', () => {
     }));
   });
 
+  describe('manifest with resolve', () => {
+    ['ui', 'rt'].forEach(router => describe(`/${router}-router-app/`, () => {
+      it(`should display the resolved data`, () => {
+        browser.get(`/${router}-router-app/`);
+        expect($('#value-of-resolved-experiments').getText()).toBe(JSON.stringify({'specs.fed.ReactModuleContainerWithResolve': true}));
+        expect($('#value-of-resolved-custom-data').getText()).toBe(JSON.stringify({user: 'xiw@wix.com'}));
+      });
+    }));
+  });
+
   function getStyleSheetHrefs() {
     return $$('link').map(elem => elem.getAttribute('href'));
   }
