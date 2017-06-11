@@ -13,7 +13,7 @@
     "start": "yoshi start --entry-point=./dist/test/mock/fake-server.js",
     "build": "yoshi lint && yoshi build",
     "test": "yoshi test",
-    "release": "yoshi release  && bower-auto-release --dist dist/statics --git-repo git@github.com:wix-private/react-module-container--bower-component.git"
+    "release": "yoshi release  && bower-auto-release --dist dist/statics --git-repo"
   },
   "files": [
     "dist"
