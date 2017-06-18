@@ -9,11 +9,13 @@ class ReactLazyComponent extends React.Component {
   }
 
   componentWillMount() {
+    window.ModuleRegistry.notifyListeners('react-module-container.componentStartLoading', this.manifest.component);
     this.promise = filesAppender(this.manifest.files);
   }
 
   componentDidMount() {
     this.promise.then(() => {
+      window.ModuleRegistry.notifyListeners('react-module-container.componentReady', this.manifest.component);
       const component = window.ModuleRegistry.component(this.manifest.component);
       this.setState({component});
     });

@@ -25,6 +25,7 @@ class AngularLazyComponent extends React.Component {
   }
 
   componentWillMount() {
+    window.ModuleRegistry.notifyListeners('react-module-container.componentStartLoading', this.manifest.component);
     const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
     this.promise = filesAppender(this.manifest.files).then(prepare);
   }
@@ -33,6 +34,7 @@ class AngularLazyComponent extends React.Component {
     this.mounted = true;
     this.promise.then(() => {
       if (this.mounted) {
+        window.ModuleRegistry.notifyListeners('react-module-container.componentReady', this.manifest.component);
         const component = `<${this.manifest.component}></${this.manifest.component}>`;
         this.$injector = angular.bootstrap(component, [this.manifest.module, ['$provide', '$compileProvider', ($provide, $compileProvider) => {
           $provide.factory('props', () => () => this.props);
