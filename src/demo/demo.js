@@ -34,8 +34,53 @@ const SplatLink = withRouter(props => {
   }
   return <Link {...newProps}>{props.children}</Link>;
 });
+class EventsListener extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      gotStartLoadingEvent: false,
+      gotComponentReady: false
+    };
+  }
+
+  componentWillMount() {
+    if (this.unSubscribeStartLoading) {
+      this.unSubscribeStartLoading();
+    }
+    this.unSubscribeStartLoading = window.ModuleRegistry.addListener('react-module-container.componentStartLoading', () => {
+      this.setState({gotStartLoadingEvent: true});
+    });
+
+    if (this.unSubscribeComponentReady) {
+      this.unSubscribeComponentReady();
+    }
+    this.unSubscribeComponentReady = window.ModuleRegistry.addListener('react-module-container.componentReady', () => {
+      this.setState({gotComponentReady: true});
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.unSubscribeStartLoading) {
+      this.unSubscribeStartLoading.remove();
+      this.unSubscribeStartLoading = null;
+    }
+    if (this.unSubscribeComponentReady) {
+      this.unSubscribeComponentReady.remove();
+      this.unSubscribeComponentReady = null;
+    }
+  }
+
+  render() {
+    return (<div>
+      <div id="got-start-loading">gotStartLoadingEvent: {this.state.gotStartLoadingEvent ? 'true' : 'false'}</div>
+      <div id="got-component-ready">gotComponentReady: {this.state.gotComponentReady ? 'true' : 'false'}</div>
+    </div>);
+  }
+}
+
 const Navigation = withStore(props => (
   <div>
+    <EventsListener/>
     <input id="react-input" value={props.value} onChange={e => props.assign(e.target.value)}/>
     <br/>
     <SplatLink {...props} to="/ng-router-app/a" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
@@ -52,6 +97,7 @@ Navigation.propTypes = {
 };
 
 const Home = () => <span id="hello">hello</span>;
+
 const App = withStore(withRouter(props => <MyApp.MyNgComp topology={topology} {...props}/>));
 const App2 = withStore(withRouter(props => <MyApp2.MyNgComp topology={topology} {...props}/>));
 const App3 = withStore(withRouter(props => <MyApp3.MyReactComp topology={topology} {...props}/>));
