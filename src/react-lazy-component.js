@@ -21,6 +21,10 @@ class ReactLazyComponent extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    window.ModuleRegistry.notifyListeners('react-module-container.componentWillUnmount', this.manifest.component);
+  }
+
   render() {
     return this.state.component ? <this.state.component {...this.props}/> : null;
   }

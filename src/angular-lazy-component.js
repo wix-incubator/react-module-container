@@ -83,6 +83,7 @@ class AngularLazyComponent extends React.Component {
     if (this.manifest.unloadStylesOnDestroy === true) {
       unloadStyles(document, this.manifest.files);
     }
+    window.ModuleRegistry.notifyListeners('react-module-container.componentWillUnmount', this.manifest.component);
   }
 
   componentDidUpdate() {

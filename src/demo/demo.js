@@ -39,7 +39,8 @@ class EventsListener extends React.Component {
     super(props);
     this.state = {
       gotStartLoadingEvent: false,
-      gotComponentReady: false
+      gotComponentReady: false,
+      gotComponentWillUnmount: false
     };
   }
 
@@ -57,6 +58,13 @@ class EventsListener extends React.Component {
     this.unSubscribeComponentReady = window.ModuleRegistry.addListener('react-module-container.componentReady', () => {
       this.setState({gotComponentReady: true});
     });
+
+    if (this.unSubscribeComponentWillUnmount) {
+      this.unSubscribeComponentWillUnmount();
+    }
+    this.unSubscribeComponentWillUnmount = window.ModuleRegistry.addListener('react-module-container.componentWillUnmount', () => {
+      this.setState({gotComponentWillUnmount: true});
+    });
   }
 
   componentWillUnmount() {
@@ -68,12 +76,17 @@ class EventsListener extends React.Component {
       this.unSubscribeComponentReady.remove();
       this.unSubscribeComponentReady = null;
     }
+    if (this.unSubscribeComponentWillUnmount) {
+      this.unSubscribeComponentWillUnmount.remove();
+      this.unSubscribeComponentWillUnmount = null;
+    }
   }
 
   render() {
     return (<div>
-      <div id="got-start-loading">gotStartLoadingEvent: {this.state.gotStartLoadingEvent ? 'true' : 'false'}</div>
-      <div id="got-component-ready">gotComponentReady: {this.state.gotComponentReady ? 'true' : 'false'}</div>
+      <div>gotStartLoadingEvent: <span id="got-start-loading">{this.state.gotStartLoadingEvent ? 'true' : 'false'}</span></div>
+      <div>gotComponentReady: <span id="got-component-ready">{this.state.gotComponentReady ? 'true' : 'false'}</span></div>
+      <div>gotComponentWillUnmount: <span id="got-component-will-unmount">{this.state.gotComponentWillUnmount ? 'true' : 'false'}</span></div>
     </div>);
   }
 }
