@@ -1,4 +1,5 @@
 import React from 'react';
+import ModuleRegistry from '../module-registry';
 
 export class EventsListener extends React.Component {
   constructor(props) {
@@ -11,15 +12,15 @@ export class EventsListener extends React.Component {
   }
 
   componentWillMount() {
-    this.unSubscribeStartLoading = window.ModuleRegistry.addListener('reactModuleContainer.componentStartLoading', () => {
+    this.unSubscribeStartLoading = ModuleRegistry.addListener('reactModuleContainer.componentStartLoading', () => {
       this.setState({gotStartLoadingEvent: true});
     });
 
-    this.unSubscribeComponentReady = window.ModuleRegistry.addListener('reactModuleContainer.componentReady', () => {
+    this.unSubscribeComponentReady = ModuleRegistry.addListener('reactModuleContainer.componentReady', () => {
       this.setState({gotComponentReady: true});
     });
 
-    this.unSubscribeComponentWillUnmount = window.ModuleRegistry.addListener('reactModuleContainer.componentWillUnmount', () => {
+    this.unSubscribeComponentWillUnmount = ModuleRegistry.addListener('reactModuleContainer.componentWillUnmount', () => {
       this.setState({gotComponentWillUnmount: true});
     });
   }
