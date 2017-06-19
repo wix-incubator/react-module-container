@@ -3,6 +3,7 @@ import {render} from 'react-dom';
 import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
 import ModuleRegistry from '../module-registry';
+import {EventsListener} from './EventListener';
 import {Router, Route, browserHistory, Link, IndexRoute, withRouter} from 'react-router';
 
 import {activeLink} from './demo.scss';
@@ -34,63 +35,6 @@ const SplatLink = withRouter(props => {
   }
   return <Link {...newProps}>{props.children}</Link>;
 });
-class EventsListener extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gotStartLoadingEvent: false,
-      gotComponentReady: false,
-      gotComponentWillUnmount: false
-    };
-  }
-
-  componentWillMount() {
-    if (this.unSubscribeStartLoading) {
-      this.unSubscribeStartLoading();
-    }
-    this.unSubscribeStartLoading = window.ModuleRegistry.addListener('react-module-container.componentStartLoading', () => {
-      this.setState({gotStartLoadingEvent: true});
-    });
-
-    if (this.unSubscribeComponentReady) {
-      this.unSubscribeComponentReady();
-    }
-    this.unSubscribeComponentReady = window.ModuleRegistry.addListener('react-module-container.componentReady', () => {
-      this.setState({gotComponentReady: true});
-    });
-
-    if (this.unSubscribeComponentWillUnmount) {
-      this.unSubscribeComponentWillUnmount();
-    }
-    this.unSubscribeComponentWillUnmount = window.ModuleRegistry.addListener('react-module-container.componentWillUnmount', () => {
-      this.setState({gotComponentWillUnmount: true});
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.unSubscribeStartLoading) {
-      this.unSubscribeStartLoading.remove();
-      this.unSubscribeStartLoading = null;
-    }
-    if (this.unSubscribeComponentReady) {
-      this.unSubscribeComponentReady.remove();
-      this.unSubscribeComponentReady = null;
-    }
-    if (this.unSubscribeComponentWillUnmount) {
-      this.unSubscribeComponentWillUnmount.remove();
-      this.unSubscribeComponentWillUnmount = null;
-    }
-  }
-
-  render() {
-    return (<div>
-      <div>gotStartLoadingEvent: <span id="got-start-loading">{this.state.gotStartLoadingEvent ? 'true' : 'false'}</span></div>
-      <div>gotComponentReady: <span id="got-component-ready">{this.state.gotComponentReady ? 'true' : 'false'}</span></div>
-      <div>gotComponentWillUnmount: <span id="got-component-will-unmount">{this.state.gotComponentWillUnmount ? 'true' : 'false'}</span></div>
-    </div>);
-  }
-}
-
 const Navigation = withStore(props => (
   <div>
     <EventsListener/>

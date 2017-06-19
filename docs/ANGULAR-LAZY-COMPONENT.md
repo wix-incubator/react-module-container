@@ -84,3 +84,10 @@ Use the `moduleRegistry` directive, example:
 ```js
 <module-registry component="moduleName" props="{value: 123}"></module-registry>
 ```
+
+### Lifecycle events
+All lazy components fire 3 lifecycle events (Via the ModuleRegistry):
+* `reactModuleContainer.componentStartLoading` fires before the scripts are loaded, and before the `prepare` function is called
+* `reactModuleContainer.componentReady` fires after the scripts are loaded, the `prepare` promise resolved, and the component is on the stage.
+* `reactModuleContainer.componentWillUnmount` fire before the component is removed from the DOM.
+ 
