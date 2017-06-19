@@ -5,3 +5,7 @@ node_modules
 dist
 target
 coverage
+.idea
+npm-debug.log
+*.iml
+test/e2e/screenshots/*

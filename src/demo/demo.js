@@ -3,6 +3,7 @@ import {render} from 'react-dom';
 import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
 import ModuleRegistry from '../module-registry';
+import {EventsListener} from './EventListener';
 import {Router, Route, browserHistory, Link, IndexRoute, withRouter} from 'react-router';
 
 import {activeLink} from './demo.scss';
@@ -36,6 +37,7 @@ const SplatLink = withRouter(props => {
 });
 const Navigation = withStore(props => (
   <div>
+    <EventsListener/>
     <input id="react-input" value={props.value} onChange={e => props.assign(e.target.value)}/>
     <br/>
     <SplatLink {...props} to="/ng-router-app/a" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
@@ -52,6 +54,7 @@ Navigation.propTypes = {
 };
 
 const Home = () => <span id="hello">hello</span>;
+
 const App = withStore(withRouter(props => <MyApp.MyNgComp topology={topology} {...props}/>));
 const App2 = withStore(withRouter(props => <MyApp2.MyNgComp topology={topology} {...props}/>));
 const App3 = withStore(withRouter(props => <MyApp3.MyReactComp topology={topology} {...props}/>));

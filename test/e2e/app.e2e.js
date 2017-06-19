@@ -1,6 +1,24 @@
 'use strict';
 
 describe('React application', () => {
+  describe('life cycle events', () => {
+    it('should not have navigation events', () => {
+      browser.get('/');
+      expect($('#got-start-loading').getText()).toBe('false');
+      expect($('#got-component-ready').getText()).toBe('false');
+      expect($('#got-component-will-unmount').getText()).toBe('false');
+    });
+
+    it('should have navigation events', () => {
+      browser.get('/ng-router-app4');
+      expect($('#got-start-loading').getText()).toBe('true');
+      expect($('#got-component-ready').getText()).toBe('true');
+      expect($('#got-component-will-unmount').getText()).toBe('false');
+      $$('.nav').get(5).click();
+      expect($('#got-component-will-unmount').getText()).toBe('true');
+    });
+  });
+
   describe('open page', () => {
     it('should display hello', () => {
       browser.get('/');

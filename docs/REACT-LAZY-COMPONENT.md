@@ -52,3 +52,9 @@ Using a **sub array** allows to **serialize** the download of its items.
 ### Explanation
 When the host tries to render the lazy component, it starts by loading all the required `files`.  
 Once all `files` are loaded, the component is rendered and receives the props parameter as `props`.  
+
+### Lifecycle events
+All lazy components fire 3 lifecycle events (Via the ModuleRegistry):
+* `reactModuleContainer.componentStartLoading` fires before the scripts are loaded
+* `reactModuleContainer.componentReady` fires after the scripts are loaded and the component is on the stage
+* `reactModuleContainer.componentWillUnmount` fire before the component is removed from the DOM.
