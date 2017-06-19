@@ -26,6 +26,8 @@ const MyApp2 = {MyNgComp: ModuleRegistry.component('MyApp2.MyNgComp')};
 const MyApp3 = {MyReactComp: ModuleRegistry.component('MyApp3.MyReactComp')};
 const MyApp4 = {MyNgComp: ModuleRegistry.component('MyApp4.MyNgComp')};
 const MyApp5 = {MyNgComp: ModuleRegistry.component('MyApp5.MyNgComp')};
+const MyApp6 = {MyNgComp: ModuleRegistry.component('NgDialogHost')};
+const MyApp7 = {MyReactComp: ModuleRegistry.component('RtDialogHost')};
 
 const SplatLink = withRouter(props => {
   const newProps = {to: props.to, className: props.className, style: props.style};
@@ -46,6 +48,8 @@ const Navigation = withStore(props => (
     <SplatLink {...props} to="/ng-router-app/b" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app4" activeClassName={activeLink} className="nav">ng-router-app4</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app5" activeClassName={activeLink} className="nav">ng-router-app5</SplatLink>&nbsp;
+    <SplatLink {...props} to="/ng-dialog" activeClassName={activeLink} className="nav">ng-dialog</SplatLink>&nbsp;
+    <SplatLink {...props} to="/rt-dialog" activeClassName={activeLink} className="nav">rt-dialog</SplatLink>&nbsp;
     <div style={{marginTop: '15px'}}>{props.children}</div>
   </div>
 ));
@@ -60,6 +64,9 @@ const App2 = withStore(withRouter(props => <MyApp2.MyNgComp topology={topology} 
 const App3 = withStore(withRouter(props => <MyApp3.MyReactComp topology={topology} {...props}/>));
 const App4 = withStore(withRouter(props => <MyApp4.MyNgComp topology={topology} {...props}/>));
 const App5 = withStore(withRouter(props => <MyApp5.MyNgComp topology={topology} {...props}/>));
+const App6 = withStore(withRouter(props => <MyApp6.MyNgComp topology={topology} {...props}/>));
+const App7 = withStore(withRouter(props => <MyApp7.MyReactComp topology={topology} {...props}/>));
+
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -70,6 +77,8 @@ render(
         <Route path="/rt-router-app/**" component={App3}/>
         <Route path="/ng-router-app4" component={App4}/>
         <Route path="/ng-router-app5" component={App5}/>
+        <Route path="/ng-dialog" component={App6}/>
+        <Route path="/rt-dialog" component={App7}/>
       </Route>
     </Router>
   </Provider>,
