@@ -1,6 +1,7 @@
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {filesAppender, unloadStyles} from './tag-appender';
+import ModuleRegistry from './module-registry';
 
 class AddRouterContext extends React.Component {
   getChildContext() {
@@ -25,7 +26,7 @@ class AngularLazyComponent extends React.Component {
   }
 
   componentWillMount() {
-    window.ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
+    ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
     const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
     this.promise = filesAppender(this.manifest.files).then(prepare);
   }
@@ -34,14 +35,14 @@ class AngularLazyComponent extends React.Component {
     this.mounted = true;
     this.promise.then(() => {
       if (this.mounted) {
-        window.ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
+        ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
         const component = `<${this.manifest.component}></${this.manifest.component}>`;
         this.$injector = angular.bootstrap(component, [this.manifest.module, ['$provide', '$compileProvider', ($provide, $compileProvider) => {
           $provide.factory('props', () => () => this.props);
           $compileProvider.directive('moduleRegistry', () => ({
             scope: {component: '@', props: '<'},
             controller: ($scope, $element) => {
-              const Component = window.ModuleRegistry.component($scope.component);
+              const Component = ModuleRegistry.component($scope.component);
               $scope.$watch(() => $scope.props, () => {
                 render(
                   <AddRouterContext router={this.props.router}>
@@ -83,7 +84,7 @@ class AngularLazyComponent extends React.Component {
     if (this.manifest.unloadStylesOnDestroy === true) {
       unloadStyles(document, this.manifest.files);
     }
-    window.ModuleRegistry.notifyListeners('reactModuleContainer.componentWillUnmount', this.manifest.component);
+    ModuleRegistry.notifyListeners('reactModuleContainer.componentWillUnmount', this.manifest.component);
   }
 
   componentDidUpdate() {

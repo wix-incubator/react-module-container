@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import ModuleRegistry from '../module-registry';
 
 const RealReactComp = props => (
   <div>
@@ -13,4 +14,4 @@ const RealReactComp = props => (
 RealReactComp.propTypes = {
   value: React.PropTypes.any
 };
-window.ModuleRegistry.registerComponent('MyApp3.RealReactComp', () => RealReactComp);
+ModuleRegistry.registerComponent('MyApp3.RealReactComp', () => RealReactComp);
