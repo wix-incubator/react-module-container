@@ -1,33 +1,22 @@
 import React from 'react';
-import {filesAppender} from './tag-appender';
 import ModuleRegistry from './module-registry';
+import BaseLazyComponent from './base-lazy-component';
 
-class ReactLazyComponent extends React.Component {
+class ReactLazyComponent extends BaseLazyComponent {
   constructor(props, manifest) {
-    super(props);
-    this.manifest = manifest;
+    super(props, manifest);
     this.state = {component: null};
   }
 
-  componentWillMount() {
-    ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
-    this.promise = filesAppender(this.manifest.files);
-  }
-
   componentDidMount() {
-    this.promise.then(() => {
-      ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
+    this.resourceLoader.then(() => {
       const component = ModuleRegistry.component(this.manifest.component);
       this.setState({component});
     });
   }
 
-  componentWillUnmount() {
-    ModuleRegistry.notifyListeners('reactModuleContainer.componentWillUnmount', this.manifest.component);
-  }
-
   render() {
-    return this.state.component ? <this.state.component {...this.props}/> : null;
+    return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
   }
 }
 

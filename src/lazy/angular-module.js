@@ -51,6 +51,8 @@ myApp2.component('myComp', {
   template:
   `<div>
     <div id="value-in-angular">{{$ctrl.props().value}}</div>
+    <div id="value-of-resolved-experiments">{{$ctrl.props().experiments}}</div>
+    <div id="value-of-resolved-custom-data">{{$ctrl.props().customData}}</div>
     <input id="angular-input" ng-model="$ctrl.value" />
     <div>
       <a id="bazinga" ui-sref="a">a</a>

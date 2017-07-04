@@ -23,6 +23,7 @@ You should register the new lazy component using `ModuleRegistry.registerCompone
      //see manifest explanation below
      const manifest = {
        files: ['src/main-component.js'],
+       resolve: () => { /* fetch some data */ }, // optional
        component: 'appName.mainComponentName'
      };
      super(props, manifest);
@@ -38,20 +39,31 @@ You should register the new lazy component using `ModuleRegistry.registerCompone
 ### Fields
 * `files`: Array of url strings and sub arrays of url strings.  
 Every **url string** in the main array will be **loaded independently**.  
-Using a **sub array** allows to **serialize** the download of its items.  
-* `component`: The name you used to register your main react component to the `ModuleRegistry`.  
+Using a **sub array** allows to **serialize** the download of its items.
+* `resolve`(optional): A function which will execute **in parallel of downloading the** `files`.
+* `component`: The name you used to register your main react component to the `ModuleRegistry`.
+  
+##### Please note
+* The `resolve` function must return a `promise`. Common usage for `resolve` would be to fetch data that affects how your app is rendered, like **experiments** or **user privileges**.  
 
 ### Example
 ```js 
 {
   files: ['y.js', `${props.files.fakeFile}`, ['1.js', '2.js', '3.js'], 'z.js'],
+  resolve: () => {
+    return fetchExperiments().then(response => {
+      return {
+        experiments: response.data // experiments would be available on the props
+      };
+    });
+  },
   component: 'Prefix.mainComponentName'
 }
 ```
 
 ### Explanation
-When the host tries to render the lazy component, it starts by loading all the required `files`.  
-Once all `files` are loaded, the component is rendered and receives the props parameter as `props`.  
+When the host tries to render the lazy component, it starts by downloading all the required `files` and execute `resolve`.  
+Once all `files` are loaded and `resolve` resolved, the component is rendered and receives the props parameter as `props`.  
 
 ### Lifecycle events
 All lazy components fire 3 lifecycle events (Via the ModuleRegistry):
