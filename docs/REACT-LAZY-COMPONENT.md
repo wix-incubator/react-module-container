@@ -40,7 +40,7 @@ You should register the new lazy component using `ModuleRegistry.registerCompone
 * `files`: Array of url strings and sub arrays of url strings.  
 Every **url string** in the main array will be **loaded independently**.  
 Using a **sub array** allows to **serialize** the download of its items.
-* `resolve`(optional): A function which will execute **in parallel of downloading the** `files`.
+* `resolve`(optional): A function (`() => Promise<object>`) which will execute **in parallel of downloading the** `files`.
 * `component`: The name you used to register your main react component to the `ModuleRegistry`.
   
 ##### Please note

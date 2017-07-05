@@ -23,8 +23,8 @@ ModuleRegistry.registerComponent('Prefix.componentName', () => MyNgComp);
 * `files`: Array of url strings and sub arrays of url strings.  
 Every **url string** in the main array will be **loaded independently**.  
 Using a **sub array** allows to **serialize** the download of its items.  
-* `resolve`(optional): A function to fetch data **before** bootstrap and **in parallel** of downloading the `files`.
-* `prepare`(optional): A function to prepare data **before** bootstrap and **after** all `files` were downloaded and `resolve` resolved.
+* `resolve`(optional): A function (`() => Promise<object>`) to fetch data **before** bootstrap and **in parallel** of downloading the `files`.
+* `prepare`(optional): A function (`() => Promise<any> || void`) to prepare data **before** bootstrap and **after** all `files` were downloaded and `resolve` resolved.
 * `module`: The name of the angular module that will be bootstrapped.  
 * `component`: The name of your angular application's root directive/component that should be rendered.  
 * `unloadStylesOnDestroy`(optional, default false): Specifies if loaded stylesheets should be unloaded when component is destroyed.
