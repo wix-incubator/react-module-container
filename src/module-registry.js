@@ -29,7 +29,7 @@ class ModuleRegistry {
     const callbackKey = `eventListener_${this.uniqueId++}`;
     this.eventListeners[globalID][callbackKey] = callback;
     return {
-      remove: () => delete this.eventListeners[globalID][callbackKey]
+      remove: () => delete this.eventListeners[globalID]
     };
   }
 
