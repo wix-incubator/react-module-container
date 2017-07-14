@@ -1,7 +1,8 @@
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import {filesAppender, unloadStyles} from './tag-appender';
+import {unloadStyles} from './tag-appender';
 import ModuleRegistry from './module-registry';
+import BaseLazyComponent from './base-lazy-component';
 
 class AddRouterContext extends React.Component {
   getChildContext() {
@@ -19,26 +20,15 @@ AddRouterContext.propTypes = {
   children: React.PropTypes.any
 };
 
-class AngularLazyComponent extends React.Component {
-  constructor(props, manifest) {
-    super(props);
-    this.manifest = manifest;
-  }
-
-  componentWillMount() {
-    ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
-    const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
-    this.promise = filesAppender(this.manifest.files).then(prepare);
-  }
+class AngularLazyComponent extends BaseLazyComponent {
 
   componentDidMount() {
     this.mounted = true;
-    this.promise.then(() => {
+    this.resourceLoader.then(() => {
       if (this.mounted) {
-        ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
         const component = `<${this.manifest.component}></${this.manifest.component}>`;
         this.$injector = angular.bootstrap(component, [this.manifest.module, ['$provide', '$compileProvider', ($provide, $compileProvider) => {
-          $provide.factory('props', () => () => this.props);
+          $provide.factory('props', () => () => this.mergedProps);
           $compileProvider.directive('moduleRegistry', () => ({
             scope: {component: '@', props: '<'},
             controller: ($scope, $element) => {
@@ -84,7 +74,7 @@ class AngularLazyComponent extends React.Component {
     if (this.manifest.unloadStylesOnDestroy === true) {
       unloadStyles(document, this.manifest.files);
     }
-    ModuleRegistry.notifyListeners('reactModuleContainer.componentWillUnmount', this.manifest.component);
+    super.componentWillUnmount();
   }
 
   componentDidUpdate() {
