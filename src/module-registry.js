@@ -27,6 +27,7 @@ class ModuleRegistry {
 
   addListener(globalID, callback) {
     const callbackKey = `eventListener_${this.uniqueId++}`;
+    this.eventListeners[globalID] = this.eventListeners[globalID] || {};
     this.eventListeners[globalID][callbackKey] = callback;
     return {
       remove: () => delete this.eventListeners[globalID][callbackKey]
@@ -38,7 +39,7 @@ class ModuleRegistry {
     if (!listenerCallbacks) {
       return;
     }
-    listenerCallbacks.map(callback => invokeSafely(callback, args));
+    Object.keys(listenerCallbacks).forEach(key => invokeSafely(listenerCallbacks[key], args));
   }
 
   registerMethod(globalID, generator) {
