@@ -8,12 +8,30 @@ class ModuleRegistry {
     this.registeredComponents = {};
     this.registeredMethods = {};
     this.eventListeners = {};
+    this.modules = {};
   }
 
   cleanAll() {
     this.registeredComponents = {};
     this.registeredMethods = {};
     this.eventListeners = {};
+    this.modules = {};
+  }
+
+  registerModule(globalID, ModuleFactory) {
+    if (this.modules[globalID]) {
+      throw `A module with id "${globalID}" is already registered`;
+    }
+
+    this.modules[globalID] = new ModuleFactory();
+  }
+
+  getModule(globalID) {
+    return this.modules[globalID];
+  }
+
+  getAllModules() {
+    return Object.keys(this.modules).map(moduleId => this.modules[moduleId]);
   }
 
   registerComponent(globalID, generator) {
