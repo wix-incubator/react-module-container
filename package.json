@@ -48,6 +48,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
+    "sinon": "^2.4.0",
     "yoshi": "latest"
   },
   "babel": {
