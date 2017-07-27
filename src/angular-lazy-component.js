@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {unloadStyles} from './tag-appender';
 import ModuleRegistry from './module-registry';
@@ -13,11 +14,11 @@ class AddRouterContext extends React.Component {
   }
 }
 AddRouterContext.childContextTypes = {
-  router: React.PropTypes.any
+  router: PropTypes.any
 };
 AddRouterContext.propTypes = {
-  router: React.PropTypes.any,
-  children: React.PropTypes.any
+  router: PropTypes.any,
+  children: PropTypes.any
 };
 
 class AngularLazyComponent extends BaseLazyComponent {
@@ -88,7 +89,7 @@ class AngularLazyComponent extends BaseLazyComponent {
   }
 }
 AngularLazyComponent.propTypes = {
-  router: React.PropTypes.any
+  router: PropTypes.any
 };
 
 export default AngularLazyComponent;

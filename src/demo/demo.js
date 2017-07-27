@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {render} from 'react-dom';
 import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
@@ -50,7 +51,7 @@ const Navigation = withStore(props => (
   </div>
 ));
 Navigation.propTypes = {
-  children: React.PropTypes.any
+  children: PropTypes.any
 };
 
 const Home = () => <span id="hello">hello</span>;

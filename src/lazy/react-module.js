@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import ModuleRegistry from '../module-registry';
 
@@ -14,8 +15,8 @@ const RealReactComp = props => (
   </div>
 );
 RealReactComp.propTypes = {
-  value: React.PropTypes.any,
-  experiments: React.PropTypes.any,
-  customData: React.PropTypes.any
+  value: PropTypes.any,
+  experiments: PropTypes.any,
+  customData: PropTypes.any
 };
 ModuleRegistry.registerComponent('MyApp3.RealReactComp', () => RealReactComp);
