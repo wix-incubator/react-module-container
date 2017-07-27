@@ -1,5 +1,6 @@
 /* global React, AngularLazyComponent, ReactLazyComponent, ModuleRegistry */
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 
 export class MyNgComp extends AngularLazyComponent {
   constructor(props) {
@@ -74,7 +75,7 @@ class Hello extends React.Component {
   }
 }
 Hello.propTypes = {
-  value: React.PropTypes.string
+  value: PropTypes.string
 };
 
 export class MyNgComp4 extends AngularLazyComponent {
