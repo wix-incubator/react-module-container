@@ -107,7 +107,7 @@ export class MyNgComp5 extends AngularLazyComponent {
   }
 }
 
-export class MyApp5NoUnloadCss extends MyNgComp5 {
+export class MyNgApp5NoUnloadCss extends MyNgComp5 {
   constructor(props) {
     super(props);
     this.manifest.unloadStylesOnDestroy = false;
@@ -120,4 +120,4 @@ ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
 ModuleRegistry.registerComponent('Hello', () => Hello);
 ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
 ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
-ModuleRegistry.registerComponent('MyApp5NoUnloadCss.MyNgComp', () => MyApp5NoUnloadCss);
+ModuleRegistry.registerComponent('MyApp5NoUnloadCss.MyNgComp', () => MyNgApp5NoUnloadCss);
