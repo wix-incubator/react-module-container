@@ -25,31 +25,6 @@ describe('React application', () => {
       expect($('#hello').getText()).toBe('hello');
     });
 
-    it('should load/unload css files specified inside angular manifest', () => {
-
-      browser.get('/ng-router-app4');
-      expect(getStyleSheetHrefs()).toEqual([
-        'http://localhost:3200/demo.css',
-        'http://localhost:3200/demo-shared.css',
-        'http://localhost:3200/demo-4.css'
-      ]);
-
-      expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
-      expect($('.demo-4').getCssValue('color')).toBe('rgba(4, 4, 4, 1)');
-      expectIsHidden('.demo-5');
-
-      $$('.nav').get(5).click();
-      expect(getStyleSheetHrefs()).toEqual([
-        'http://localhost:3200/demo.css',
-        'http://localhost:3200/demo-shared.css',
-        'http://localhost:3200/demo-5.css'
-      ]);
-
-      expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
-      expect($('.demo-5').getCssValue('color')).toBe('rgba(5, 5, 5, 1)');
-      expectIsHidden('.demo-4');
-    });
-
     ['ng', 'ui'].forEach((router, index) => describe(`/${router}-router-app/`, () => {
       it(`should display ${router} router app`, () => {
         browser.get(`/${router}-router-app/`);
@@ -171,7 +146,8 @@ describe('React application', () => {
         'http://localhost:3200/demo-shared.css',
         'http://localhost:3200/demo-5.css'
       ]);
-
+      expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
+      expect($('.demo-5').getCssValue('color')).toBe('rgba(5, 5, 5, 1)');
       expectIsHidden('.demo-4');
 
       $$('.nav').get(linksToModuleWithUnloadCss.notDefined).click();
@@ -180,6 +156,8 @@ describe('React application', () => {
         'http://localhost:3200/demo-shared.css',
         'http://localhost:3200/demo-4.css'
       ]);
+      expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
+      expect($('.demo-4').getCssValue('color')).toBe('rgba(4, 4, 4, 1)');
     });
 
     function getStyleSheetHrefs() {
@@ -190,6 +168,6 @@ describe('React application', () => {
       expect($(selector).getCssValue('color')).toBe('rgba(0, 0, 0, 0)');
       expect($(selector).getCssValue('display')).toBe('none');
     }
-  })
+  });
 
 });
