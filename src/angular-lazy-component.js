@@ -72,7 +72,7 @@ class AngularLazyComponent extends BaseLazyComponent {
       this.$injector.get('$rootScope').$destroy();
       this.$injector = null;
     }
-    if (this.manifest.unloadStylesOnDestroy === true) {
+    if (!(this.manifest.unloadStylesOnDestroy === false)) {
       unloadStyles(document, this.manifest.files);
     }
     super.componentWillUnmount();

@@ -81,7 +81,6 @@ Hello.propTypes = {
 export class MyNgComp4 extends AngularLazyComponent {
   constructor(props) {
     super(props, {
-      unloadStylesOnDestroy: true,
       files: [
         `${props.topology.staticsUrl}angular-module.bundle.js`,
         `${props.topology.baseUrl}demo-shared.css`,
@@ -108,9 +107,17 @@ export class MyNgComp5 extends AngularLazyComponent {
   }
 }
 
+export class MyApp5NoUnloadCss extends MyNgComp5 {
+  constructor(props) {
+    super(props);
+    this.manifest.unloadStylesOnDestroy = false;
+  }
+}
+
 ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
 ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
 ModuleRegistry.registerComponent('Hello', () => Hello);
 ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
 ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
+ModuleRegistry.registerComponent('MyApp5NoUnloadCss.MyNgComp', () => MyApp5NoUnloadCss);
