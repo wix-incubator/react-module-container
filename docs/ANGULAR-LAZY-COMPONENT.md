@@ -27,7 +27,7 @@ Using a **sub array** allows to **serialize** the download of its items.
 * `prepare`(optional): A function (`() => Promise<any> || void`) to prepare data **before** bootstrap and **after** all `files` were downloaded and `resolve` resolved.
 * `module`: The name of the angular module that will be bootstrapped.  
 * `component`: The name of your angular application's root directive/component that should be rendered.  
-* `unloadStylesOnDestroy`(optional, default false): Specifies if loaded stylesheets should be unloaded when component is destroyed.
+* `unloadStylesOnDestroy`(optional, default true): Specifies if loaded stylesheets should be unloaded when component is destroyed.
   
 ##### Please note
 * The `resolve` function must return a `promise`. Common usage for `resolve` would be to fetch data that affects how your app is rendered, like **experiments** or **user privileges**.
@@ -101,4 +101,3 @@ All lazy components fire 3 lifecycle events (Via the ModuleRegistry):
 * `reactModuleContainer.componentStartLoading` fires before the scripts are loaded, and before the `prepare` function is called
 * `reactModuleContainer.componentReady` fires after the scripts are loaded, the `prepare` promise resolved, and the component is on the stage.
 * `reactModuleContainer.componentWillUnmount` fire before the component is removed from the DOM.
- 

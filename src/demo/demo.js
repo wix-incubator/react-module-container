@@ -27,6 +27,7 @@ const MyApp2 = {MyNgComp: ModuleRegistry.component('MyApp2.MyNgComp')};
 const MyApp3 = {MyReactComp: ModuleRegistry.component('MyApp3.MyReactComp')};
 const MyApp4 = {MyNgComp: ModuleRegistry.component('MyApp4.MyNgComp')};
 const MyApp5 = {MyNgComp: ModuleRegistry.component('MyApp5.MyNgComp')};
+const MyApp5NoUnloadCss = {MyNgComp: ModuleRegistry.component('MyApp5NoUnloadCss.MyNgComp')};
 
 const SplatLink = withRouter(props => {
   const newProps = {to: props.to, className: props.className, style: props.style};
@@ -47,6 +48,7 @@ const Navigation = withStore(props => (
     <SplatLink {...props} to="/ng-router-app/b" activeClassName={activeLink} className="nav">ng-router-app</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app4" activeClassName={activeLink} className="nav">ng-router-app4</SplatLink>&nbsp;
     <SplatLink {...props} to="/ng-router-app5" activeClassName={activeLink} className="nav">ng-router-app5</SplatLink>&nbsp;
+    <SplatLink {...props} to="/ng-router-app5-no-unload-css" activeClassName={activeLink} className="nav">ng-router-app5-no-unload-css</SplatLink>&nbsp;
     <div style={{marginTop: '15px'}}>{props.children}</div>
   </div>
 ));
@@ -61,6 +63,7 @@ const App2 = withStore(withRouter(props => <MyApp2.MyNgComp topology={topology} 
 const App3 = withStore(withRouter(props => <MyApp3.MyReactComp topology={topology} {...props}/>));
 const App4 = withStore(withRouter(props => <MyApp4.MyNgComp topology={topology} {...props}/>));
 const App5 = withStore(withRouter(props => <MyApp5.MyNgComp topology={topology} {...props}/>));
+const App5NoUnloadModule = withStore(withRouter(props => <MyApp5NoUnloadCss.MyNgComp topology={topology} {...props}/>));
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -71,6 +74,7 @@ render(
         <Route path="/rt-router-app/**" component={App3}/>
         <Route path="/ng-router-app4" component={App4}/>
         <Route path="/ng-router-app5" component={App5}/>
+        <Route path="/ng-router-app5-no-unload-css" component={App5NoUnloadModule}/>
       </Route>
     </Router>
   </Provider>,
