@@ -19,6 +19,17 @@ describe('Module Registry.', () => {
     expect(result).to.be.an.instanceOf(MyModule);
   });
 
+  it('should be able to pass parameters to the register a module', () => {
+    class MyModule {
+      constructor(name) {
+        this.name = name;
+      }
+    }
+    ModuleRegistry.registerModule('GLOBAL_ID', MyModule, 'DUMMY_NAME');
+    const result = ModuleRegistry.getModule('GLOBAL_ID');
+    expect(result.name).to.eq('DUMMY_NAME');
+  });
+
   it('should throw an error if the given module was already registered', () => {
     class MyModule {}
     expect(() => ModuleRegistry.registerModule('GLOBAL_ID', MyModule)).to.not.throw();
