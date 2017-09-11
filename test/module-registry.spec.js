@@ -25,7 +25,7 @@ describe('Module Registry.', () => {
         this.name = name;
       }
     }
-    ModuleRegistry.registerModule('GLOBAL_ID', MyModule, 'DUMMY_NAME');
+    ModuleRegistry.registerModule('GLOBAL_ID', MyModule, ['DUMMY_NAME']);
     const result = ModuleRegistry.getModule('GLOBAL_ID');
     expect(result.name).to.eq('DUMMY_NAME');
   });

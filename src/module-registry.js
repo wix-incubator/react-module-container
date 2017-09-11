@@ -18,7 +18,7 @@ class ModuleRegistry {
     this.modules = {};
   }
 
-  registerModule(globalID, ModuleFactory, ...args) {
+  registerModule(globalID, ModuleFactory, args = []) {
     if (this.modules[globalID]) {
       throw `A module with id "${globalID}" is already registered`;
     }
