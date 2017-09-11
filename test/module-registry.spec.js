@@ -14,24 +14,29 @@ describe('Module Registry.', () => {
 
   it('should be able to register a module', () => {
     class MyModule {}
-    ModuleRegistry.registerModule('GLOBAL_ID', MyModule);
+    const myModuleInstance = new MyModule();
+    ModuleRegistry.registerModule('GLOBAL_ID', myModuleInstance);
     const result = ModuleRegistry.getModule('GLOBAL_ID');
     expect(result).to.be.an.instanceOf(MyModule);
   });
 
   it('should throw an error if the given module was already registered', () => {
     class MyModule {}
-    expect(() => ModuleRegistry.registerModule('GLOBAL_ID', MyModule)).to.not.throw();
-    expect(() => ModuleRegistry.registerModule('GLOBAL_ID', MyModule)).to.throw();
+    const myModuleInstance = new MyModule();
+    expect(() => ModuleRegistry.registerModule('GLOBAL_ID', myModuleInstance)).to.not.throw();
+    expect(() => ModuleRegistry.registerModule('GLOBAL_ID', myModuleInstance)).to.throw();
   });
 
   it('should be able to get all modules', () => {
     class MyModule1 {}
     class MyModule2 {}
     class MyModule3 {}
-    ModuleRegistry.registerModule('GLOBAL_ID1', MyModule1);
-    ModuleRegistry.registerModule('GLOBAL_ID2', MyModule2);
-    ModuleRegistry.registerModule('GLOBAL_ID3', MyModule3);
+    const myModuleInstance1 = new MyModule1();
+    const myModuleInstance2 = new MyModule2();
+    const myModuleInstance3 = new MyModule3();
+    ModuleRegistry.registerModule('GLOBAL_ID1', myModuleInstance1);
+    ModuleRegistry.registerModule('GLOBAL_ID2', myModuleInstance2);
+    ModuleRegistry.registerModule('GLOBAL_ID3', myModuleInstance3);
 
     const allModules = ModuleRegistry.getAllModules();
     expect(allModules.length).to.eq(3);
@@ -65,7 +70,9 @@ describe('Module Registry.', () => {
   });
 
   it('should clean all the methods, components, events, and modules when calling cleanAll', () => {
-    ModuleRegistry.registerModule('GLOBAL_ID', class MyModule {});
+    class MyModule {}
+    const myModuleInstance = new MyModule();
+    ModuleRegistry.registerModule('GLOBAL_ID', myModuleInstance);
     ModuleRegistry.registerMethod('GLOBAL_ID', () => () => {});
     ModuleRegistry.registerComponent('GLOBAL_ID', () => {});
     ModuleRegistry.addListener('GLOBAL_ID', () => {});
