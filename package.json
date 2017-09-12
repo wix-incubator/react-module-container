@@ -12,8 +12,10 @@
   "scripts": {
     "start": "yoshi start --entry-point=./dist/test/mock/fake-server.js",
     "build": ":",
-    "pretest": "yoshi lint && yoshi build",
+    "precommit": "yoshi lint",
+    "pretest": "yoshi build",
     "test": "yoshi test",
+    "posttest": "yoshi lint",
     "release": "yoshi release"
   },
   "files": [
