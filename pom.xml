@@ -15,6 +15,13 @@
                 <role>owner</role>
             </roles>
         </developer>
+        <developer>
+            <name>Roy Miloh</name>
+            <email>roymi@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
     </developers>
     <parent>
         <groupId>com.wixpress.common</groupId>
