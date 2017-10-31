@@ -35,10 +35,12 @@ class AngularLazyComponent extends BaseLazyComponent {
             controller: ($scope, $element) => {
               const Component = ModuleRegistry.component($scope.component);
               $scope.$watch(() => $scope.props, () => {
-                render(
-                  <AddRouterContext router={this.props.router}>
-                    <Component {...$scope.props}/>
-                  </AddRouterContext>, $element[0]);
+                setTimeout(() => {
+                  render(
+                    <AddRouterContext router={this.props.router}>
+                      <Component {...$scope.props}/>
+                    </AddRouterContext>, $element[0]);
+                }, 500);
               }, true);
               $scope.$on('$destroy', () => unmountComponentAtNode($element[0]));
               //super hack to prevent angular from preventing external route changes
