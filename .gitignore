@@ -9,3 +9,5 @@ coverage
 npm-debug.log
 *.iml
 test/e2e/screenshots/*
+yarn.lock
+package-lock.json

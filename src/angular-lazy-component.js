@@ -32,7 +32,7 @@ class AngularLazyComponent extends BaseLazyComponent {
           $provide.factory('props', () => () => this.mergedProps);
           $compileProvider.directive('moduleRegistry', () => ({
             scope: {component: '@', props: '<'},
-            controller: ($scope, $element) => {
+            controller: ['$scope', '$element', ($scope, $element) => {
               const Component = ModuleRegistry.component($scope.component);
               $scope.$watch(() => $scope.props, () => {
                 render(
@@ -43,13 +43,13 @@ class AngularLazyComponent extends BaseLazyComponent {
               $scope.$on('$destroy', () => unmountComponentAtNode($element[0]));
               //super hack to prevent angular from preventing external route changes
               $element.on('click', e => e.preventDefault = () => delete e.preventDefault);
-            }
+            }]
           }));
           $compileProvider.directive('routerLink', () => ({
             transclude: true,
             scope: {to: '@'},
             template: '<a ng-href="{{to}}" ng-click="handleClick($event)"><ng-transclude></ng-transclude></a>',
-            controller: $scope => {
+            controller: ['$scope', $scope => {
               $scope.handleClick = event => {
                 if (event.ctrlKey || event.metaKey || event.shiftKey || event.which === 2 || event.button === 2) {
                   return;
@@ -58,7 +58,7 @@ class AngularLazyComponent extends BaseLazyComponent {
                   event.preventDefault();
                 }
               };
-            }
+            }]
           }));
         }]]);
         this.node.appendChild(this.$injector.get('$rootElement')[0]);
