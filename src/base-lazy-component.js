@@ -22,7 +22,7 @@ export default class BaseLazyComponent extends React.Component {
     this.resourceLoader = Promise.all([resolvePromise, filesAppenderPromise]).then(([resolvedData]) => {
       this.resolvedData = resolvedData;
       ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
-    });
+    }).catch(err => console.log(err));
   }
 
   componentWillUnmount() {
