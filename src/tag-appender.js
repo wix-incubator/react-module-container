@@ -67,7 +67,7 @@ function append(file) {
 export function filesAppender(files) {
   return Promise.all(files.map(file => {
     if (Array.isArray(file)) {
-      return file.reduce((promise, next) => promise.then(() => append(next)), Promise.resolve());
+      return file.reduce((promise, next) => promise.then(() => append(next), err => console.log(err)), Promise.resolve());
     } else {
       return append(file);
     }

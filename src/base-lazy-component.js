@@ -17,8 +17,8 @@ export default class BaseLazyComponent extends React.Component {
   componentWillMount() {
     ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
     const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
-    const filesAppenderPromise = filesAppender(this.manifest.files).then(prepare).catch(err => console.error(err));
-    const resolvePromise = this.manifest.resolve ? this.manifest.resolve().catch(err => console.error(err)) : Promise.resolve({});
+    const filesAppenderPromise = filesAppender(this.manifest.files).then(prepare, err => console.error(err));
+    const resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
     this.resourceLoader = Promise.all([resolvePromise, filesAppenderPromise]).then(([resolvedData]) => {
       this.resolvedData = resolvedData;
       ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
