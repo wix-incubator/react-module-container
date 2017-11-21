@@ -4,6 +4,21 @@ function noprotocol(url) {
   return url.replace(/^.*:\/\//, '//');
 }
 
+export function createLinkElement(url) {
+  const fileref = document.createElement('LINK');
+  fileref.setAttribute('rel', 'stylesheet');
+  fileref.setAttribute('type', 'text/css');
+  fileref.setAttribute('href', url);
+  return fileref;
+}
+
+export function createScriptElement(url) {
+  const fileref = document.createElement('SCRIPT');
+  fileref.setAttribute('type', 'text/javascript');
+  fileref.setAttribute('src', url);
+  return fileref;
+}
+
 export function tagAppender(url, filetype) {
   const styleSheets = document.styleSheets;
   return requireCache[url] = new Promise((resolve, reject) => {
@@ -15,17 +30,9 @@ export function tagAppender(url, filetype) {
       // return;
     }
 
-    let fileref;
-    if (filetype === 'css') {
-      fileref = document.createElement('LINK');
-      fileref.setAttribute('rel', 'stylesheet');
-      fileref.setAttribute('type', 'text/css');
-      fileref.setAttribute('href', url);
-    } else {
-      fileref = document.createElement('SCRIPT');
-      fileref.setAttribute('type', 'text/javascript');
-      fileref.setAttribute('src', url);
-    }
+    const fileref = (filetype === 'css') ?
+      createLinkElement(url) :
+      createScriptElement(url);
 
     let done = false;
     document.getElementsByTagName('head')[0].appendChild(fileref);
@@ -77,7 +84,7 @@ export function filesAppender(files) {
 const getStyleSheetLinks = document =>
   [...document.querySelectorAll('link')]
     .filter(link => link.rel === 'stylesheet' && link.href)
-    .reduce((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
+    .reduceRight((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
 
 const getStyleSheetUrls = files =>
   [].concat(...files).filter(file => file.endsWith('.css')).map(file => noprotocol(file));

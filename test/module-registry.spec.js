@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 import ModuleRegistry from '../src/module-registry';
 
-describe('Module Registry.', () => {
+describe('Module Registry', () => {
   beforeEach(() => {
     ModuleRegistry.cleanAll();
   });
