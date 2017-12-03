@@ -1,66 +1,88 @@
 const requireCache = {};
 
-function noprotocol(url) {
+function getUrlWithoutProtocol(url) {
   return url.replace(/^.*:\/\//, '//');
 }
 
+function createElement(type, attributes) {
+  const resourceTag = document.createElement(type);
+
+  Object.entries(attributes).forEach(([key, value]) => {
+    resourceTag.setAttribute(key, value);
+  });
+
+  return resourceTag;
+}
+
 export function createLinkElement(url) {
-  const fileref = document.createElement('LINK');
-  fileref.setAttribute('rel', 'stylesheet');
-  fileref.setAttribute('type', 'text/css');
-  fileref.setAttribute('href', url);
-  return fileref;
+  return createElement('link', {
+    rel: 'stylesheet',
+    type: 'text/css',
+    href: url
+  });
 }
 
 export function createScriptElement(url) {
-  const fileref = document.createElement('SCRIPT');
-  fileref.setAttribute('type', 'text/javascript');
-  fileref.setAttribute('src', url);
-  return fileref;
+  return createElement('script', {
+    type: 'text/javascript',
+    src: url
+  });
 }
 
-export function tagAppender(url, filetype) {
+export function appendTag(url, fileType) {
   const styleSheets = document.styleSheets;
+  const isCssResource = fileType === 'css';
+  const isJSResource = fileType === 'js';
+
   return requireCache[url] = new Promise((resolve, reject) => {
-    if (window.requirejs && filetype === 'js') {
-      window.requirejs([url], resolve, reject);
+    const requireJs = window.requirejs;
+    if (requireJs && isJSResource) {
+      requireJs([url], resolve, reject);
       return;
     } else if (url in requireCache) {
       // requireCache[url].then(resolve, reject);
       // return;
     }
 
-    const fileref = (filetype === 'css') ?
+    const resourceRef = isCssResource ?
       createLinkElement(url) :
       createScriptElement(url);
 
-    let done = false;
-    document.getElementsByTagName('head')[0].appendChild(fileref);
-    fileref.onerror = function () {
-      fileref.onerror = fileref.onload = fileref.onreadystatechange = null;
+    resourceRef.onerror = function () {
+      resourceRef.onerror = resourceRef.onload = resourceRef.onreadystatechange = null;
       delete requireCache[url];
       reject();
     };
-    fileref.onload = fileref.onreadystatechange = function () {
-      if (!done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
-        done = true;
-        fileref.onerror = fileref.onload = fileref.onreadystatechange = null;
+    resourceRef.onload = resourceRef.onreadystatechange = function () {
+      if (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
+        resourceRef.onerror = resourceRef.onload = resourceRef.onreadystatechange = null;
         resolve();
       }
     };
-    if (filetype === 'css' && navigator.userAgent.match(' Safari/') && !navigator.userAgent.match(' Chrom') && navigator.userAgent.match(' Version/5.')) {
+
+    document.getElementsByTagName('head')[0].appendChild(resourceRef);
+
+    const isSafariBrowser = navigator.userAgent.match(' Safari/');
+    const isChromeFamilyBrowser = navigator.userAgent.match(' Chrom');
+    const isOldVersionBrowser = navigator.userAgent.match(' Version/5.');
+
+    if (isCssResource && isSafariBrowser && !isChromeFamilyBrowser && isOldVersionBrowser) {
       let attempts = 20;
-      const interval = setInterval(() => {
+
+      const fileLoadedCheckIntervalId = setInterval(() => {
         for (let i = 0; i < styleSheets.length; i++) {
-          if (noprotocol(`${styleSheets[i].href}`) === noprotocol(url)) {
-            clearInterval(interval);
-            fileref.onload();
+          if (getUrlWithoutProtocol(styleSheets[i].href) === getUrlWithoutProtocol(url)) {
+            clearInterval(fileLoadedCheckIntervalId);
+            resourceRef.onload();
             return;
           }
         }
-        if (--attempts === 0) {
-          clearInterval(interval);
-          fileref.onerror();
+
+        attempts--;
+
+        if (attempts === 0) {
+          clearInterval(fileLoadedCheckIntervalId);
+          resourceRef.onerror();
         }
       }, 50);
     }
@@ -68,13 +90,19 @@ export function tagAppender(url, filetype) {
 }
 
 function append(file) {
-  return tagAppender(file, file.split('.').pop());
+  return appendTag(file, file.split('.').pop());
 }
 
 export function filesAppender(files) {
   return Promise.all(files.map(file => {
     if (Array.isArray(file)) {
-      return file.reduce((promise, next) => promise.then(() => append(next), err => console.log(err)), Promise.resolve());
+      return file.reduce(
+        (promise, next) => promise.then(
+          () => append(next),
+          err => console.log(err)
+        ),
+        Promise.resolve()
+      );
     } else {
       return append(file);
     }
@@ -84,15 +112,17 @@ export function filesAppender(files) {
 const getStyleSheetLinks = document =>
   [...document.querySelectorAll('link')]
     .filter(link => link.rel === 'stylesheet' && link.href)
-    .reduceRight((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
+    .reduceRight((acc, curr) => ({...acc, [getUrlWithoutProtocol(curr.href)]: curr}), {});
 
-const getStyleSheetUrls = files =>
-  [].concat(...files).filter(file => file.endsWith('.css')).map(file => noprotocol(file));
+const getStyleSheetUrls = urls =>
+  [...urls].filter(url => url.endsWith('.css')).map(file => getUrlWithoutProtocol(file));
 
 export function unloadStyles(document, files) {
-  const links = getStyleSheetLinks(document);
-  getStyleSheetUrls(files).forEach(file => {
-    const link = links[file];
+  const cssLinks = getStyleSheetLinks(document);
+  const urls = getStyleSheetUrls(files);
+
+  urls.forEach(url => {
+    const link = cssLinks[url];
     if (link) {
       link.parentNode.removeChild(link);
     }
