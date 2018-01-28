@@ -15,13 +15,13 @@ ModuleRegistry.registerComponent('hotels.Dashboard', () => ComponentClass);
 
 ### `component(uniqueName: string): Component`
 ```ts
-const ComponentClass = ModuleRegisry.component('hotels.Dashboard');
+const ComponentClass = ModuleRegistry.component('hotels.Dashboard');
 ```
 
 ## Events
 
 ### `addListener(eventName: string, callbackFn: Function): { remove: Function }`
-Adding listener return an object that contains `.remove()` method that will unsbiscribe from the event.
+Adding listener return an object that contains `.remove()` method that will unsubscribe from the event.
 ```ts
 const subscription = ModuleRegistry.addListener('core.SessionUpdate', function (session) {
   // consumer handles updated session here
