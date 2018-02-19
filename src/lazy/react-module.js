@@ -20,3 +20,13 @@ RealReactComp.propTypes = {
   customData: PropTypes.any
 };
 ModuleRegistry.registerComponent('MyApp3.RealReactComp', () => RealReactComp);
+
+const RealReactCompCrossOrigin = props => (
+  <div>
+    <div id="react-cross-origin">{props.value}</div>
+  </div>
+);
+RealReactCompCrossOrigin.propTypes = {
+  value: PropTypes.any
+};
+ModuleRegistry.registerComponent('MyApp6.RealReactCompCrossOrigin', () => RealReactCompCrossOrigin);

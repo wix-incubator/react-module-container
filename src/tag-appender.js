@@ -12,14 +12,17 @@ export function createLinkElement(url) {
   return fileref;
 }
 
-export function createScriptElement(url) {
+export function createScriptElement(url, crossorigin) {
   const fileref = document.createElement('SCRIPT');
   fileref.setAttribute('type', 'text/javascript');
   fileref.setAttribute('src', url);
+  if (crossorigin) {
+    fileref.setAttribute('crossorigin', 'anonymous');
+  }
   return fileref;
 }
 
-export function tagAppender(url, filetype) {
+export function tagAppender(url, filetype, crossorigin) {
   const styleSheets = document.styleSheets;
   return requireCache[url] = new Promise((resolve, reject) => {
     if (window.requirejs && filetype === 'js') {
@@ -32,7 +35,7 @@ export function tagAppender(url, filetype) {
 
     const fileref = (filetype === 'css') ?
       createLinkElement(url) :
-      createScriptElement(url);
+      createScriptElement(url, crossorigin);
 
     let done = false;
     document.getElementsByTagName('head')[0].appendChild(fileref);
@@ -67,16 +70,16 @@ export function tagAppender(url, filetype) {
   });
 }
 
-function append(file) {
-  return tagAppender(file, file.split('.').pop());
+function append(file, crossorigin) {
+  return tagAppender(file, file.split('.').pop(), crossorigin);
 }
 
-export function filesAppender(files) {
+export function filesAppender(files, crossorigin) {
   return Promise.all(files.map(file => {
     if (Array.isArray(file)) {
-      return file.reduce((promise, next) => promise.then(() => append(next), err => console.log(err)), Promise.resolve());
+      return file.reduce((promise, next) => promise.then(() => append(next, crossorigin), err => console.log(err)), Promise.resolve());
     } else {
-      return append(file);
+      return append(file, crossorigin);
     }
   }));
 }
