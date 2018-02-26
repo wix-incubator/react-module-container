@@ -86,6 +86,17 @@ describe('React application', () => {
     }));
   });
 
+  describe('manifest with crossorigin', () => {
+    it(`should load the component with the crossorigin attribute`, () => {
+      browser.get(`/rt-router-app6/`);
+      const lazyComponentScriptsWithCrossOrigin = $$('script')
+        .filter(element => element.getAttribute('src').then(value => value.endsWith('react-module.bundle.js')))
+        .filter(element => element.getAttribute('crossorigin').then(value => value !== null));
+
+      expect(lazyComponentScriptsWithCrossOrigin.count()).toBe(1);
+    });
+  });
+
   describe('unload styles on destroy', () => {
 
     const linksToModuleWithUnloadCss = {
