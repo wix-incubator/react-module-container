@@ -2,7 +2,7 @@
 
 ## Why?
 It's a small library that allows big things. 
-Its main purpose is to enable building large-scale application with lazy-loaded module based on either React or Angular.
+Its main purpose is to enable building large-scale application with lazy-loaded modules based on either React or Angular.
 
 ## Getting started or 4 simple steps to convert to lazy module
 ### Step 1: Add `react-module-container`
