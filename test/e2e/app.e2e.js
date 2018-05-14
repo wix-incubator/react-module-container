@@ -105,11 +105,6 @@ describe('React application', () => {
       false: 6
     };
 
-    const linksToReactModuleWithUnloadCss = {
-      notDefined: 8,
-      false: 9
-    };
-
     beforeEach(() => {
       browser.get('/');
     });
@@ -174,28 +169,6 @@ describe('React application', () => {
       ]);
       expect($('.demo-shared').getCssValue('background-color')).toBe('rgba(200, 200, 200, 1)');
       expect($('.demo-4').getCssValue('color')).toBe('rgba(4, 4, 4, 1)');
-    });
-
-    it('should unload css files specified inside react manifest', () => {
-      $$('.nav').get(linksToReactModuleWithUnloadCss.notDefined).click();
-      $$('.nav').get(linksToModuleWithUnloadCss.false).click();
-      expect(getStyleSheetHrefs()).toEqual([
-        'http://localhost:3200/demo.css',
-        'http://localhost:3200/demo-shared.css',
-        'http://localhost:3200/demo-5.css'
-      ]);
-    });
-
-    it('should not unload css files specified inside react manifest', () => {
-      $$('.nav').get(linksToReactModuleWithUnloadCss.false).click();
-      $$('.nav').get(linksToReactModuleWithUnloadCss.notDefined).click();
-      expect(getStyleSheetHrefs()).toEqual([
-        'http://localhost:3200/demo.css',
-        'http://localhost:3200/demo-shared.css',
-        'http://localhost:3200/demo-5.css',
-        'http://localhost:3200/demo-shared.css',
-        'http://localhost:3200/demo-4.css'
-      ]);
     });
 
     function getStyleSheetHrefs() {
