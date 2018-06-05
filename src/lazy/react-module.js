@@ -30,11 +30,3 @@ RealReactCompCrossOrigin.propTypes = {
   value: PropTypes.any
 };
 ModuleRegistry.registerComponent('MyApp6.RealReactCompCrossOrigin', () => RealReactCompCrossOrigin);
-
-const DemoReactComp = () => (
-  <div className="demo-shared">
-    <div className="demo-4">demo-4</div>
-    <div className="demo-5">demo-5</div>
-  </div>
-);
-ModuleRegistry.registerComponent('MyApp7.RealReactComp', () => DemoReactComp);
