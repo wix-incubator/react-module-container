@@ -124,33 +124,6 @@ export class MyNgApp5NoUnloadCss extends MyNgComp5 {
   }
 }
 
-export class MyReactComp7 extends ReactLazyComponent {
-  constructor(props) {
-    super(props, {
-      files: [
-        `${props.topology.staticsUrl}react-module.bundle.js`,
-        `${props.topology.baseUrl}demo-shared.css`,
-        `${props.topology.baseUrl}demo-4.css`
-      ],
-      component: 'MyApp7.RealReactComp'
-    });
-  }
-}
-
-export class MyReactComp8 extends ReactLazyComponent {
-  constructor(props) {
-    super(props, {
-      files: [
-        `${props.topology.staticsUrl}react-module.bundle.js`,
-        `${props.topology.baseUrl}demo-shared.css`,
-        `${props.topology.baseUrl}demo-5.css`
-      ],
-      component: 'MyApp7.RealReactComp',
-      unloadStylesOnDestroy: false
-    });
-  }
-}
-
 ModuleRegistry.registerComponent('MyApp.MyNgComp', () => MyNgComp);
 ModuleRegistry.registerComponent('MyApp2.MyNgComp', () => MyNgComp2);
 ModuleRegistry.registerComponent('MyApp3.MyReactComp', () => MyReactComp);
@@ -159,5 +132,3 @@ ModuleRegistry.registerComponent('MyApp4.MyNgComp', () => MyNgComp4);
 ModuleRegistry.registerComponent('MyApp5.MyNgComp', () => MyNgComp5);
 ModuleRegistry.registerComponent('MyApp5NoUnloadCss.MyNgComp', () => MyNgApp5NoUnloadCss);
 ModuleRegistry.registerComponent('MyApp6.MyReactCompCrossOrigin', () => MyReactCompCrossOrigin);
-ModuleRegistry.registerComponent('MyApp7.MyReactComp', () => MyReactComp7);
-ModuleRegistry.registerComponent('MyApp8.MyReactComp', () => MyReactComp8);

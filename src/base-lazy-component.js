@@ -1,6 +1,6 @@
 import React from 'react';
 import ModuleRegistry from './module-registry';
-import {filesAppender, unloadStyles} from './tag-appender';
+import {filesAppender} from './tag-appender';
 import assign from 'lodash/assign';
 
 export default class BaseLazyComponent extends React.Component {
@@ -26,9 +26,6 @@ export default class BaseLazyComponent extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.manifest.unloadStylesOnDestroy !== false) {
-      unloadStyles(document, this.manifest.files);
-    }
     ModuleRegistry.notifyListeners('reactModuleContainer.componentWillUnmount', this.manifest.component);
   }
 }

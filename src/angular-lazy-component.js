@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
+import {unloadStyles} from './tag-appender';
 import ModuleRegistry from './module-registry';
 import BaseLazyComponent from './base-lazy-component';
 
@@ -70,6 +71,9 @@ class AngularLazyComponent extends BaseLazyComponent {
     if (this.$injector) {
       this.$injector.get('$rootScope').$destroy();
       this.$injector = null;
+    }
+    if (this.manifest.unloadStylesOnDestroy !== false) {
+      unloadStyles(document, this.manifest.files);
     }
     super.componentWillUnmount();
   }
