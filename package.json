@@ -10,13 +10,13 @@
     "url": ""
   },
   "scripts": {
-    "start": "haste start --entry-point=./dist/test/mock/fake-server.js",
+    "start": "yoshi start --entry-point=./dist/test/mock/fake-server.js",
     "build": ":",
-    "precommit": "haste lint",
-    "pretest": "haste build",
-    "test": "haste test",
-    "posttest": "haste lint",
-    "release": "haste release"
+    "precommit": "yoshi lint",
+    "pretest": "yoshi build",
+    "test": "yoshi test",
+    "posttest": "yoshi lint",
+    "release": "yoshi release"
   },
   "files": [
     "dist"
@@ -54,7 +54,7 @@
     "redux": "^3.6.0",
     "sinon": "^2.4.0",
     "sinon-chai": "^2.12.0",
-    "haste-preset-yoshi": "latest"
+    "yoshi": "^1.2.0"
   },
   "babel": {
     "presets": [
@@ -68,8 +68,5 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.0",
     "react-dom": "^15.3.2"
-  },
-  "haste": {
-    "preset": "yoshi"
   }
 }
