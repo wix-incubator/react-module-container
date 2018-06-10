@@ -1,4 +1,4 @@
-# Welcome to React Module Container
+# ![](assets/module_container_github.svg)
 
 ## Why?
 It's a small library that allows big things. 
