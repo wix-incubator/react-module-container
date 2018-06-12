@@ -66,3 +66,9 @@ class App extends React.Component {
 * `npm install`
 * `npm start`
 * `http://localhost:3200`
+
+## License
+
+The MIT License.
+
+See [LICENSE](LICENSE)
