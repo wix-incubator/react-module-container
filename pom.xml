@@ -22,6 +22,14 @@
                 <role>owner</role>
             </roles>
         </developer>
+        <developer>
+            <name>Sergey Bolshchikov</name>
+            <email>sergeyb@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+
     </developers>
     <parent>
         <groupId>com.wixpress.common</groupId>
