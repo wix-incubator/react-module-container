@@ -2,14 +2,21 @@ import 'mocha';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import * as recompose from 'recompose';
 
 chai.use(sinonChai);
 
 import ModuleRegistry from '../src/module-registry';
 
 describe('Module Registry', () => {
+  const sandbox = sinon.sandbox.create();
+
   beforeEach(() => {
     ModuleRegistry.cleanAll();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('should be able to register a module', () => {
@@ -63,6 +70,21 @@ describe('Module Registry', () => {
     ModuleRegistry.registerComponent('GLOBAL_ID', component);
     const resultComponent = ModuleRegistry.component('GLOBAL_ID');
     expect(resultComponent).to.eq('<div>FAKE_COMPONENT</div>');
+  });
+
+  it('should be able to register a component with defaultProps', () => {
+    const componentName = 'GLOBAL_ID';
+    const Component = () => null;
+    const FakeWrappedComponent = () => null;
+    const props = {someProps: 'somePropValue'};
+
+    const hocStub = sandbox.stub();
+    hocStub.withArgs(Component).returns(FakeWrappedComponent);
+    sandbox.stub(recompose, 'defaultProps').withArgs(props).returns(hocStub);
+
+    ModuleRegistry.registerComponentWithDefaultProps(componentName, Component, props);
+
+    expect(ModuleRegistry.component(componentName)).to.equal(FakeWrappedComponent);
   });
 
   it('should notify all event listeners', () => {

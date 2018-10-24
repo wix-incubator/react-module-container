@@ -2,6 +2,7 @@ import set from 'lodash/set';
 import unset from 'lodash/unset';
 import forEach from 'lodash/forEach';
 import uniqueId from 'lodash/uniqueId';
+import {defaultProps} from 'recompose';
 
 class ModuleRegistry {
   constructor() {
@@ -36,6 +37,11 @@ class ModuleRegistry {
 
   registerComponent(globalID, generator) {
     this.registeredComponents[globalID] = generator;
+  }
+
+  registerComponentWithDefaultProps(componentName, Component, props) {
+    const withDefaultProps = defaultProps(props);
+    this.registerComponent(componentName, () => withDefaultProps(Component));
   }
 
   component(globalID) {
