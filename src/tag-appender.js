@@ -42,7 +42,7 @@ export function tagAppender(url, filetype, crossorigin) {
     fileref.onerror = function () {
       fileref.onerror = fileref.onload = fileref.onreadystatechange = null;
       delete requireCache[url];
-      reject();
+      reject(url);
     };
     fileref.onload = fileref.onreadystatechange = function () {
       if (!done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
@@ -74,12 +74,28 @@ function append(file, crossorigin) {
   return tagAppender(file, file.split('.').pop(), crossorigin);
 }
 
-export function filesAppender(files, crossorigin) {
-  return Promise.all(files.map(file => {
-    if (Array.isArray(file)) {
-      return file.reduce((promise, next) => promise.then(() => append(next, crossorigin), err => console.log(err)), Promise.resolve());
+function onCatch(err, optional) {
+  console.error('filesAppender failed to load ' + err);
+  return optional ? Promise.resolve() : Promise.reject(err);
+}
+
+function appendEntry(entry, crossorigin) {
+  if (typeof entry === 'object') {
+    const {optional, url} = entry;
+    return append(url, crossorigin).catch(err => onCatch(err, optional));
+  } else {
+    return append(entry, crossorigin).catch(err => onCatch(err));
+  }
+}
+
+export function filesAppender(entries, crossorigin) {
+  return Promise.all(entries.map(entry => {
+    if (Array.isArray(entry)) {
+      return entry.reduce(
+        (promise, entry) => promise.then(() => appendEntry(entry, crossorigin)),
+        Promise.resolve());
     } else {
-      return append(file, crossorigin);
+      return appendEntry(entry, crossorigin);
     }
   }));
 }
