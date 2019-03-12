@@ -20,7 +20,9 @@ ModuleRegistry.registerComponent('Prefix.componentName', () => MyNgComp);
 ## Manifest
 
 ### Fields:
-* `files`: Array of url strings and sub arrays of url strings.  
+* `files`: Array of `file entry` and sub arrays of `file entry`.
+* `file entry` url string or object of type { url : string, optional: boolean }, when optional set to `true` the component will keep loading even when that resource failed to load, by default `false`. 
+
 Every **url string** in the main array will be **loaded independently**.  
 Using a **sub array** allows to **serialize** the download of its items.  
 * `resolve`(optional): A function (`() => Promise<object>`) to fetch data **before** bootstrap and **in parallel** of downloading the `files`.
