@@ -10,14 +10,13 @@ export default function ReactLoadableComponent(name, resolve) {
 
     componentDidMount() {
       this.resourceLoader.then(() => {
-        this.setState({component: this.resolvedData.default});
+        const component = this.resolvedData.default;
+        this.setState({component});
       });
     }
 
     render() {
-      return this.state.component ? (
-        <this.state.component {...this.props} />
-      ) : null;
+      return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
     }
   };
 }
