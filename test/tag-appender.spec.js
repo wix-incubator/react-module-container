@@ -27,6 +27,22 @@ describe('tag appender', () => {
     expect(document.getElementsByTagName('link')[0]).to.equal(css2);
   });
 
+  it('should unload css for files with optional flag', () => {
+    const cssUrl = 'http://example.com/test.css';
+    const jsUrl = 'http://example.com/test.js';
+
+    const headElement = document.getElementsByTagName('head')[0];
+    headElement.appendChild(createLinkElement(cssUrl));
+    headElement.appendChild(createLinkElement(jsUrl));
+
+    const link1 = { url: cssUrl, optional: true };
+    const link2 = { url: jsUrl, optional: true };
+
+    unloadStyles(document, [link1, link2]);
+
+    expect(document.getElementsByTagName('link').length).to.equal(1);
+  });
+
   it('filesAppender should set optional flag to false by default', done => {
     const link1 = {url: 'http://123.js/'};
     const link2 = {url: 'http://456.js/'};
