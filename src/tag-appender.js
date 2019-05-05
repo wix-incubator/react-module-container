@@ -110,8 +110,8 @@ const toUrlString = file => typeof file === 'object' ? file.url : file;
 const getStyleSheetUrls = files =>
   [].concat(...files)
     .map(toUrlString)
-    .filter(file => file.endsWith('.css'))
-    .map(file => noprotocol(file));
+    .filter(url => url.endsWith('.css'))
+    .map(noprotocol);
 
 export function unloadStyles(document, files) {
   const links = getStyleSheetLinks(document);

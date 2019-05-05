@@ -35,8 +35,8 @@ describe('tag appender', () => {
     headElement.appendChild(createLinkElement(cssUrl));
     headElement.appendChild(createLinkElement(jsUrl));
 
-    const link1 = { url: cssUrl, optional: true };
-    const link2 = { url: jsUrl, optional: true };
+    const link1 = {url: cssUrl, optional: true};
+    const link2 = {url: jsUrl, optional: true};
 
     unloadStyles(document, [link1, link2]);
 
