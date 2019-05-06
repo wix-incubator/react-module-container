@@ -105,8 +105,13 @@ const getStyleSheetLinks = document =>
     .filter(link => link.rel === 'stylesheet' && link.href)
     .reduceRight((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
 
+const toUrlString = file => typeof file === 'object' ? file.url : file;
+
 const getStyleSheetUrls = files =>
-  [].concat(...files).filter(file => file.endsWith('.css')).map(file => noprotocol(file));
+  [].concat(...files)
+    .map(toUrlString)
+    .filter(url => url.endsWith('.css'))
+    .map(noprotocol);
 
 export function unloadStyles(document, files) {
   const links = getStyleSheetLinks(document);
