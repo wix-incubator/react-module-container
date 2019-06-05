@@ -115,7 +115,9 @@ describe('Module Registry', () => {
     it('should be fired when a listener callback throws an error', () => {
       const someRegisteredMethod = 'someRegisteredMethod';
       const error = new Error();
-      ModuleRegistry.addListener(someRegisteredMethod, () => {throw error});
+      ModuleRegistry.addListener(someRegisteredMethod, () => {
+        throw error;
+      });
       ModuleRegistry.notifyListeners(someRegisteredMethod);
       expect(reactModuleContainerErrorCallback).calledOnce;
       expect(reactModuleContainerErrorCallback).calledWithMatch({type: 'ListenerCallbackError', error});
