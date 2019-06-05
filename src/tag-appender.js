@@ -1,3 +1,5 @@
+import ModuleRegistry from './module-registry';
+
 const requireCache = {};
 
 function noprotocol(url) {
@@ -75,7 +77,11 @@ function append(file, crossorigin) {
 }
 
 function onCatch(err, optional = false) {
-  console.error('filesAppender failed to load ' + err);
+  ModuleRegistry.notifyListeners('ReactModuleContainerError', {
+    type: 'FileAppenderLoadFailed',
+    text: 'FilesAppender failed to load file',
+    error: err
+  });
   return optional ? Promise.resolve() : Promise.reject(err);
 }
 

@@ -68,5 +68,6 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.0",
     "react-dom": "^15.3.2"
-  }
+  },
+  "types": "types.d.ts"
 }

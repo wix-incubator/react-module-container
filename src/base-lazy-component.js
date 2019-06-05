@@ -23,8 +23,11 @@ export default class BaseLazyComponent extends React.Component {
       this.resolvedData = resolvedData;
       ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
     }).catch(err => {
-      console.error(err);
-      ModuleRegistry.notifyListeners('reactModuleContainer.componentError', this.manifest.component, err);
+      this.notifyListeners('ReactModuleContainerError', {
+        type: 'LazyComponentLoadingError',
+        text: `Error loading moduleRegistry lazy component ${this.manifest.component}`,
+        error: err
+      });
     });
   }
 

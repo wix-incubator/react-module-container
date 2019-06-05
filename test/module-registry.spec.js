@@ -88,4 +88,37 @@ describe('Module Registry', () => {
     expect(ModuleRegistry.component('GLOBAL_ID')).to.be.undefined;
     expect(ModuleRegistry.invoke('GLOBAL_ID')).to.be.undefined;
   });
+
+  describe('ReactModuleContainerError', () => {
+    let reactModuleContainerErrorCallback;
+
+    beforeEach(() => {
+      reactModuleContainerErrorCallback = sinon.stub();
+      ModuleRegistry.addListener('ReactModuleContainerError', reactModuleContainerErrorCallback);
+    });
+
+    it('should be fired when trying to invoke an unregistered method', () => {
+      const unregisteredMethodName = 'unregistered-method';
+      const result = ModuleRegistry.invoke(unregisteredMethodName);
+      expect(reactModuleContainerErrorCallback).calledOnce;
+      expect(reactModuleContainerErrorCallback).calledWithMatch({type: 'UnregisteredMethodInvoked'});
+      expect(result).to.eq(undefined);
+    });
+
+    it('should be fired when trying to use an unregistered component', () => {
+      const resultComponent = ModuleRegistry.component('GLOBAL_ID');
+      expect(reactModuleContainerErrorCallback).calledOnce;
+      expect(reactModuleContainerErrorCallback).calledWithMatch({type: 'UnregisteredComponentUsed'});
+      expect(resultComponent).to.eq(undefined);
+    });
+
+    it('should be fired when a listener callback throws an error', () => {
+      const someRegisteredMethod = 'someRegisteredMethod';
+      const error = new Error();
+      ModuleRegistry.addListener(someRegisteredMethod, () => {throw error});
+      ModuleRegistry.notifyListeners(someRegisteredMethod);
+      expect(reactModuleContainerErrorCallback).calledOnce;
+      expect(reactModuleContainerErrorCallback).calledWithMatch({type: 'ListenerCallbackError', error});
+    });
+  });
 });

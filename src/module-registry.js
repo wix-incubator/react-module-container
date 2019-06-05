@@ -41,7 +41,10 @@ class ModuleRegistry {
   component(globalID) {
     const generator = this.registeredComponents[globalID];
     if (!generator) {
-      console.error(`ModuleRegistry.component ${globalID} used but not yet registered`);
+      this.notifyListeners('ReactModuleContainerError', {
+        type: 'UnregisteredComponentUsed',
+        text: `ModuleRegistry.component ${globalID} used but not yet registered`
+      });
       return undefined;
     }
     return generator();
@@ -60,7 +63,7 @@ class ModuleRegistry {
     if (!listenerCallbacks) {
       return;
     }
-    forEach(listenerCallbacks, callback => invokeSafely(callback, args));
+    forEach(listenerCallbacks, callback => invokeSafely(globalID, callback, args));
   }
 
   registerMethod(globalID, generator) {
@@ -70,7 +73,10 @@ class ModuleRegistry {
   invoke(globalID, ...args) {
     const generator = this.registeredMethods[globalID];
     if (!generator) {
-      console.error(`ModuleRegistry.invoke ${globalID} used but not yet registered`);
+      this.notifyListeners('ReactModuleContainerError', {
+        type: 'UnregisteredMethodInvoked',
+        text: `ModuleRegistry.invoke ${globalID} used but not yet registered`
+      });
       return undefined;
     }
     const method = generator();
@@ -87,10 +93,14 @@ if (typeof window !== 'undefined') {
 }
 export default singleton;
 
-function invokeSafely(callback, args) {
+function invokeSafely(globalID, callback, args) {
   try {
     callback(...args);
   } catch (err) {
-    console.error(err);
+    singleton.notifyListeners('ReactModuleContainerError', {
+      type: 'ListenerCallbackError',
+      text: `Error in listener callback of module registry method: ${globalID}`,
+      error: err
+    });
   }
 }
