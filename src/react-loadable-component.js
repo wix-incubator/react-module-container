@@ -10,7 +10,7 @@ export default function ReactLoadableComponent(name, resolve) {
 
     componentDidMount() {
       this.resourceLoader.then(() => {
-        const component = this.resolvedData.default;
+        const component = this.resolvedData.default || this.resolvedData;
         this.setState({component});
       });
     }
