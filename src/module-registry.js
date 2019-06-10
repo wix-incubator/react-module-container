@@ -2,6 +2,7 @@ import set from 'lodash/set';
 import unset from 'lodash/unset';
 import forEach from 'lodash/forEach';
 import uniqueId from 'lodash/uniqueId';
+import { UnregisteredMethodInvokedError } from "./ReactModuleContainerErrors";
 
 class ModuleRegistry {
   constructor() {
@@ -73,10 +74,7 @@ class ModuleRegistry {
   invoke(globalID, ...args) {
     const generator = this.registeredMethods[globalID];
     if (!generator) {
-      this.notifyListeners('reactModuleContainer.error', {
-        type: 'UnregisteredMethodInvoked',
-        text: `ModuleRegistry.invoke ${globalID} used but not yet registered`
-      });
+      this.notifyListeners('reactModuleContainer.error', new UnregisteredMethodInvokedError(globalID));
       return undefined;
     }
     const method = generator();
