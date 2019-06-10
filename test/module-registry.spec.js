@@ -1,11 +1,12 @@
 import 'mocha';
-import chai, {expect} from 'chai';
+import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
 chai.use(sinonChai);
 
 import ModuleRegistry from '../src/module-registry';
+import { UnregisteredMethodInvokedError } from "../src/ReactModuleContainerErrors";
 
 describe('Module Registry', () => {
   beforeEach(() => {
@@ -101,7 +102,13 @@ describe('Module Registry', () => {
       const unregisteredMethodName = 'unregistered-method';
       const result = ModuleRegistry.invoke(unregisteredMethodName);
       expect(reactModuleContainerErrorCallback).calledOnce;
-      expect(reactModuleContainerErrorCallback).calledWithMatch({type: 'UnregisteredMethodInvoked'});
+      const errorCallbackArg = reactModuleContainerErrorCallback.getCall(0).args[0];
+
+      expect(errorCallbackArg).to.be.an.instanceof(UnregisteredMethodInvokedError);
+      expect(errorCallbackArg).to.deep.equal({
+        name: 'UnregisteredMethodInvoked',
+        message: `ModuleRegistry.invoke ${unregisteredMethodName} used but not yet registered`
+      });
       expect(result).to.eq(undefined);
     });
 
