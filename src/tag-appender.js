@@ -77,7 +77,7 @@ function append(file, crossorigin) {
 }
 
 function onCatch(err, optional = false) {
-  ModuleRegistry.notifyListeners('ReactModuleContainerError', {
+  ModuleRegistry.notifyListeners('reactModuleContainer.error', {
     type: 'FileAppenderLoadFailed',
     text: 'FilesAppender failed to load file',
     error: err

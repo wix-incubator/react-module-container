@@ -41,7 +41,7 @@ class ModuleRegistry {
   component(globalID) {
     const generator = this.registeredComponents[globalID];
     if (!generator) {
-      this.notifyListeners('ReactModuleContainerError', {
+      this.notifyListeners('reactModuleContainer.error', {
         type: 'UnregisteredComponentUsed',
         text: `ModuleRegistry.component ${globalID} used but not yet registered`
       });
@@ -73,7 +73,7 @@ class ModuleRegistry {
   invoke(globalID, ...args) {
     const generator = this.registeredMethods[globalID];
     if (!generator) {
-      this.notifyListeners('ReactModuleContainerError', {
+      this.notifyListeners('reactModuleContainer.error', {
         type: 'UnregisteredMethodInvoked',
         text: `ModuleRegistry.invoke ${globalID} used but not yet registered`
       });
@@ -97,7 +97,7 @@ function invokeSafely(globalID, callback, args) {
   try {
     callback(...args);
   } catch (err) {
-    singleton.notifyListeners('ReactModuleContainerError', {
+    singleton.notifyListeners('reactModuleContainer.error', {
       type: 'ListenerCallbackError',
       text: `Error in listener callback of module registry method: ${globalID}`,
       error: err

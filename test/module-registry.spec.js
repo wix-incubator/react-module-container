@@ -94,7 +94,7 @@ describe('Module Registry', () => {
 
     beforeEach(() => {
       reactModuleContainerErrorCallback = sinon.stub();
-      ModuleRegistry.addListener('ReactModuleContainerError', reactModuleContainerErrorCallback);
+      ModuleRegistry.addListener('reactModuleContainer.error', reactModuleContainerErrorCallback);
     });
 
     it('should be fired when trying to invoke an unregistered method', () => {
