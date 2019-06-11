@@ -2,7 +2,10 @@ import set from 'lodash/set';
 import unset from 'lodash/unset';
 import forEach from 'lodash/forEach';
 import uniqueId from 'lodash/uniqueId';
-import { UnregisteredMethodInvokedError } from "./ReactModuleContainerErrors";
+import {
+  ListenerCallbackError, UnregisteredComponentUsedError,
+  UnregisteredMethodInvokedError
+} from './ReactModuleContainerErrors';
 
 class ModuleRegistry {
   constructor() {
@@ -42,10 +45,7 @@ class ModuleRegistry {
   component(globalID) {
     const generator = this.registeredComponents[globalID];
     if (!generator) {
-      this.notifyListeners('reactModuleContainer.error', {
-        type: 'UnregisteredComponentUsed',
-        text: `ModuleRegistry.component ${globalID} used but not yet registered`
-      });
+      this.notifyListeners('reactModuleContainer.error', new UnregisteredComponentUsedError(globalID));
       return undefined;
     }
     return generator();
@@ -95,10 +95,6 @@ function invokeSafely(globalID, callback, args) {
   try {
     callback(...args);
   } catch (err) {
-    singleton.notifyListeners('reactModuleContainer.error', {
-      type: 'ListenerCallbackError',
-      text: `Error in listener callback of module registry method: ${globalID}`,
-      error: err
-    });
+    singleton.notifyListeners('reactModuleContainer.error', new ListenerCallbackError(globalID, err));
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import ModuleRegistry from './module-registry';
 import {filesAppender, unloadStyles} from './tag-appender';
 import assign from 'lodash/assign';
+import {LazyComponentLoadingError} from './ReactModuleContainerErrors';
 
 export default class BaseLazyComponent extends React.Component {
 
@@ -23,11 +24,7 @@ export default class BaseLazyComponent extends React.Component {
       this.resolvedData = resolvedData;
       ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
     }).catch(err => {
-      this.notifyListeners('reactModuleContainer.error', {
-        type: 'LazyComponentLoadingError',
-        text: `Error loading moduleRegistry lazy component ${this.manifest.component}`,
-        error: err
-      });
+      this.notifyListeners('reactModuleContainer.error', new LazyComponentLoadingError(this.manifest.component, err));
     });
   }
 

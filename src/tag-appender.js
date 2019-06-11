@@ -1,4 +1,5 @@
 import ModuleRegistry from './module-registry';
+import {FileAppenderLoadError} from './ReactModuleContainerErrors';
 
 const requireCache = {};
 
@@ -77,11 +78,7 @@ function append(file, crossorigin) {
 }
 
 function onCatch(err, optional = false) {
-  ModuleRegistry.notifyListeners('reactModuleContainer.error', {
-    type: 'FileAppenderLoadFailed',
-    text: 'FilesAppender failed to load file',
-    error: err
-  });
+  ModuleRegistry.notifyListeners('reactModuleContainer.error', new FileAppenderLoadError(err));
   return optional ? Promise.resolve() : Promise.reject(err);
 }
 
