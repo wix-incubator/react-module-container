@@ -34,10 +34,8 @@ export class ListenerCallbackError extends ReactModuleContainerError {
 export class LazyComponentLoadingError extends ReactModuleContainerError {
   constructor(component, error) {
     super(`Error loading moduleRegistry lazy component ${component}`);
-    if (error instanceof Error) {
-      this.stack = this.stack + error.stack;
-      this.originalError = error;
-    }
+    this.stack = this.stack + error.stack;
+    this.originalError = error;
   }
 }
 
