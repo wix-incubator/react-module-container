@@ -1,11 +1,3 @@
-export const ReactModuleContainerErrorNames = {
-  LazyComponentLoadingError: 'LazyComponentLoadingError',
-  FileAppenderLoadError: 'FileAppenderLoadError',
-  UnregisteredComponentUsedError: 'UnregisteredComponentUsedError',
-  UnregisteredMethodInvokedError: 'UnregisteredMethodInvokedError',
-  ListenerCallbackError: 'ListenerCallbackError'
-};
-
 export class ReactModuleContainerError extends Error {
   constructor(message) {
     super(message);
@@ -35,19 +27,22 @@ export class ListenerCallbackError extends ReactModuleContainerError {
   constructor(methodName, error) {
     super(`Error in listener callback of module registry method: ${methodName}`);
     this.stack = this.stack + error.stack;
+    this.originalError = error;
   }
 }
 
 export class LazyComponentLoadingError extends ReactModuleContainerError {
   constructor(component, error) {
     super(`Error loading moduleRegistry lazy component ${component}`);
-    this.stack = this.stack + error.stack;
+    if (error instanceof Error) {
+      this.stack = this.stack + error.stack;
+      this.originalError = error;
+    }
   }
 }
 
 export class FileAppenderLoadError extends ReactModuleContainerError {
-  constructor(error) {
-    super('FilesAppender failed to load file');
-    this.stack = this.stack + error.stack;
+  constructor(fileUrl) {
+    super(`FilesAppender failed to load file ${fileUrl}`);
   }
 }
