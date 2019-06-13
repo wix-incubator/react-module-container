@@ -6,6 +6,10 @@ import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
 import ModuleRegistry from '../src/module-registry';
+import {
+  ListenerCallbackError, UnregisteredComponentUsedError,
+  UnregisteredMethodInvokedError
+} from '../src/ReactModuleContainerErrors';
 
 describe('Module Registry', () => {
   beforeEach(() => {
@@ -87,5 +91,53 @@ describe('Module Registry', () => {
     expect(ModuleRegistry.notifyListeners('GLOBAL_ID')).to.be.undefined;
     expect(ModuleRegistry.component('GLOBAL_ID')).to.be.undefined;
     expect(ModuleRegistry.invoke('GLOBAL_ID')).to.be.undefined;
+  });
+
+  describe('ReactModuleContainerError', () => {
+    let reactModuleContainerErrorCallback;
+
+    beforeEach(() => {
+      reactModuleContainerErrorCallback = sinon.stub();
+      ModuleRegistry.addListener('reactModuleContainer.error', reactModuleContainerErrorCallback);
+    });
+
+    it('should be fired when trying to invoke an unregistered method', () => {
+      const unregisteredMethodName = 'unregistered-method';
+      const result = ModuleRegistry.invoke(unregisteredMethodName);
+      expect(reactModuleContainerErrorCallback).calledOnce;
+
+      const errorCallbackArg = reactModuleContainerErrorCallback.getCall(0).args[0];
+
+      expect(errorCallbackArg).to.be.an.instanceof(UnregisteredMethodInvokedError);
+      expect(errorCallbackArg.message).to.eq(`ModuleRegistry.invoke ${unregisteredMethodName} used but not yet registered`);
+
+      expect(result).to.eq(undefined);
+    });
+
+    it('should be fired when trying to use an unregistered component', () => {
+      const componentId = 'component-id';
+      const resultComponent = ModuleRegistry.component(componentId);
+      expect(reactModuleContainerErrorCallback).calledOnce;
+
+      const errorCallbackArg = reactModuleContainerErrorCallback.getCall(0).args[0];
+
+      expect(errorCallbackArg).to.be.an.instanceof(UnregisteredComponentUsedError);
+      expect(errorCallbackArg.message).to.eq(`ModuleRegistry.component ${componentId} used but not yet registered`);
+
+      expect(resultComponent).to.eq(undefined);
+    });
+
+    it('should be fired when a listener callback throws an error', () => {
+      const someRegisteredMethod = 'someRegisteredMethod';
+      const error = new Error();
+      ModuleRegistry.addListener(someRegisteredMethod, () => {
+        throw error;
+      });
+      ModuleRegistry.notifyListeners(someRegisteredMethod);
+
+      const errorCallbackArg = reactModuleContainerErrorCallback.getCall(0).args[0];
+      expect(errorCallbackArg).to.be.an.instanceof(ListenerCallbackError);
+      expect(errorCallbackArg.message).to.eq(`Error in listener callback of module registry method: ${someRegisteredMethod}`);
+    });
   });
 });

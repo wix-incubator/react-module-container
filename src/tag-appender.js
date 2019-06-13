@@ -1,3 +1,6 @@
+import ModuleRegistry from './module-registry';
+import {FileAppenderLoadError} from './ReactModuleContainerErrors';
+
 const requireCache = {};
 
 function noprotocol(url) {
@@ -42,7 +45,8 @@ export function tagAppender(url, filetype, crossorigin) {
     fileref.onerror = function () {
       fileref.onerror = fileref.onload = fileref.onreadystatechange = null;
       delete requireCache[url];
-      reject(url);
+      ModuleRegistry.notifyListeners('reactModuleContainer.error', new FileAppenderLoadError(url));
+      reject(new Error(`Could not load URL ${url}`));
     };
     fileref.onload = fileref.onreadystatechange = function () {
       if (!done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
@@ -74,9 +78,8 @@ function append(file, crossorigin) {
   return tagAppender(file, file.split('.').pop(), crossorigin);
 }
 
-function onCatch(err, optional = false) {
-  console.error('filesAppender failed to load ' + err);
-  return optional ? Promise.resolve() : Promise.reject(err);
+function onCatch(error, optional = false) {
+  return optional ? Promise.resolve() : Promise.reject(error);
 }
 
 function appendEntry(entry, crossorigin) {
