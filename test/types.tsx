@@ -22,12 +22,15 @@ ModuleRegistry.registerModule('module', Module, ['s']);
 // ModuleRegistry.registerModule('module', Module, ['x', 'y', 'z']);
 // ModuleRegistry.registerModule('module', plainObject);
 
-export const module: Module = ModuleRegistry.getModule('module');
-module.init();
+export const module = ModuleRegistry.getModule<Module>('module');
+if (module) {
+  module.init();
+}
 
 // Should fail
 // export const SomeModule = ModuleRegistry.getModule('module');
 // new SomeModule();
+// module.init();
 
 export const modules: Module[] = ModuleRegistry.getAllModules();
 
@@ -53,22 +56,29 @@ ModuleRegistry.registerComponent('loadable-component', () =>
 //   ),
 // );
 
-const SomeReactLazyComponent: typeof ReactLazyComponent = ModuleRegistry.component('some-component');
+const SomeReactLazyComponent: typeof ReactLazyComponent | undefined = ModuleRegistry.component('some-component');
 
-if (SomeReactLazyComponent.prefetch) {
+if (SomeReactLazyComponent && SomeReactLazyComponent.prefetch) {
   SomeReactLazyComponent.prefetch();
+
 }
-export const someReactLazyElement = <SomeReactLazyComponent someProp="someProp" />;
+export const someReactLazyElement = SomeReactLazyComponent ? <SomeReactLazyComponent someProp="someProp" /> : null;
 
-const SomeAngularLazyComponent: typeof AngularLazyComponent = ModuleRegistry.component('some-component');
-export const someAngularLazyElement = <SomeAngularLazyComponent/>;
 
-const SomeReactComponent: React.ComponentType = ModuleRegistry.component('some-component');
-export const someElement = <SomeReactComponent/>;
+const SomeAngularLazyComponent: typeof AngularLazyComponent | undefined = ModuleRegistry.component('some-component');
+export const someAngularLazyElement = SomeAngularLazyComponent ? <SomeAngularLazyComponent/> : null;
 
-const SomeFunctionComponent: React.FunctionComponent<{ someProps: string }> = ModuleRegistry.component<{ someProps: string }>('some-component');
-export const someFunctionElement = <SomeFunctionComponent someProps="someProp"/>;
+const SomeReactComponent: React.ComponentType | undefined = ModuleRegistry.component('some-component');
+export const someElement = SomeReactComponent ? <SomeReactComponent/> : null;
 
+const SomeFunctionComponent: React.FunctionComponent<{ someProps: string }> | undefined = ModuleRegistry.component<{ someProps: string }>('some-component');
+export const someFunctionElement = SomeFunctionComponent ? <SomeFunctionComponent someProps="someProp"/> : null;
+
+// Should fail
+// export const someOtherReactLazyElement = <SomeReactLazyComponent someProp="someProp" />
+// export const someOtherAngularLazyElement = <SomeAngularLazyComponent/>;
+// export const someOtherElement = <SomeReactComponent/>;
+// export const someOtherFunctionElement = <SomeFunctionComponent someProps="someProp"/>;
 
 const listener = ModuleRegistry.addListener('some-event', (a, b) => {
   return a + b;
@@ -85,6 +95,12 @@ ModuleRegistry.registerMethod('some-method', () => () => 'hello');
 // ModuleRegistry.registerMethod('some-method', () => 'hello');
 
 ModuleRegistry.invoke('some-method');
-ModuleRegistry.invoke('some-method', 1, 2, 3);
+const ret = ModuleRegistry.invoke('some-method', 1, 2, 3);
+if (ret) {
+  ret.something();
+}
+
+// Should fail
+ret.something();
 
 window.ModuleRegistry;

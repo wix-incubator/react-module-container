@@ -40,21 +40,21 @@ export const ModuleRegistry: {
   modules: any;
   cleanAll(): void;
   registerModule<T extends AnyClass>(id: string, ModuleFactory: T, args?: Partial<ConstructorParameters<T>>): void;
-  getModule<T extends Object>(id: string): T;
+  getModule<T extends Object>(id: string): T | undefined;
   getAllModules<T extends Object>(): T[];
 
   registerComponent<P=any>(componentId: string, componentFactory: () => React.ComponentType<P>): void;
 
-  component(componentId: string): typeof ReactLazyComponent;
-  component(componentId: string): typeof AngularLazyComponent;
-  component(componentId: string): React.ComponentType;
-  component<P=any>(componentId: string): React.FunctionComponent<P>;
+  component(componentId: string): typeof ReactLazyComponent | undefined;
+  component(componentId: string): typeof AngularLazyComponent | undefined;
+  component(componentId: string): React.ComponentType | undefined;
+  component<P=any>(componentId: string): React.FunctionComponent<P> | undefined;
 
   addListener(eventName: string, callback: (...arg: any[]) => void): { remove(): void };
   notifyListeners(eventName: string, ...arg: any[]): void;
 
   registerMethod(id: string, generator: () => Function): void;
-  invoke(id: string, ...arg: any[]): any;
+  invoke(id: string, ...arg: any[]): any | undefined;
 };
 
 declare global {
