@@ -34,7 +34,8 @@
       "lazy/react-module": "./lazy/react-module.js",
       "demo-4": "./demo/demo-4.scss",
       "demo-5": "./demo/demo-5.scss",
-      "demo-shared": "./demo/demo-shared.scss"
+      "demo-shared": "./demo/demo-shared.scss",
+      "umd": "./index.js"
     },
     "externals": {
       "react": "React",
