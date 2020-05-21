@@ -40,8 +40,7 @@
     "externals": {
       "react": "React",
       "react-dom": "ReactDOM"
-    },
-    "exports": "reactModuleContainer"
+    }
   },
   "devDependencies": {
     "babel-plugin-transform-builtin-extend": "^1.1.2",
