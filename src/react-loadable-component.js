@@ -1,10 +1,10 @@
 import React from 'react';
 import BaseLazyComponent from './base-lazy-component';
 
-export default function ReactLoadableComponent(name, resolve) {
+export default function ReactLoadableComponent(name, resolve, files = []) {
   return class LoadableComponent extends BaseLazyComponent {
     constructor(props) {
-      super(props, {component: name, files: [], resolve});
+      super(props, {component: name, files, resolve});
       this.state = {component: null};
     }
 
