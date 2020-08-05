@@ -1,22 +1,35 @@
 import React from 'react';
 import ModuleRegistry from './module-registry';
 import BaseLazyComponent from './base-lazy-component';
+import {Manifest} from './typings';
 
-class ReactLazyComponent extends BaseLazyComponent {
-  constructor(props, manifest) {
+export interface ReactLazyComponentState {
+  component: React.ComponentType | null | undefined;
+}
+
+class ReactLazyComponent extends BaseLazyComponent<unknown, ReactLazyComponentState> {
+  state: ReactLazyComponentState = {
+    component: null
+  };
+
+  constructor(props: unknown, manifest: Manifest) {
     super(props, manifest);
     this.state = {component: null};
   }
 
   componentDidMount() {
-    this.resourceLoader.then(() => {
+    this.resourceLoader?.then(() => {
       const component = ModuleRegistry.component(this.manifest.component);
       this.setState({component});
     });
   }
 
   render() {
-    return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
+    if (!this.state.component) {
+      return null;
+    }
+
+    return <this.state.component {...this.mergedProps}/>;
   }
 }
 
