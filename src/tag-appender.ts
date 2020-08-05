@@ -1,22 +1,23 @@
 import ModuleRegistry from './module-registry';
 import {FileAppenderLoadError} from './ReactModuleContainerErrors';
+import {FileConfig} from './typings';
 
-const requireCache = {};
+const requireCache: {[url: string]: Promise<unknown>} = {};
 
-function noprotocol(url) {
+function noprotocol(url: string) {
   return url.replace(/^.*:\/\//, '//');
 }
 
-export function createLinkElement(url) {
-  const fileref = document.createElement('LINK');
+export function createLinkElement(url: string) {
+  const fileref = document.createElement('LINK') as HTMLLinkElement;
   fileref.setAttribute('rel', 'stylesheet');
   fileref.setAttribute('type', 'text/css');
   fileref.setAttribute('href', url);
   return fileref;
 }
 
-export function createScriptElement(url, crossorigin) {
-  const fileref = document.createElement('SCRIPT');
+export function createScriptElement(url: string, crossorigin?: boolean) {
+  const fileref = document.createElement('SCRIPT') as HTMLScriptElement;
   fileref.setAttribute('type', 'text/javascript');
   fileref.setAttribute('src', url);
   if (crossorigin) {
@@ -25,7 +26,7 @@ export function createScriptElement(url, crossorigin) {
   return fileref;
 }
 
-export function tagAppender(url, filetype, crossorigin) {
+export function tagAppender(url: string, filetype?: string, crossorigin?: boolean) {
   const styleSheets = document.styleSheets;
   return requireCache[url] = new Promise((resolve, reject) => {
     if (window.requirejs && filetype === 'js') {
@@ -36,9 +37,10 @@ export function tagAppender(url, filetype, crossorigin) {
       // return;
     }
 
-    const fileref = (filetype === 'css') ?
+    type FileRef = (HTMLLinkElement | HTMLScriptElement) & {onreadystatechange: unknown, readyState: string};
+    const fileref = ((filetype === 'css') ?
       createLinkElement(url) :
-      createScriptElement(url, crossorigin);
+      createScriptElement(url, crossorigin)) as FileRef;
 
     let done = false;
     document.getElementsByTagName('head')[0].appendChild(fileref);
@@ -61,12 +63,14 @@ export function tagAppender(url, filetype, crossorigin) {
         for (let i = 0; i < styleSheets.length; i++) {
           if (noprotocol(`${styleSheets[i].href}`) === noprotocol(url)) {
             clearInterval(interval);
+            // @ts-ignore
             fileref.onload();
             return;
           }
         }
         if (--attempts === 0) {
           clearInterval(interval);
+          // @ts-ignore
           fileref.onerror();
         }
       }, 50);
@@ -74,15 +78,15 @@ export function tagAppender(url, filetype, crossorigin) {
   });
 }
 
-function append(file, crossorigin) {
+function append(file: string, crossorigin?: boolean) {
   return tagAppender(file, file.split('.').pop(), crossorigin);
 }
 
-function onCatch(error, optional = false) {
+function onCatch(error: Error, optional = false) {
   return optional ? Promise.resolve() : Promise.reject(error);
 }
 
-function appendEntry(entry, crossorigin) {
+function appendEntry(entry: string | FileConfig, crossorigin?: boolean) {
   if (typeof entry === 'object') {
     const {optional, url} = entry;
     return append(url, crossorigin).catch(err => onCatch(err, optional));
@@ -91,7 +95,7 @@ function appendEntry(entry, crossorigin) {
   }
 }
 
-export function filesAppender(entries, crossorigin) {
+export function filesAppender(entries: (string | FileConfig)[] = [], crossorigin?: boolean) {
   return Promise.all(entries.map(entry => {
     if (Array.isArray(entry)) {
       return entry.reduce(
@@ -103,25 +107,25 @@ export function filesAppender(entries, crossorigin) {
   }));
 }
 
-const getStyleSheetLinks = document =>
+const getStyleSheetLinks = (document: Document) =>
   [...document.querySelectorAll('link')]
     .filter(link => link.rel === 'stylesheet' && link.href)
-    .reduceRight((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
+    .reduceRight((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {} as {[link: string]: HTMLLinkElement});
 
-const toUrlString = file => typeof file === 'object' ? file.url : file;
+const toUrlString = (file: string | FileConfig) => typeof file === 'object' ? file.url : file;
 
-const getStyleSheetUrls = files =>
-  [].concat(...files)
+const getStyleSheetUrls = (files: (string | FileConfig)[] = []) =>
+  files
     .map(toUrlString)
     .filter(url => url.endsWith('.css'))
     .map(noprotocol);
 
-export function unloadStyles(document, files) {
+export function unloadStyles(document: Document, files?: (string | FileConfig)[]) {
   const links = getStyleSheetLinks(document);
   getStyleSheetUrls(files).forEach(file => {
     const link = links[file];
     if (link) {
-      link.parentNode.removeChild(link);
+      link.parentNode?.removeChild(link);
     }
   });
 }

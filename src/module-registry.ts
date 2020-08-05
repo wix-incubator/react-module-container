@@ -7,13 +7,14 @@ import {
   UnregisteredMethodInvokedError
 } from './ReactModuleContainerErrors';
 
+type ComponentGenerator = () => React.ComponentType<any>;
+type MethodGenerator = () => (...args: unknown[]) => unknown;
+
 class ModuleRegistry {
-  constructor() {
-    this.registeredComponents = {};
-    this.registeredMethods = {};
-    this.eventListeners = {};
-    this.modules = {};
-  }
+  registeredComponents: {[globalId: string]: ComponentGenerator} = {};
+  registeredMethods: {[globalId: string]: MethodGenerator} = {};
+  eventListeners: {[globalId: string]: (...args: unknown[]) => unknown} = {};
+  modules: {[globalId: string]: unknown[]} = {};
 
   cleanAll() {
     this.registeredComponents = {};
@@ -22,7 +23,7 @@ class ModuleRegistry {
     this.modules = {};
   }
 
-  registerModule(globalID, ModuleFactory, args = []) {
+  registerModule(globalID: string, ModuleFactory: any, args = []) {
     if (this.modules[globalID]) {
       throw new Error(`A module with id "${globalID}" is already registered`);
     }
@@ -30,7 +31,7 @@ class ModuleRegistry {
     this.modules[globalID] = new ModuleFactory(...args);
   }
 
-  getModule(globalID) {
+  getModule(globalID: string) {
     return this.modules[globalID];
   }
 
@@ -38,11 +39,11 @@ class ModuleRegistry {
     return Object.keys(this.modules).map(moduleId => this.modules[moduleId]);
   }
 
-  registerComponent(globalID, generator) {
+  registerComponent(globalID: string, generator: ComponentGenerator) {
     this.registeredComponents[globalID] = generator;
   }
 
-  component(globalID) {
+  component(globalID: string) {
     const generator = this.registeredComponents[globalID];
     if (!generator) {
       this.notifyListeners('reactModuleContainer.error', new UnregisteredComponentUsedError(globalID));
@@ -51,7 +52,7 @@ class ModuleRegistry {
     return generator();
   }
 
-  addListener(globalID, callback) {
+  addListener(globalID: string, callback: (...args: unknown[]) => unknown) {
     const callbackKey = uniqueId('eventListener');
     set(this.eventListeners, [globalID, callbackKey], callback);
     return {
@@ -59,7 +60,7 @@ class ModuleRegistry {
     };
   }
 
-  notifyListeners(globalID, ...args) {
+  notifyListeners(globalID: string, ...args: unknown[]) {
     const listenerCallbacks = this.eventListeners[globalID];
     if (!listenerCallbacks) {
       return;
@@ -67,11 +68,11 @@ class ModuleRegistry {
     forEach(listenerCallbacks, callback => invokeSafely(globalID, callback, args));
   }
 
-  registerMethod(globalID, generator) {
+  registerMethod(globalID: string, generator: MethodGenerator) {
     this.registeredMethods[globalID] = generator;
   }
 
-  invoke(globalID, ...args) {
+  invoke(globalID: string, ...args: unknown[]) {
     const generator = this.registeredMethods[globalID];
     if (!generator) {
       this.notifyListeners('reactModuleContainer.error', new UnregisteredMethodInvokedError(globalID));
@@ -82,7 +83,7 @@ class ModuleRegistry {
   }
 }
 
-let singleton;
+let singleton:ModuleRegistry;
 if (typeof window !== 'undefined') {
   singleton = window.ModuleRegistry || new ModuleRegistry();
   window.ModuleRegistry = singleton;
@@ -91,7 +92,7 @@ if (typeof window !== 'undefined') {
 }
 export default singleton;
 
-function invokeSafely(globalID, callback, args) {
+function invokeSafely(globalID: string, callback: (...args: unknown[]) => void, args: unknown[]) {
   try {
     callback(...args);
   } catch (err) {

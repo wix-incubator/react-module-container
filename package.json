@@ -1,8 +1,8 @@
 {
   "name": "react-module-container",
   "version": "1.0.1486",
-  "description": "",
-  "homepage": "",
+  "description": "Small library, that enables building large-scale application with lazy-loaded modules based on either React or Angular.",
+  "homepage": "https://github.com/wix/react-module-container#readme",
   "private": false,
   "author": {
     "name": "Shahar Talmi",
@@ -22,20 +22,21 @@
     "dist"
   ],
   "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "yoshi": {
     "entry": {
-      "react-module-container": "./react-module-container.js",
-      "demo": "./demo/demo.js",
-      "module": "./demo/module.js",
-      "lazy/angular-module": "./lazy/angular-module.js",
-      "lazy/react-module": "./lazy/react-module.js",
+      "react-module-container": "./react-module-container.ts",
+      "demo": "./demo/demo.ts",
+      "module": "./demo/module.ts",
+      "lazy/angular-module": "./lazy/angular-module.ts",
+      "lazy/react-module": "./lazy/react-module.ts",
       "demo-4": "./demo/demo-4.scss",
       "demo-5": "./demo/demo-5.scss",
       "demo-shared": "./demo/demo-shared.scss",
-      "umd": "./index.js"
+      "umd": "./index.ts"
     },
     "externals": {
       "react": "React",
@@ -44,6 +45,12 @@
     "exports": "reactModuleContainer"
   },
   "devDependencies": {
+    "@types/angular": "^1.7.2",
+    "@types/lodash": "^4.14.158",
+    "@types/node": "^10.17.28",
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^15.6.28",
+    "@types/react-dom": "^15.5.12",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
@@ -57,6 +64,7 @@
     "redux": "^4.0.5",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
+    "typescript": "^3.9.7",
     "yoshi": "^1.2.0"
   },
   "babel": {
@@ -80,7 +88,7 @@
   "dependencies": {
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "react": "^15.5.0",
-    "react-dom": "^15.3.2"
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2"
   }
 }
