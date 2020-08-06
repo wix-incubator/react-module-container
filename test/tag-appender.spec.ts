@@ -5,10 +5,12 @@ import {unloadStyles, createLinkElement, filesAppender} from '../src/tag-appende
 describe('tag appender', () => {
 
   beforeEach(function () {
+    // @ts-ignore
     this.jsdom = require('jsdom-global')();
   });
 
   afterEach(function () {
+    // @ts-ignore
     this.jsdom();
   });
 
@@ -49,9 +51,13 @@ describe('tag appender', () => {
 
     filesAppender([link1, link2]).catch(() => done());
     setTimeout(() => {
-      document.getElementsByTagName('script')[0].onerror();
+      const scriptElements = document.getElementsByTagName('script');
+      const firstScriptElement = scriptElements && scriptElements[0];
+
+      // @ts-ignore
+      firstScriptElement.onerror();
     }, 100);
-  }).timeout(1000);
+  }, 1000);
 
   it('filesAppender should support optional flag', done => {
     const link1 = {url: 'http://123.js/', optional: true};
@@ -60,9 +66,11 @@ describe('tag appender', () => {
     filesAppender([link1, link2]).then(() => done());
 
     setTimeout(() => {
+      // @ts-ignore
       document.getElementsByTagName('script')[0].onerror();
+      // @ts-ignore
       document.getElementsByTagName('script')[1].onerror();
     }, 100);
-  }).timeout(1000);
+  }, 1000);
 
 });

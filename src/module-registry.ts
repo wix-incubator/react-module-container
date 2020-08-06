@@ -1,3 +1,4 @@
+import React from "react";
 import set from 'lodash/set';
 import unset from 'lodash/unset';
 import forEach from 'lodash/forEach';
@@ -7,14 +8,14 @@ import {
   UnregisteredMethodInvokedError
 } from './ReactModuleContainerErrors';
 
-type ComponentGenerator = () => React.ComponentType<any>;
+type ComponentGenerator = () => React.ComponentType<any> | null;
 type MethodGenerator = () => (...args: unknown[]) => unknown;
 
 export class ModuleRegistry {
   registeredComponents: {[globalId: string]: ComponentGenerator} = {};
   registeredMethods: {[globalId: string]: MethodGenerator} = {};
   eventListeners: {[globalId: string]: (...args: unknown[]) => unknown} = {};
-  modules: {[globalId: string]: unknown[]} = {};
+  modules: {[globalId: string]: any} = {};
 
   cleanAll() {
     this.registeredComponents = {};
@@ -23,7 +24,7 @@ export class ModuleRegistry {
     this.modules = {};
   }
 
-  registerModule(globalID: string, ModuleFactory: any, args = []) {
+  registerModule(globalID: string, ModuleFactory: any, args: unknown[] = []) {
     if (this.modules[globalID]) {
       throw new Error(`A module with id "${globalID}" is already registered`);
     }

@@ -1,4 +1,4 @@
-import 'mocha';
+import React from 'react';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
@@ -25,7 +25,8 @@ describe('Module Registry', () => {
 
   it('should be able to pass parameters to the register a module', () => {
     class MyModule {
-      constructor(name) {
+      name: string;
+      constructor(name: string) {
         this.name = name;
       }
     }
@@ -63,10 +64,12 @@ describe('Module Registry', () => {
   });
 
   it('should be able to register a component', () => {
-    const component = () => '<div>FAKE_COMPONENT</div>';
-    ModuleRegistry.registerComponent('GLOBAL_ID', component);
+    const Component: React.ComponentType = () => <div>FAKE_COMPONENT</div>;
+
+    ModuleRegistry.registerComponent('GLOBAL_ID', () => Component);
     const resultComponent = ModuleRegistry.component('GLOBAL_ID');
-    expect(resultComponent).to.eq('<div>FAKE_COMPONENT</div>');
+    console.log({resultComponent});
+    expect(resultComponent).to.eq(Component);
   });
 
   it('should notify all event listeners', () => {
@@ -82,7 +85,7 @@ describe('Module Registry', () => {
   it('should clean all the methods, components, events, and modules when calling cleanAll', () => {
     ModuleRegistry.registerModule('GLOBAL_ID', class MyModule {});
     ModuleRegistry.registerMethod('GLOBAL_ID', () => () => {});
-    ModuleRegistry.registerComponent('GLOBAL_ID', () => {});
+    ModuleRegistry.registerComponent('GLOBAL_ID', (() => null));
     ModuleRegistry.addListener('GLOBAL_ID', () => {});
 
     ModuleRegistry.cleanAll();
@@ -94,7 +97,7 @@ describe('Module Registry', () => {
   });
 
   describe('ReactModuleContainerError', () => {
-    let reactModuleContainerErrorCallback;
+    let reactModuleContainerErrorCallback: sinon.SinonStub;
 
     beforeEach(() => {
       reactModuleContainerErrorCallback = sinon.stub();

@@ -4,7 +4,7 @@ import BaseLazyComponent from './base-lazy-component';
 import {Manifest} from './typings';
 
 export interface ReactLazyComponentState {
-  component: React.ComponentType | null | undefined;
+  component: React.ComponentType | React.StatelessComponent | null | undefined;
 }
 
 export class ReactLazyComponent extends BaseLazyComponent<unknown, ReactLazyComponentState> {

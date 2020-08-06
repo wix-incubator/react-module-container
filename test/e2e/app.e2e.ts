@@ -90,7 +90,7 @@ describe('React application', () => {
     it(`should load the component with the crossorigin attribute`, () => {
       browser.get(`/rt-router-app6/`);
       const lazyComponentScriptsWithCrossOrigin = $$('script')
-        .filter(element => element.getAttribute('src').then(value => value.endsWith('react-module.bundle.js')))
+        .filter((element) => element.getAttribute('src').then(value => value.endsWith('react-module.bundle.js')))
         .filter(element => element.getAttribute('crossorigin').then(value => value !== null));
 
       expect(lazyComponentScriptsWithCrossOrigin.count()).toBe(1);
@@ -199,10 +199,10 @@ describe('React application', () => {
     });
 
     function getStyleSheetHrefs() {
-      return $$('link').map(elem => elem.getAttribute('href'));
+      return $$('link').map((element) => element?.getAttribute('href'));
     }
 
-    function expectIsHidden(selector) {
+    function expectIsHidden(selector: string) {
       expect($(selector).getCssValue('color')).toBe('rgba(0, 0, 0, 0)');
       expect($(selector).getCssValue('display')).toBe('none');
     }
