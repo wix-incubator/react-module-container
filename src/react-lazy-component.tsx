@@ -7,7 +7,7 @@ export interface ReactLazyComponentState {
   component: React.ComponentType | null | undefined;
 }
 
-class ReactLazyComponent extends BaseLazyComponent<unknown, ReactLazyComponentState> {
+export class ReactLazyComponent extends BaseLazyComponent<unknown, ReactLazyComponentState> {
   state: ReactLazyComponentState = {
     component: null
   };

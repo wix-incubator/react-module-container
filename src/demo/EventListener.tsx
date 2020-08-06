@@ -1,14 +1,19 @@
 import React from 'react';
 import ModuleRegistry from '../module-registry';
 
-export class EventsListener extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gotStartLoadingEvent: false,
-      gotComponentReady: false,
-      gotComponentWillUnmount: false
-    };
+interface EventsListenerProps {
+
+}
+interface EventsListenerState {}
+export class EventsListener extends React.Component<EventsListenerProps, EventsListenerState> {
+  unSubscribeStartLoading?: ReturnType<typeof ModuleRegistry.addListener>;
+  unSubscribeComponentReady?: ReturnType<typeof ModuleRegistry.addListener>;
+  unSubscribeComponentWillUnmount?: ReturnType<typeof ModuleRegistry.addListener>;
+
+  state = {
+    gotStartLoadingEvent: false,
+    gotComponentReady: false,
+    gotComponentWillUnmount: false
   }
 
   componentWillMount() {
@@ -26,9 +31,9 @@ export class EventsListener extends React.Component {
   }
 
   componentWillUnmount() {
-    this.unSubscribeStartLoading.remove();
-    this.unSubscribeComponentReady.remove();
-    this.unSubscribeComponentWillUnmount.remove();
+    this.unSubscribeStartLoading?.remove();
+    this.unSubscribeComponentReady?.remove();
+    this.unSubscribeComponentWillUnmount?.remove();
   }
 
   render() {

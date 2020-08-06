@@ -29,10 +29,10 @@
   "yoshi": {
     "entry": {
       "react-module-container": "./react-module-container.ts",
-      "demo": "./demo/demo.ts",
-      "module": "./demo/module.ts",
+      "demo": "./demo/demo.tsx",
+      "module": "./demo/module.tsx",
       "lazy/angular-module": "./lazy/angular-module.ts",
-      "lazy/react-module": "./lazy/react-module.ts",
+      "lazy/react-module": "./lazy/react-module.tsx",
       "demo-4": "./demo/demo-4.scss",
       "demo-5": "./demo/demo-5.scss",
       "demo-shared": "./demo/demo-shared.scss",
@@ -51,6 +51,7 @@
     "@types/prop-types": "^15.7.3",
     "@types/react": "^15.6.28",
     "@types/react-dom": "^15.5.12",
+    "@types/react-router": "^2.0.57",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
@@ -86,6 +87,7 @@
     ]
   },
   "dependencies": {
+    "@types/react-redux": "^5.0.21",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^15.6.2",

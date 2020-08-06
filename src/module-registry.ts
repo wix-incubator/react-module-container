@@ -10,7 +10,7 @@ import {
 type ComponentGenerator = () => React.ComponentType<any>;
 type MethodGenerator = () => (...args: unknown[]) => unknown;
 
-class ModuleRegistry {
+export class ModuleRegistry {
   registeredComponents: {[globalId: string]: ComponentGenerator} = {};
   registeredMethods: {[globalId: string]: MethodGenerator} = {};
   eventListeners: {[globalId: string]: (...args: unknown[]) => unknown} = {};

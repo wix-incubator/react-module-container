@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import ModuleRegistry from '../module-registry';
 
-const RealReactComp = props => (
+const RealReactComp = (props: {
+  value: string;
+  experiments: unknown;
+  customData: unknown;
+}) => (
   <div>
     <div>{props.value}</div>
     <div id="value-of-resolved-experiments">{JSON.stringify(props.experiments)}</div>
@@ -21,7 +25,9 @@ RealReactComp.propTypes = {
 };
 ModuleRegistry.registerComponent('MyApp3.RealReactComp', () => RealReactComp);
 
-const RealReactCompCrossOrigin = props => (
+const RealReactCompCrossOrigin = (props: {
+  value: string;
+}) => (
   <div>
     <div id="react-cross-origin">{props.value}</div>
   </div>

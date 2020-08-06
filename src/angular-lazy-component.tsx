@@ -28,11 +28,7 @@ class AddRouterContext extends React.Component<AddRouterContextProps> {
   }
 }
 
-interface AngularLazyComponentProps {
-  router: any;
-}
-
-class AngularLazyComponent extends BaseLazyComponent<AngularLazyComponentProps> {
+export class AngularLazyComponent extends BaseLazyComponent<any> {
   $injector: any;
   node: any;
   mounted: boolean = false;

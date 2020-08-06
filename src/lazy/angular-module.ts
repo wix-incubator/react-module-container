@@ -1,13 +1,16 @@
 const myApp = angular.module('myApp', ['ngRoute']);
 
 class MyCompController {
-  constructor(props) {
+  props: unknown;
+  value: string;
+
+  constructor(props: unknown) {
     this.value = 'angular-input-value';
     this.props = props;
   }
 }
 
-myApp.config(($routeProvider, $locationProvider) => {
+myApp.config(($routeProvider: any, $locationProvider: import('angular').ILocationProvider) => {
   $locationProvider.html5Mode({enabled: true, requireBase: false});
   $routeProvider
     .when('/ng-router-app/a', {template: '<div>BAZINGA!</div>'})
@@ -34,13 +37,16 @@ myApp.component('myComp', {
 const myApp2 = angular.module('myApp2', ['ui.router']);
 
 class MyCompController2 {
-  constructor(props) {
+  props: unknown;
+  value: string;
+
+  constructor(props: unknown) {
     this.value = 'angular-input-value';
     this.props = props;
   }
 }
 
-myApp2.config(($stateProvider, $locationProvider, $urlRouterProvider) => {
+myApp2.config(($stateProvider: any, $locationProvider: import('angular').ILocationProvider, $urlRouterProvider: any) => {
   $locationProvider.html5Mode({enabled: true, requireBase: false});
   $stateProvider.state('a', {url: '/ui-router-app/a', template: 'BAZINGA!'});
   $stateProvider.state('b', {url: '/ui-router-app/b', template: 'STAGADISH!'});

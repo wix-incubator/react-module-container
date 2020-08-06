@@ -1,9 +1,11 @@
-/* global React, AngularLazyComponent, ReactLazyComponent, ModuleRegistry */
+import React from 'react';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
+import {ReactLazyComponent, AngularLazyComponent, ModuleRegistry} from '../index';
+
 
 export class MyNgComp extends AngularLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string;}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
       module: 'myApp',
@@ -13,7 +15,7 @@ export class MyNgComp extends AngularLazyComponent {
 }
 
 export class MyNgComp2 extends AngularLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string;}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
       resolve: () => {
@@ -33,7 +35,7 @@ export class MyNgComp2 extends AngularLazyComponent {
 }
 
 export class MyReactComp extends ReactLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string;}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}react-module.bundle.js`],
       resolve: () => {
@@ -52,7 +54,7 @@ export class MyReactComp extends ReactLazyComponent {
 }
 
 export class MyReactCompCrossOrigin extends ReactLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string;}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}react-module.bundle.js`],
       crossorigin: true,
@@ -61,10 +63,17 @@ export class MyReactCompCrossOrigin extends ReactLazyComponent {
   }
 }
 
-class Hello extends React.Component {
-  constructor(props) {
+class Hello extends React.Component<{value: string}> {
+  public static readonly propTypes = {
+    value: PropTypes.string
+  };
+
+  state = {
+    counter: 0,
+  }
+
+  constructor(props: { value: string }) {
     super(props);
-    this.state = {counter: 0};
   }
 
   handleClick() {
@@ -84,12 +93,9 @@ class Hello extends React.Component {
     </div>);
   }
 }
-Hello.propTypes = {
-  value: PropTypes.string
-};
 
 export class MyNgComp4 extends AngularLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string; baseUrl: string}}) {
     super(props, {
       files: [
         `${props.topology.staticsUrl}angular-module.bundle.js`,
@@ -103,7 +109,7 @@ export class MyNgComp4 extends AngularLazyComponent {
 }
 
 export class MyNgComp5 extends AngularLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string; baseUrl: string}}) {
     super(props, {
       unloadStylesOnDestroy: true,
       files: [
@@ -118,14 +124,14 @@ export class MyNgComp5 extends AngularLazyComponent {
 }
 
 export class MyNgApp5NoUnloadCss extends MyNgComp5 {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string; baseUrl: string}}) {
     super(props);
-    this.manifest.unloadStylesOnDestroy = false;
+    (this as any).manifest.unloadStylesOnDestroy = false;
   }
 }
 
 export class MyReactComp7 extends ReactLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string; baseUrl: string}}) {
     super(props, {
       files: [
         `${props.topology.staticsUrl}react-module.bundle.js`,
@@ -138,7 +144,7 @@ export class MyReactComp7 extends ReactLazyComponent {
 }
 
 export class MyReactComp8 extends ReactLazyComponent {
-  constructor(props) {
+  constructor(props: {topology: {staticsUrl: string; baseUrl: string}}) {
     super(props, {
       files: [
         `${props.topology.staticsUrl}react-module.bundle.js`,

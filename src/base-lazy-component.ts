@@ -3,11 +3,11 @@ import ModuleRegistry from './module-registry';
 import {filesAppender, unloadStyles} from './tag-appender';
 import assign from 'lodash/assign';
 import {LazyComponentLoadingError} from './ReactModuleContainerErrors';
-import {Manifest, ResolveData} from './typings';
+import {Manifest} from './typings';
 
 export default class BaseLazyComponent<T = unknown, S = unknown> extends React.Component<T, S> {
   manifest: Manifest;
-  resolvedData?: ResolveData;
+  resolvedData?: unknown;
   resourceLoader?: Promise<void>;
 
   constructor(props: T, manifest: Manifest) {
@@ -27,7 +27,7 @@ export default class BaseLazyComponent<T = unknown, S = unknown> extends React.C
 
     const filesAppenderPromise = filesAppender(this.manifest.files, this.manifest.crossorigin).then(prepare);
 
-    const resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({} as ResolveData);
+    const resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
 
     this.resourceLoader = Promise.all([resolvePromise, filesAppenderPromise])
       .then(([resolvedData]) => {

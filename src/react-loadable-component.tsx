@@ -1,9 +1,9 @@
 import React from 'react';
-import {FileConfig, ResolveData} from './typings';
+import {FileConfig} from './typings';
 import {ReactLazyComponentState} from './react-lazy-component';
 import BaseLazyComponent from './base-lazy-component';
 
-export default function ReactLoadableComponent(name: string, resolve: (...args: unknown[]) => Promise<ResolveData>, files:(string | FileConfig)[] = []) {
+export default function ReactLoadableComponent(name: string, resolve: (...args: unknown[]) => Promise<unknown>, files:(string | FileConfig)[] = []) {
   return class LoadableComponent extends BaseLazyComponent {
     state: ReactLazyComponentState = {
       component: null
