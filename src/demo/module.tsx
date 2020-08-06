@@ -3,9 +3,8 @@ import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import {ReactLazyComponent, AngularLazyComponent, ModuleRegistry} from '../index';
 
-
 export class MyNgComp extends AngularLazyComponent {
-  constructor(props: {topology: {staticsUrl: string;}}) {
+  constructor(props: {topology: {staticsUrl: string}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
       module: 'myApp',
@@ -15,7 +14,7 @@ export class MyNgComp extends AngularLazyComponent {
 }
 
 export class MyNgComp2 extends AngularLazyComponent {
-  constructor(props: {topology: {staticsUrl: string;}}) {
+  constructor(props: {topology: {staticsUrl: string}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}angular-module.bundle.js`],
       resolve: () => {
@@ -35,7 +34,7 @@ export class MyNgComp2 extends AngularLazyComponent {
 }
 
 export class MyReactComp extends ReactLazyComponent {
-  constructor(props: {topology: {staticsUrl: string;}}) {
+  constructor(props: {topology: {staticsUrl: string}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}react-module.bundle.js`],
       resolve: () => {
@@ -54,7 +53,7 @@ export class MyReactComp extends ReactLazyComponent {
 }
 
 export class MyReactCompCrossOrigin extends ReactLazyComponent {
-  constructor(props: {topology: {staticsUrl: string;}}) {
+  constructor(props: {topology: {staticsUrl: string}}) {
     super(props, {
       files: [`${props.topology.staticsUrl}react-module.bundle.js`],
       crossorigin: true,
@@ -70,7 +69,7 @@ class Hello extends React.Component<{value: string}> {
 
   state = {
     counter: 0,
-  }
+  };
 
   constructor(props: { value: string }) {
     super(props);

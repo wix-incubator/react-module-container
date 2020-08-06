@@ -12,7 +12,7 @@ interface AddRouterContextProps {
 class AddRouterContext extends React.Component<AddRouterContextProps> {
   public static readonly childContextTypes = {
     router: PropTypes.any,
-  }
+  };
 
   public static readonly propTypes = {
     router: PropTypes.any,
@@ -58,7 +58,7 @@ export class AngularLazyComponent extends BaseLazyComponent<any> {
               }, true);
               $scope.$on('$destroy', () => unmountComponentAtNode($element[0]));
               //super hack to prevent angular from preventing external route changes
-              $element.on('click', (e:MouseEvent) => e.preventDefault = () => delete e.preventDefault);
+              $element.on('click', (e: MouseEvent) => e.preventDefault = () => delete e.preventDefault);
             }]
           }));
           $compileProvider.directive('routerLink', () => ({

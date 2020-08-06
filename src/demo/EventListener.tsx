@@ -14,7 +14,7 @@ export class EventsListener extends React.Component<EventsListenerProps, EventsL
     gotStartLoadingEvent: false,
     gotComponentReady: false,
     gotComponentWillUnmount: false
-  }
+  };
 
   componentWillMount() {
     this.unSubscribeStartLoading = ModuleRegistry.addListener('reactModuleContainer.componentStartLoading', () => {
@@ -47,4 +47,3 @@ export class EventsListener extends React.Component<EventsListenerProps, EventsL
     </div>);
   }
 }
-

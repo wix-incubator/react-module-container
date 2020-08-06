@@ -11,7 +11,7 @@ import s from './demo.scss';
 const assignActionCreator = (value: string) => ({
  type: 'assign' as const,
  value
-})
+});
 
 const reducer: Reducer<string> = (state = 'react-input-value', action) => {
   return action.type === 'assign' ? action.value : state;
@@ -74,7 +74,7 @@ const App = withStore(withRouter(props => MyApp.MyNgComp ? <MyApp.MyNgComp topol
 const App2 = withStore(withRouter(props => MyApp2.MyNgComp ? <MyApp2.MyNgComp topology={topology} {...props}/> : null));
 const App3 = withStore(withRouter(props => MyApp3.MyReactComp ? <MyApp3.MyReactComp topology={topology} {...props}/> : null));
 const App4 = withStore(withRouter(props => MyApp4.MyNgComp ? <MyApp4.MyNgComp topology={topology} {...props}/> : null));
-const App5 = withStore(withRouter(props => MyApp5.MyNgComp? <MyApp5.MyNgComp topology={topology} {...props}/> : null));
+const App5 = withStore(withRouter(props => MyApp5.MyNgComp ? <MyApp5.MyNgComp topology={topology} {...props}/> : null));
 const App5NoUnloadModule = withStore(withRouter(props => MyApp5NoUnloadCss.MyNgComp ? <MyApp5NoUnloadCss.MyNgComp topology={topology} {...props}/> : null));
 const App6 = withStore(withRouter(props => MyApp6.MyReactCompCrossOrigin ? <MyApp6.MyReactCompCrossOrigin topology={topology} {...props}/> : null));
 const App7 = withStore(withRouter(props => MyApp7.MyReactComp ? <MyApp7.MyReactComp topology={topology} {...props}/> : null));

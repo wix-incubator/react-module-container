@@ -99,7 +99,7 @@ export function filesAppender(entries: (string | FileConfig)[] = [], crossorigin
   return Promise.all(entries.map(entry => {
     if (Array.isArray(entry)) {
       return entry.reduce(
-        (promise, entry) => promise.then(() => appendEntry(entry, crossorigin)),
+        (promise, innerEntry) => promise.then(() => appendEntry(innerEntry, crossorigin)),
         Promise.resolve());
     } else {
       return appendEntry(entry, crossorigin);

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import set from 'lodash/set';
 import unset from 'lodash/unset';
 import forEach from 'lodash/forEach';
@@ -84,7 +84,7 @@ export class ModuleRegistry {
   }
 }
 
-let singleton:ModuleRegistry;
+let singleton: ModuleRegistry;
 if (typeof window !== 'undefined') {
   singleton = window.ModuleRegistry || new ModuleRegistry();
   window.ModuleRegistry = singleton;

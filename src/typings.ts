@@ -3,7 +3,7 @@ export interface FileConfig {
   optional?: boolean;
 }
 
-export type Manifest = {
+export interface Manifest {
   component: string;
   module?: string;
   files?: (string | FileConfig)[];

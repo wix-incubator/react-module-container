@@ -20,12 +20,12 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist/"
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "./test/**/*",
     "./src/**/*"
   ],
+
   "exclude": ["node_modules", "dist"]
 }

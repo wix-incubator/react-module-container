@@ -68,7 +68,7 @@ describe('Module Registry', () => {
 
     ModuleRegistry.registerComponent('GLOBAL_ID', () => Component);
     const resultComponent = ModuleRegistry.component('GLOBAL_ID');
-    console.log({resultComponent});
+
     expect(resultComponent).to.eq(Component);
   });
 
