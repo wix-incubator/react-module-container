@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseLazyComponent from './base-lazy-component';
 
-export default function ReactLoadableComponent(name, resolve, files = []) {
+export default function ReactLoadableComponent(name, resolve, files = [], fallback = null) {
   return class LoadableComponent extends BaseLazyComponent {
     constructor(props) {
       super(props, {component: name, files, resolve});
@@ -16,7 +16,7 @@ export default function ReactLoadableComponent(name, resolve, files = []) {
     }
 
     render() {
-      return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
+      return this.state.component ? <this.state.component {...this.mergedProps}/> : fallback;
     }
   };
 }
