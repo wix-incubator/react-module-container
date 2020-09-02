@@ -57,7 +57,9 @@
     "redux": "^4.0.5",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
-    "yoshi": "^1.2.0"
+    "yoshi": "^1.2.0",
+    "react": "^15.5.0",
+    "react-dom": "^15.3.2"
   },
   "babel": {
     "presets": [
@@ -79,8 +81,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.15",
-    "prop-types": "^15.7.2",
-    "react": "^15.5.0",
-    "react-dom": "^15.3.2"
+    "prop-types": "^15.7.2"
   }
 }
