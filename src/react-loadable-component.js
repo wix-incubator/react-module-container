@@ -16,7 +16,7 @@ export default function ReactLoadableComponent(name, resolve, files = []) {
     }
 
     render() {
-      return this.state.component ? <this.state.component {...this.mergedProps}/> : this.props.fallback;
+      return this.state.component ? <this.state.component {...this.mergedProps}/> : this.props.loadableFallback;
     }
   };
 }
