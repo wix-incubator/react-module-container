@@ -16,7 +16,9 @@
     "pretest": "yoshi build",
     "test": "yoshi test",
     "posttest": "yoshi lint",
-    "release": "yoshi release"
+    "release": "yoshi release",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "files": [
     "dist"
@@ -81,6 +83,8 @@
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^15.5.0",
-    "react-dom": "^15.3.2"
-  }
+    "react-dom": "^15.3.2",
+    "snyk": "^1.192.3"
+  },
+  "snyk": true
 }
