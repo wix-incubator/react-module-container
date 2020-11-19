@@ -50,6 +50,10 @@ class ModuleRegistry {
     }
     return generator();
   }
+  
+  isComponentRegistered(globalID) {
+    return !!this.registeredComponents[globalID]; 
+  }
 
   addListener(globalID, callback) {
     const callbackKey = uniqueId('eventListener');
