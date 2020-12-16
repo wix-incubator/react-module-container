@@ -1,9 +1,0 @@
-{
-  "extends": "wix/react",
-  "globals": {
-    "document": false,
-    "window": false,
-    "navigator": false,
-    "angular": false
-  }
-}
