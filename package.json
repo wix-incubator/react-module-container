@@ -51,7 +51,7 @@
     "jsdom-global": "^3.0.2",
     "protractor": "^7.0.0",
     "react-redux": "^5.1.2",
-    "react-router": "^2.8.1",
+    "react-router": "^3.2.6",
     "redux": "^4.0.5",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
@@ -60,7 +60,9 @@
     "yoshi-style-dependencies": "^4.228.0"
   },
   "babel": {
-    "presets": ["yoshi"],
+    "presets": [
+      "yoshi"
+    ],
     "plugins": [
       [
         "babel-plugin-transform-builtin-extend",
