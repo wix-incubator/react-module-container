@@ -104,7 +104,7 @@ export function filesAppender(entries, crossorigin) {
 }
 
 const getStyleSheetLinks = document =>
-  [...document.querySelectorAll('link')]
+  Array.from(document.querySelectorAll('link'))
     .filter(link => link.rel === 'stylesheet' && link.href)
     .reduceRight((acc, curr) => ({...acc, [noprotocol(curr.href)]: curr}), {});
 
