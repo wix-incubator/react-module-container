@@ -74,7 +74,10 @@
     ]
   },
   "eslintConfig": {
-    "extends": "yoshi"
+    "extends": "yoshi",
+    "rules": {
+      "prettier/prettier": "off"
+    }
   },
   "dependencies": {
     "lodash": "^4.17.15",

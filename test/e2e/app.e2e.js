@@ -1,5 +1,3 @@
-'use strict';
-
 describe('React application', () => {
   describe('life cycle events', () => {
     it('should not have navigation events', () => {

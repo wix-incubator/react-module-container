@@ -95,7 +95,7 @@ export function filesAppender(entries, crossorigin) {
   return Promise.all(entries.map(entry => {
     if (Array.isArray(entry)) {
       return entry.reduce(
-        (promise, entry) => promise.then(() => appendEntry(entry, crossorigin)),
+        (promise, entryItem) => promise.then(() => appendEntry(entryItem, crossorigin)),
         Promise.resolve());
     } else {
       return appendEntry(entry, crossorigin);
