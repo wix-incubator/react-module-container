@@ -1,3 +1,4 @@
+/* global angular */
 const myApp = angular.module('myApp', ['ngRoute']);
 
 class MyCompController {

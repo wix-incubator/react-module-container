@@ -15,7 +15,7 @@ export default class BaseLazyComponent extends React.Component {
     return assign({}, this.props, this.resolvedData);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     ModuleRegistry.notifyListeners('reactModuleContainer.componentStartLoading', this.manifest.component);
     const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
     const filesAppenderPromise = filesAppender(this.manifest.files, this.manifest.crossorigin).then(prepare);

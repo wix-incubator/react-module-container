@@ -11,7 +11,7 @@ export class EventsListener extends React.Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.unSubscribeStartLoading = ModuleRegistry.addListener('reactModuleContainer.componentStartLoading', () => {
       this.setState({gotStartLoadingEvent: true});
     });
@@ -42,4 +42,3 @@ export class EventsListener extends React.Component {
     </div>);
   }
 }
-

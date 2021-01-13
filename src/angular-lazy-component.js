@@ -1,3 +1,4 @@
+/* global angular */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
@@ -40,7 +41,7 @@ class AngularLazyComponent extends BaseLazyComponent {
                   </AddRouterContext>, $element[0]);
               }, true);
               $scope.$on('$destroy', () => unmountComponentAtNode($element[0]));
-              //super hack to prevent angular from preventing external route changes
+              // super hack to prevent angular from preventing external route changes
               $element.on('click', e => e.preventDefault = () => delete e.preventDefault);
             }]
           }));
