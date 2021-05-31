@@ -20,6 +20,9 @@ export default function ReactLoadableComponent(name, resolve, files = []) {
     }
 
     render() {
+      if (this.state.error) {
+        throw this.state.error;
+      }
       return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
     }
   };

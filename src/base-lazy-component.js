@@ -25,6 +25,9 @@ export default class BaseLazyComponent extends React.Component {
       ModuleRegistry.notifyListeners('reactModuleContainer.componentReady', this.manifest.component);
     }).catch(err => {
       ModuleRegistry.notifyListeners('reactModuleContainer.error', new LazyComponentLoadingError(this.manifest.component, err));
+      this.setState({
+        error: err
+      })
     });
   }
 
