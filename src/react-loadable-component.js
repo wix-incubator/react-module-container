@@ -10,7 +10,7 @@ export default function ReactLoadableComponent(name, resolve, files = []) {
 
     componentDidMount() {
       this.resourceLoader.then(() => {
-        if (this.this.resolvedData) {
+        if (this.resolvedData) {
           const component = this.resolvedData.default || this.resolvedData;
           if (component) {
             this.setState({ component });
