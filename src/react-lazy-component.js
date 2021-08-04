@@ -1,4 +1,3 @@
-// import React from 'react';
 import ModuleRegistry from './module-registry';
 import BaseLazyComponent from './base-lazy-component';
 

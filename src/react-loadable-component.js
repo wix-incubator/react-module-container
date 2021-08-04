@@ -1,4 +1,3 @@
-// import React from 'react';
 import BaseLazyComponent from './base-lazy-component';
 
 export default function ReactLoadableComponent(name, resolve, files = []) {
