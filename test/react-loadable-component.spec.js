@@ -25,23 +25,33 @@ describe('ReactLoadableComponent', () => {
   });
 
   describe('rendering with suspense support', () => {
-    const resolver = sinon.fake(() => import('./mock/SomeComponent'));
+    const resolver = sinon.fake(async () => { await new Promise(resolve => setTimeout(resolve, 100)); return import('./mock/SomeComponent') });
 
-    let renderResult;
+    let renderResult, SomeComponent;
 
     beforeEach(() => {
-      const SomeComponent = ReactLoadableComponent('SomeComponent', resolver);
-      renderResult = render(
+      SomeComponent = ReactLoadableComponent('SomeComponent', resolver);
+      const wrapper = ({children}) => (
         <ReactModuleContainerContext.Provider value={{ suspense: true }}>
-          <Suspense fallback={<div data-hook="loader">Loading...</div>}>
-            <SomeComponent />
-          </Suspense>
+          <Suspense fallback={<div data-hook="loader">Loading...</div>}>{children}</Suspense>
         </ReactModuleContainerContext.Provider>
       );
+
+      renderResult = render(<SomeComponent />, { wrapper });
     });
 
     it('should show a loader', async () => {
       const loader = await renderResult.findByTestId(hooks.loader);
+
+      expect(loader).to.exist;
+    });
+
+    it('should handle rerenders', async () => {
+      await renderResult.findByTestId(hooks.loader);
+      await renderResult.rerender(<SomeComponent />);
+      const loader = await renderResult.findByTestId(hooks.loader);
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       expect(loader).to.exist;
     });

@@ -21,30 +21,35 @@ export default class BaseLazyComponent extends React.Component {
     return !!this.context?.suspensePayload;
   }
 
-  handleSuspenseRender() {
+  setupSuspensePayload() {
     if (!this.context?.suspense) {
       return;
     }
 
-    if (!this.hasSuspensePayload()) {
-      this.context.suspensePayload = {};
+    const suspensePayload = this.context.suspensePayload = {};
+    suspensePayload.promise = this.resourceLoader.then(() => {
+      // Store the resolvedData from the suspended instance to be reloaded in the new component instance
+      suspensePayload.resolvedData = this.resolvedData;
+    });
+  }
+
+  handleSuspenseRender() {
+    if (!this.context?.suspense) {
+      return;
     }
 
     const { suspensePayload } = this.context;
     const isResolved = !!suspensePayload.resolvedData;
 
     if (!isResolved) {
-      // We're about to throw a promise, this component instance will be thrown away and a new one created when the promise is resolved.
-      // Store the promise and reference to the data this instance
-      suspensePayload.promise = this.resourceLoader.then(() => {
-        suspensePayload.resolvedData = this.resolvedData;
-      });
       throw suspensePayload.promise;
     }
 
-    // Promise is resolved, restore the data from the previous instance to the instance
-    this.resolvedData = suspensePayload.resolvedData;
-    this.resourceLoader = suspensePayload.promise;
+    // Promise is resolved, restore the data from the suspended instance to the instance
+    if (!this.resolvedData) {
+      this.resolvedData = suspensePayload.resolvedData;
+      this.resourceLoader = suspensePayload.promise;
+    }
   }
 
   UNSAFE_componentWillMount() {
@@ -66,6 +71,10 @@ export default class BaseLazyComponent extends React.Component {
         error: err,
       });
     });
+
+    // This component instance will be thrown away and a new one created when the promise is resolved.
+    // Store the promise and reference to the data from this instance
+    this.setupSuspensePayload();
   }
 
   componentWillUnmount() {
