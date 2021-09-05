@@ -1,4 +1,3 @@
-import React from 'react';
 import BaseLazyComponent from './base-lazy-component';
 
 export default function ReactLoadableComponent(name, resolve, files = []) {
@@ -23,7 +22,8 @@ export default function ReactLoadableComponent(name, resolve, files = []) {
       if (this.state.error) {
         throw this.state.error;
       }
-      return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
+
+      return this.renderComponent();
     }
   };
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import ModuleRegistry from './module-registry';
 import BaseLazyComponent from './base-lazy-component';
 
@@ -16,7 +15,7 @@ class ReactLazyComponent extends BaseLazyComponent {
   }
 
   render() {
-    return this.state.component ? <this.state.component {...this.mergedProps}/> : null;
+    return this.renderComponent();
   }
 }
 
