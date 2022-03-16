@@ -86,8 +86,16 @@ export default class BaseLazyComponent extends React.Component {
 
   renderComponent() {
     this.handleSuspenseRender();
+    
+    let child;
+    
+    if (this.component) {
+      child = <this.component {...this.mergedProps}/>;
+    } else if (this.state.component) {
+      child = <this.state.component {...this.mergedProps}/>
+    }
 
     // Make sure any context does not propagate to any children (otherwise this can enter an infinite loop since it's working on the same payload instance)
-    return this.state.component ? <ReactModuleContainerContext.Provider value={null}><this.state.component {...this.mergedProps}/></ReactModuleContainerContext.Provider> : null;
+    return child ? <ReactModuleContainerContext.Provider value={null}>{child}</ReactModuleContainerContext.Provider> : null;
   }
 }
