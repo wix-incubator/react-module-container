@@ -49,6 +49,7 @@ export default class BaseLazyComponent extends React.Component {
     if (!this.resolvedData) {
       this.resolvedData = suspensePayload.resolvedData;
       this.resourceLoader = suspensePayload.promise;
+      this.component = this.resolvedData.default || this.resolvedData
     }
   }
 
