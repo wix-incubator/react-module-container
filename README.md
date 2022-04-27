@@ -41,15 +41,14 @@ Load `manifest.js` file in the `index.html` of your hosting application.
 Instantiate your lazy component using `ModuleRegistry` and render it inside hosting application.
 
 ```js
+const AngularComponent = ModuleRegistry.component('angular.main');
+
 class App extends React.Component {
   render() {
-    const AngularComponent = ModuleRegistry.component('angular.main');
-    const topology = {
-      staticsBaseUrl: 'http://localhost:3200'
-    };
-
     return (
-      <AngularComponent topology={topology}/>
+      <AngularComponent topology={{
+        staticsBaseUrl: 'http://localhost:3200'
+      }} />
     );
   }
 }
