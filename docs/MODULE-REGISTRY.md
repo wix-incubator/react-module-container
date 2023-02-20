@@ -36,7 +36,7 @@ ModuleRegistry.notifyListeners('core.SessionUpdate', session);
 
 ## Methods
 
-### `registerMethod(uniqueName: string, methodFn: Function): void`
+### `registerMethod(uniqueName: string, methodGenerator: () => Function): void`
 ```ts
 ModuleRegistry.registerMethod('inbox.getContactDetails', () => contactService.getContactDetails);
 ```
