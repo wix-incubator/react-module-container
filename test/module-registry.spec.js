@@ -8,7 +8,7 @@ chai.use(sinonChai);
 import ModuleRegistry from '../src/module-registry';
 import {
   ListenerCallbackError, UnregisteredComponentUsedError,
-  UnregisteredMethodInvokedError
+  UnregisteredMethodInvokedError, ModuleAlreadyRegisteredError
 } from '../src/ReactModuleContainerErrors';
 
 describe('Module Registry', () => {
@@ -32,12 +32,6 @@ describe('Module Registry', () => {
     ModuleRegistry.registerModule('GLOBAL_ID', MyModule, ['DUMMY_NAME']);
     const result = ModuleRegistry.getModule('GLOBAL_ID');
     expect(result.name).to.eq('DUMMY_NAME');
-  });
-
-  it('should throw an error if the given module was already registered', () => {
-    class MyModule {}
-    expect(() => ModuleRegistry.registerModule('GLOBAL_ID', MyModule)).to.not.throw();
-    expect(() => ModuleRegistry.registerModule('GLOBAL_ID', MyModule)).to.throw();
   });
 
   it('should be able to get all modules', () => {
@@ -138,6 +132,22 @@ describe('Module Registry', () => {
       const errorCallbackArg = reactModuleContainerErrorCallback.getCall(0).args[0];
       expect(errorCallbackArg).to.be.an.instanceof(ListenerCallbackError);
       expect(errorCallbackArg.message).to.eq(`Error in listener callback of module registry method: ${someRegisteredMethod}`);
+    });
+
+    it('should report an error if the given module was already registered', () => {
+      class MyModule {}
+      class TheirModule {};
+      ModuleRegistry.registerModule('GLOBAL_ID', MyModule);
+      ModuleRegistry.registerModule('GLOBAL_ID', TheirModule);
+
+      expect(reactModuleContainerErrorCallback).calledOnce;
+
+      const errorCallbackArg = reactModuleContainerErrorCallback.getCall(0).args[0];
+
+      expect(errorCallbackArg).to.be.an.instanceof(ModuleAlreadyRegisteredError);
+      expect(errorCallbackArg.message).to.eq(`A module with id "GLOBAL_ID" is already registered`);
+
+      expect(ModuleRegistry.getModule('GLOBAL_ID')).to.be.an.instanceOf(MyModule);
     });
   });
 });

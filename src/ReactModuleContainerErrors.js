@@ -49,3 +49,10 @@ export class FileAppenderLoadError extends ReactModuleContainerError {
     this.name = 'FileAppenderLoadError';
   }
 }
+
+export class ModuleAlreadyRegisteredError extends ReactModuleContainerError {
+  constructor(moduleId) {
+    super(`A module with id "${moduleId}" is already registered`);
+    this.name = 'ModuleAlreadyRegisteredError';
+  }
+}

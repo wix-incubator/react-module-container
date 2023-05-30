@@ -4,7 +4,7 @@ import forEach from 'lodash/forEach';
 import uniqueId from 'lodash/uniqueId';
 import {
   ListenerCallbackError, UnregisteredComponentUsedError,
-  UnregisteredMethodInvokedError
+  UnregisteredMethodInvokedError, ModuleAlreadyRegisteredError
 } from './ReactModuleContainerErrors';
 
 class ModuleRegistry {
@@ -24,7 +24,8 @@ class ModuleRegistry {
 
   registerModule(globalID, ModuleFactory, args = []) {
     if (this.modules[globalID]) {
-      throw new Error(`A module with id "${globalID}" is already registered`);
+      this.notifyListeners('reactModuleContainer.error', new ModuleAlreadyRegisteredError(globalID));
+      return;
     }
 
     this.modules[globalID] = new ModuleFactory(...args);
